@@ -1,0 +1,47 @@
+.cardItem {
+  position: relative;
+}
+
+.cardItem:hover > .description {
+  left: 19rem;
+  box-shadow: 0 10px 20px #ddd;
+}
+
+.description {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 19rem;
+  height: 19rem;
+  background: #ffffff7c;
+  transition: all 0.7s ease-in-out;
+  cursor: default;
+  box-shadow: 0 0px 0px #ddd;
+
+  padding: 0 1rem;
+  border-radius: 0 1rem 1rem 0;
+
+  h2 {
+    text-align: center;
+    padding: 0.5rem;
+  }
+
+  ol {
+    overflow-y: scroll;
+    list-style-position: inside;
+    height: 15.5rem;
+  }
+}
+
+.image {
+  position: relative;
+  z-index: 1;
+  height: 19rem;
+  width: 19rem;
+  overflow: hidden;
+  box-shadow: 0 10px 20px gray;
+}
+
+
+
