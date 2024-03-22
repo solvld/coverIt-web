@@ -1,0 +1,28 @@
+.ticker {
+  overflow: hidden;
+  align-self: baseline;
+
+  .container {
+    display: flex;
+    align-items: center;
+
+    p {
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-weight: 500;
+      color: var(--additional-text-color);
+      padding: 0 0.5rem;
+      animation: ticker 40s linear infinite;
+    }
+  }
+}
+
+@keyframes ticker {
+  0% {
+    transform: translateZ(0);
+  }
+
+  to {
+    transform: translate3d(-100%, 0, 0);
+  }
+}

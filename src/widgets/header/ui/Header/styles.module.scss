@@ -1,7 +1,22 @@
 .header {
   nav {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-around;
+    // border: solid;
+  }
+
+  .navLink {
+    font-size: 2.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .activeNavLink {
+    font-size: 2.25rem;
+    margin-bottom: 1rem;
+    text-underline-offset: 0.25rem;
+    text-decoration: underline;
+    text-decoration-color: var(--additional-text-color);
+    text-decoration-thickness: 1px;
   }
 }
