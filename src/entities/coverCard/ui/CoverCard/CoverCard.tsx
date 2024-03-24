@@ -6,13 +6,19 @@ const CoverCard = ({
   title,
   image,
   songs,
+  position,
 }: {
   title: string
   image: string
   songs: string[]
+  index: number
+  position: { top: number; left: number }
 }) => {
   return (
-    <article className={s.cardItem}>
+    <article
+      style={{ top: position.top, left: position.left }}
+      className={s.cardItem}
+    >
       <CoverImage image={image} />
       <CoverDescription title={title} songs={songs} />
     </article>

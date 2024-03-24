@@ -1,7 +1,8 @@
 .ticker {
   overflow: hidden;
-  align-self: baseline;
-
+  position: absolute;
+  bottom: 0;
+  z-index: 0;
   .container {
     display: flex;
     align-items: center;

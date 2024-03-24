@@ -16,13 +16,14 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 html,
 body {
   background: var(--background-color);
   color: var(--text-color);
-  height: 100vh;
+  min-height: 100vh;
   // border: solid 2px greenyellow;
 }
 
@@ -35,7 +36,9 @@ a {
   color: var(--text-color);
 }
 
-// main{
-//   height: calc(100vh - 198px);
-//   border: solid rebeccapurple;
-// }
+main{
+  min-height: calc(100vh - 198px);
+  // border: solid rebeccapurple;
+  position: relative;
+  overflow:hidden;
+}
