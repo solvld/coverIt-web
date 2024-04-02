@@ -1,22 +1,41 @@
 .header {
+  position: relative;
+  max-width: 1342px;
+  margin: 0 auto;
+  
+
   nav {
     display: flex;
+    max-width: 71rem;
+    margin: 0 auto;
     align-items: flex-end;
     justify-content: space-around;
     // border: solid;
+    margin-top: 3.5rem;
+    height: 8rem;
+  }
+
+  .logo{
+    margin-bottom: 2.5rem;
+  }
+
+  .profileLink{
+    position: absolute;
+    top: 0.5rem;
+    right: 1.5rem;
   }
 
   .navLink {
     font-size: 2.25rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .activeNavLink {
     font-size: 2.25rem;
-    margin-bottom: 1rem;
     text-underline-offset: 0.25rem;
-    text-decoration: underline;
-    text-decoration-color: var(--additional-text-color);
-    text-decoration-thickness: 1px;
+    margin-bottom: 1.5rem;
+    // text-decoration: underline;
+    // text-decoration-color: var(--additional-text-color);
+    // text-decoration-thickness: 1px;
   }
 }

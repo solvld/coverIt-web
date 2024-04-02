@@ -1,10 +1,28 @@
 .cardItem {
-  position: absolute;
+  position: relative;
   z-index: 1;
   transition: all 0.6s ease-in-out;
+  width: 18rem;
 
   &:hover {
     z-index: 20;
+  }
+
+  ::-webkit-scrollbar{
+    width: 4px;
+    overflow-x: none;
+    // background-color: gainsboro;
+  }
+
+  ::-webkit-scrollbar-track{
+   border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar-thumb{
+    background-color: var(--primary-color);
+    width: 4px;
+    border-radius: 4px;
+    height: 4px;
   }
 }
 

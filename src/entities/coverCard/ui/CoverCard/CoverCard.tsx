@@ -16,7 +16,7 @@ const CoverCard = ({
 }) => {
   return (
     <article
-      style={{ top: position.top, left: position.left }}
+      
       className={s.cardItem}
     >
       <CoverImage image={image} />

@@ -1,11 +1,12 @@
 import Ticker from './Ticker/Ticker'
 import { CoverCard } from 'entities/coverCard'
 import { cards } from 'shared/mocks/cards'
+import s from './style.module.scss'
 
 const Page = () => {
   return (
     <>
-      <div style={{ display: 'flex', gap: '1rem' }}>
+      <div className={s.cardsList}>
         {cards.map(card => (
           <CoverCard
             key={card.id}

@@ -1,0 +1,11 @@
+.cardsList{
+  border: solid 1px;
+  max-width: 76rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  align-content: center;
+  align-items: center;
+  row-gap: 3rem;
+}
