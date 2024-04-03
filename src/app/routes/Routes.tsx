@@ -9,6 +9,7 @@ import Root from 'app/layouts/appRoot'
 import MainPage from 'pages/main'
 import Archive from 'pages/archive'
 import Generate from 'pages/generate'
+import LogIn from 'pages/logIn'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -16,6 +17,7 @@ export const router = createBrowserRouter(
       <Route path="/" element={<MainPage />} />
       <Route path="/archive" element={<Archive />} />
       <Route path="/generate" element={<Generate />} />
+      <Route path="/profile" element={<LogIn />} />
     </Route>,
   ),
 )
