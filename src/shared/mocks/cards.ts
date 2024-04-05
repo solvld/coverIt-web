@@ -11,7 +11,7 @@ export const cards = [
   {
     id: 2,
     title: 'Sochi City',
-    image: img11,
+    image: img12,
     songs: [
       'Sochi - Mzymta River',
       'Irkutsk - Angara River',
@@ -20,14 +20,14 @@ export const cards = [
       'Vladivostok - Golden Horn Bay',
     ],
     position: {
-      top: 320,
-      left: 30,
+      axesX: -2.25,
+      axesY: 0,
     },
   },
   {
     id: 3,
     title: 'Khabarovsk Crab',
-    image: img12,
+    image: img10,
     songs: [
       'Khabarovsk - Amur River',
       'Rostov-on-Don - Don River',
@@ -37,14 +37,14 @@ export const cards = [
       'Tyumen - Tura River',
     ],
     position: {
-      top: 0,
-      left: 6,
+      axesX: 2,
+      axesY: -4,
     },
   },
   {
     id: 4,
     title: 'Kuban Rain',
-    image: img13,
+    image: img14,
     songs: [
       'Arkhangelsk - Northern Dvina River',
       'Pskov - Velikaya River',
@@ -52,14 +52,14 @@ export const cards = [
       'Krasnodar - Kuban River',
     ],
     position: {
-      top: 200,
-      left: 266,
+      axesX: 5,
+      axesY: 0,
     },
   },
   {
     id: 10,
     title: 'Volga Sad',
-    image: img10,
+    image: img15,
     songs: [
       'Volga - Oka River',
       'Moscow - Volga River',
@@ -73,14 +73,14 @@ export const cards = [
       'Voronezh - Voronezh River',
     ],
     position: {
-      top: 10,
-      left: 476,
+      axesX: 5,
+      axesY: 8,
     },
   },
   {
     id: 5,
     title: 'Volga Sad',
-    image: img14,
+    image: img11,
     songs: [
       'Volga - Oka River',
       'Moscow - Volga River',
@@ -94,14 +94,14 @@ export const cards = [
       'Voronezh - Voronezh River',
     ],
     position: {
-      top: 0,
-      left: 856,
+      axesX: -4,
+      axesY: 0,
     },
   },
   {
     id: 6,
     title: 'Sochi City',
-    image: img15,
+    image: img13,
     songs: [
       'Sochi - Mzymta River',
       'Irkutsk - Angara River',
@@ -110,9 +110,8 @@ export const cards = [
       'Vladivostok - Golden Horn Bay',
     ],
     position: {
-      top: 200,
-      left: 1130,
-      openRight: true,
+      axesX: -7,
+      axesY: -10,
     },
   },
   {
@@ -128,9 +127,8 @@ export const cards = [
       'Tyumen - Tura River',
     ],
     position: {
-      top: 330,
-      left: 516,
-      openRight: true,
+      axesX: -6,
+      axesY: -5,
     },
   },
   {
@@ -144,9 +142,8 @@ export const cards = [
       'Krasnodar - Kuban River',
     ],
     position: {
-      top: 280,
-      left: 780,
-      openRight: true,
+      axesX: -9,
+      axesY: 2,
     },
   },
 ]

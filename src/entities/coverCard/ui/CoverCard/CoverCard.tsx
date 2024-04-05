@@ -12,11 +12,13 @@ const CoverCard = ({
   image: string
   songs: string[]
   index: number
-  position: { top: number; left: number }
+  position: { axesX: number; axesY: number }
 }) => {
   return (
     <article
-      
+      style={{
+        transform: `translate(${position.axesX}rem, ${position.axesY}rem)`,
+      }}
       className={s.cardItem}
     >
       <CoverImage image={image} />
