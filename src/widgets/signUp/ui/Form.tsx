@@ -1,34 +1,47 @@
-import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import s from './style.module.scss'
 import Arrow from 'shared/assets/images/arrow-next.svg?react'
 
-type Inputs = {
+type SignUpInputs = {
+  username: string
   email: string
   password: string
+  confirmPassword: string
 }
 
+//заменить на нормальную валидацию
 const emailValidatePattern =
   /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-const LoginForm = () => {
+const SignUpForm = () => {
   const {
     register,
     formState: { errors, isValid },
     handleSubmit,
     reset,
-  } = useForm<Inputs>({ mode: 'onTouched' })
+  } = useForm<SignUpInputs>({ mode: 'onBlur' })
 
-  const onSubmit = (data: Inputs) => {
+  const onSubmit = (data: SignUpInputs) => {
     alert(JSON.stringify(data))
     reset()
   }
 
   return (
     <div className={s.wrapper}>
-      <h2>Login</h2>
+      <h2>Sign Up</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="">Email address:</label>
+        <label>Username</label>
+        <input
+          type="text"
+          {...register('username', {
+            required: 'Поле обязательно к заполнению',
+          })}
+          placeholder="Enter your username"
+        />
+        <div>
+          {errors?.username && <p>{errors?.username?.message || 'error'}</p>}
+        </div>
+        <label>Email address:</label>
         <input
           {...register('email', {
             required: 'Поле обязательно к заполнению',
@@ -52,12 +65,25 @@ const LoginForm = () => {
               message: 'Минимум 8 символов',
             },
           })}
-          placeholder="Enter your password"
+          placeholder="Enter password"
         />
         <div>
           {errors?.password && <p>{errors?.password?.message || 'error'}</p>}
         </div>
-        <Link to={'/sign-up'}>Create an account</Link>
+        <input
+          type="password"
+          {...register('confirmPassword', {
+            required: 'Поле обязательно к заполнению',
+            minLength: {
+              value: 8,
+              message: 'Минимум 8 символов',
+            },
+          })}
+          placeholder="Confirm password"
+        />
+        <div>
+          {errors?.password && <p>{errors?.password?.message || 'error'}</p>}
+        </div>
         <button type="submit" disabled={!isValid}>
           {isValid ? <Arrow /> : null}
         </button>
@@ -66,4 +92,4 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm
+export default SignUpForm
