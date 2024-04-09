@@ -1,4 +1,4 @@
-import SignUpForm from 'widgets/signUp'
+import SignUpForm from 'features/registration/byEmail'
 import s from './styles.module.scss'
 
 const Page = () => {

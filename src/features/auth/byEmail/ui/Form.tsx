@@ -1,13 +1,15 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import s from './style.module.scss'
 import Arrow from 'shared/assets/images/arrow-next.svg?react'
+import { useRegistration } from 'features/registration/byEmail/model/registrationSlice'
 
-type Inputs = {
+type LogInInputs = {
   email: string
   password: string
 }
 
+//заменить на нормальную валидацию
 const emailValidatePattern =
   /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
@@ -17,10 +19,16 @@ const LoginForm = () => {
     formState: { errors, isValid },
     handleSubmit,
     reset,
-  } = useForm<Inputs>({ mode: 'onTouched' })
+  } = useForm<LogInInputs>({ mode: 'onBlur' })
 
-  const onSubmit = (data: Inputs) => {
-    alert(JSON.stringify(data))
+  const navigate = useNavigate()
+
+  const signIn = useRegistration(state => state.signIn)
+
+  const onSubmit = (data: LogInInputs) => {
+    // alert(JSON.stringify(data))
+    signIn(data.email, data.password)
+    data.email ? navigate('/profile') : null
     reset()
   }
 
