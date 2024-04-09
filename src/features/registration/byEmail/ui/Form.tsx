@@ -1,6 +1,8 @@
+import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import s from './style.module.scss'
 import Arrow from 'shared/assets/images/arrow-next.svg?react'
+import { useRegistration } from '../model/registrationSlice'
 
 type SignUpInputs = {
   username: string
@@ -21,8 +23,14 @@ const SignUpForm = () => {
     reset,
   } = useForm<SignUpInputs>({ mode: 'onBlur' })
 
+  const navigate = useNavigate()
+
+  const signUp = useRegistration(state => state.signUp)
+
   const onSubmit = (data: SignUpInputs) => {
-    alert(JSON.stringify(data))
+    // alert(JSON.stringify(data))
+    signUp(data)
+    navigate('/profile')
     reset()
   }
 

@@ -1,3 +1,3 @@
 import LoginForm from './ui/Form'
 
-export { LoginForm }
+export default LoginForm

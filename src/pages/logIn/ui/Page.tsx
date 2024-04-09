@@ -1,4 +1,4 @@
-import { LoginForm } from 'widgets/login'
+import LoginForm from 'features/auth/byEmail'
 import s from './styles.module.scss'
 
 const Page = () => {
