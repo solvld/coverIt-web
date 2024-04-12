@@ -1,0 +1,56 @@
+.header {
+  position: relative;
+  max-width: 1342px;
+  margin: 0 auto;
+  margin-bottom: 3.25rem;
+  
+
+  nav {
+    display: flex;
+    max-width: 71rem;
+    margin: 0 auto;
+    align-items: flex-end;
+    justify-content: space-around;
+    // border: solid;
+    margin-top: 1rem;
+    height: 8rem;
+  }
+
+  .logo{
+    margin-bottom: 2.5rem;
+    @media (max-width: 660px) {
+      font-size: 1.5rem;
+      position: absolute;
+      top: 2rem;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: 3rem;
+    }
+  }
+
+  .profileLink{
+    position: absolute;
+    top: 0.5rem;
+    right: 1.5rem;
+    @media (max-width: 660px){
+      height: 2rem;
+    }
+  }
+
+  .navLink {
+    font-size: 2.25rem;
+    margin-bottom: 1.5rem;
+    @media (max-width: 660px) {
+      font-size: 1.5rem;
+    }
+  }
+
+  .activeNavLink {
+    font-size: 2.25rem;
+    text-underline-offset: 0.25rem;
+    margin-bottom: 1.5rem;
+    // text-decoration: underline;
+    // text-decoration-color: var(--additional-text-color);
+    // text-decoration-thickness: 1px;
+  }
+}

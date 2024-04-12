@@ -14,6 +14,15 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "types": ["vite-plugin-svgr/client", "vite/client"],
+    "baseUrl": "src",
+    "paths": {
+      "app/*": ["app/*"],
+      "pages/*": ["pages/*"],
+      "widgets/*": ["widgets/*"],
+      "features/*": ["features/*"],
+      "entities/*": ["entities/*"],
+      "shared/*": ["shared/*"]
+    },
 
     /* Linting */
     "strict": true,

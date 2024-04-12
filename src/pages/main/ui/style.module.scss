@@ -1,0 +1,22 @@
+.cardsList{
+  border: solid 1px;
+  max-width: 76rem;
+  height: 44rem ;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  align-content: center;
+  align-items: center;
+
+  @media (max-width: 1376px) {
+    padding: 2rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 1rem;
+    min-height: 44rem;
+    height: 100%;
+    
+  }
+}
