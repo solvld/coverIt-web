@@ -18,17 +18,31 @@
 
   .logo{
     margin-bottom: 2.5rem;
+    @media (max-width: 660px) {
+      font-size: 1.5rem;
+      position: absolute;
+      top: 2rem;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: 3rem;
+    }
   }
 
   .profileLink{
     position: absolute;
     top: 0.5rem;
     right: 1.5rem;
+    @media (max-width: 660px){
+      height: 2rem;
+    }
   }
 
   .navLink {
     font-size: 2.25rem;
     margin-bottom: 1.5rem;
+    @media (max-width: 660px) {
+      font-size: 1.5rem;
+    }
   }
 
   .activeNavLink {

@@ -6,6 +6,7 @@
 
   &:hover {
     z-index: 20;
+    box-shadow: 0 2px 4px #0000005a;
   }
 
   ::-webkit-scrollbar{
@@ -27,8 +28,23 @@
 }
 
 .cardItem:hover > .description {
-  left: 18rem;
-  box-shadow: 0 10px 20px #0000003a;
+  transform: translateX(18rem) ;
+  box-shadow: 0 2px 4px #0000002e;
+  @media (max-width: 1204px ) {
+    transform: translateX(0px);
+    z-index: 20;
+    border-radius: 0 0 0 0;
+  }
+}
+
+.cardItem:nth-of-type(4n):hover > .description{
+  transform: translateX(-18rem);
+  border-radius: 1rem 0rem 0rem 1rem;
+  @media (max-width: 1204px ) {
+    transform: translateX(0px);
+    z-index: 20;
+    border-radius: 0 0 0 0;
+  }
 }
 
 .description {
@@ -39,7 +55,7 @@
   width: 18rem;
   height: 18rem;
   background: #ffffffd7;
-  transition: box-shadow 0.7s linear, left 0.7s ease-in-out;
+  transition: box-shadow 0.9s linear, transform 0.9s ease-in-out;
   cursor: default;
   box-shadow: 0 0px 0px #0000000b;
 
@@ -64,7 +80,7 @@
   height: 18rem;
   width: 18rem;
   overflow: hidden;
-  box-shadow: 0 10px 20px #0000005a;
+  
 
   img {
     height: 18rem;
