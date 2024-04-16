@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import s from './style.module.scss'
 import Arrow from 'shared/assets/images/arrow-next.svg?react'
 import { useRegistration } from '../model/registrationSlice'
+import { InputError } from 'shared/ui/InputError'
 
 type SignUpInputs = {
   username: string
@@ -21,7 +22,7 @@ const SignUpForm = () => {
     formState: { errors, isValid },
     handleSubmit,
     reset,
-  } = useForm<SignUpInputs>({ mode: 'onBlur' })
+  } = useForm<SignUpInputs>({ mode: 'all' })
 
   const navigate = useNavigate()
 
@@ -45,10 +46,11 @@ const SignUpForm = () => {
             required: 'Поле обязательно к заполнению',
           })}
           placeholder="Enter your username"
+          autoComplete="username"
         />
-        <div>
+        <InputError>
           {errors?.username && <p>{errors?.username?.message || 'error'}</p>}
-        </div>
+        </InputError>
         <label>Email address:</label>
         <input
           {...register('email', {
@@ -61,7 +63,9 @@ const SignUpForm = () => {
           type="email"
           placeholder="Enter your email address"
         />
-        <div>{errors?.email && <p>{errors?.email?.message || 'error'}</p>}</div>
+        <InputError>
+          {errors?.email && <p>{errors?.email?.message || 'error'}</p>}
+        </InputError>
 
         <label htmlFor="">Password:</label>
         <input
@@ -74,10 +78,11 @@ const SignUpForm = () => {
             },
           })}
           placeholder="Enter password"
+          autoComplete="new-password"
         />
-        <div>
+        <InputError>
           {errors?.password && <p>{errors?.password?.message || 'error'}</p>}
-        </div>
+        </InputError>
         <input
           type="password"
           {...register('confirmPassword', {
@@ -89,11 +94,14 @@ const SignUpForm = () => {
           })}
           placeholder="Confirm password"
         />
-        <div>
-          {errors?.password && <p>{errors?.password?.message || 'error'}</p>}
-        </div>
-        <button type="submit" disabled={!isValid}>
-          {isValid ? <Arrow /> : null}
+        <InputError>
+          {errors?.password && (
+            <p>{errors?.confirmPassword?.message || 'error'}</p>
+          )}
+        </InputError>
+
+        <button type="submit">
+          {isValid ? <Arrow /> : <Arrow style={{ opacity: '0.1' }} />}
         </button>
       </form>
     </div>

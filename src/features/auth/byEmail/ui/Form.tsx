@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import s from './style.module.scss'
 import Arrow from 'shared/assets/images/arrow-next.svg?react'
 import { useRegistration } from 'features/registration/byEmail/model/registrationSlice'
+import { InputError } from 'shared/ui/InputError'
 
 type LogInInputs = {
   email: string
@@ -35,39 +36,48 @@ const LoginForm = () => {
   return (
     <div className={s.wrapper}>
       <h2>Login</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="">Email address:</label>
-        <input
-          {...register('email', {
-            required: 'Поле обязательно к заполнению',
-            pattern: {
-              value: emailValidatePattern,
-              message: 'Неверный формат email',
-            },
-          })}
-          type="email"
-          placeholder="Enter your email address"
-        />
-        <div>{errors?.email && <p>{errors?.email?.message || 'error'}</p>}</div>
 
-        <label htmlFor="">Password:</label>
-        <input
-          type="password"
-          {...register('password', {
-            required: 'Поле обязательно к заполнению',
-            minLength: {
-              value: 8,
-              message: 'Минимум 8 символов',
-            },
-          })}
-          placeholder="Enter your password"
-        />
-        <div>
-          {errors?.password && <p>{errors?.password?.message || 'error'}</p>}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className={s.inputWrapper}>
+          <label htmlFor="">Email address:</label>
+          <input
+            {...register('email', {
+              required: 'Поле обязательно к заполнению',
+              pattern: {
+                value: emailValidatePattern,
+                message: 'Неверный формат email',
+              },
+            })}
+            type="email"
+            placeholder="Enter your email address"
+          />
+          <InputError>
+            {errors?.email && <p>{errors?.email?.message || 'error'}</p>}
+          </InputError>
         </div>
+
+        <div className={s.inputWrapper}>
+          <label htmlFor="">Password:</label>
+          <input
+            type="password"
+            {...register('password', {
+              required: 'Поле обязательно к заполнению',
+              minLength: {
+                value: 8,
+                message: 'Минимум 8 символов',
+              },
+            })}
+            placeholder="Enter your password"
+          />
+          <InputError>
+            {errors?.password && <p>{errors?.password?.message || 'error'}</p>}
+          </InputError>
+        </div>
+
         <Link to={'/sign-up'}>Create an account</Link>
-        <button type="submit" disabled={!isValid}>
-          {isValid ? <Arrow /> : null}
+
+        <button type="submit">
+          {isValid ? <Arrow /> : <Arrow style={{ opacity: '0.1' }} />}
         </button>
       </form>
     </div>
