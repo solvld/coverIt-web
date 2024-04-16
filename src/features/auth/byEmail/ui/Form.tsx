@@ -4,15 +4,24 @@ import s from './style.module.scss'
 import Arrow from 'shared/assets/images/arrow-next.svg?react'
 import { useRegistration } from 'features/registration/byEmail/model/registrationSlice'
 import { InputError } from 'shared/ui/InputError'
+import { ZodType, z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 type LogInInputs = {
   email: string
   password: string
 }
 
-//заменить на нормальную валидацию
-const emailValidatePattern =
-  /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+const logInSchema: ZodType<LogInInputs> = z.object({
+  email: z
+    .string()
+    .min(1, { message: 'Поле обязательно к заполнению' })
+    .email({ message: 'Неверный формат email' }),
+  password: z
+    .string()
+    .min(1, { message: 'Поле обязательно к заполнению' })
+    .min(8, { message: 'Пароль слишком короткий' }),
+})
 
 const LoginForm = () => {
   const {
@@ -20,7 +29,10 @@ const LoginForm = () => {
     formState: { errors, isValid },
     handleSubmit,
     reset,
-  } = useForm<LogInInputs>({ mode: 'onBlur' })
+  } = useForm<LogInInputs>({
+    mode: 'onTouched',
+    resolver: zodResolver(logInSchema),
+  })
 
   const navigate = useNavigate()
 
@@ -43,10 +55,6 @@ const LoginForm = () => {
           <input
             {...register('email', {
               required: 'Поле обязательно к заполнению',
-              pattern: {
-                value: emailValidatePattern,
-                message: 'Неверный формат email',
-              },
             })}
             type="email"
             placeholder="Enter your email address"
@@ -62,10 +70,6 @@ const LoginForm = () => {
             type="password"
             {...register('password', {
               required: 'Поле обязательно к заполнению',
-              minLength: {
-                value: 8,
-                message: 'Минимум 8 символов',
-              },
             })}
             placeholder="Enter your password"
           />
