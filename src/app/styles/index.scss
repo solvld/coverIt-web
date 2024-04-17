@@ -23,7 +23,8 @@ html,
 body {
   background: var(--background-color);
   color: var(--text-color);
-  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100vw;
   // border: solid 2px greenyellow;
 }
 
@@ -37,7 +38,7 @@ a {
 }
 
 main{
-  min-height: calc(100vh - 12.5rem);
+  min-height: calc(100dvh - 12.25rem);
   // border: solid rebeccapurple;
   // position: relative;
   // overflow:hidden;
