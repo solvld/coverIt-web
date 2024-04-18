@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import s from './style.module.scss'
 import Arrow from 'shared/assets/images/arrow-next.svg?react'
@@ -6,11 +6,8 @@ import { useRegistration } from 'features/registration/byEmail/model/registratio
 import { InputError } from 'shared/ui/InputError'
 import { ZodType, z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-
-type LogInInputs = {
-  email: string
-  password: string
-}
+import { LogInInputs } from 'shared/types/auth'
+import { useSignIn } from 'shared/services/queries'
 
 const logInSchema: ZodType<LogInInputs> = z.object({
   email: z
@@ -28,27 +25,36 @@ const LoginForm = () => {
     register,
     formState: { errors, isValid },
     handleSubmit,
-    reset,
+    //reset,
   } = useForm<LogInInputs>({
     mode: 'onTouched',
     resolver: zodResolver(logInSchema),
   })
 
-  const navigate = useNavigate()
+  //const navigate ()
 
   const signIn = useRegistration(state => state.signIn)
 
-  const onSubmit = (data: LogInInputs) => {
-    // alert(JSON.stringify(data))
-    signIn(data.email, data.password)
-    data.email ? navigate('/profile') : null
-    reset()
+  const {
+    mutate: logIn,
+    isPending,
+    //data,
+    //isSuccess,
+    //isError,
+    //error
+  } = useSignIn()
+
+  const onSubmit = (loginData: LogInInputs) => {
+    //  alert(JSON.stringify(data))
+    signIn(loginData.email, loginData.password)
+    logIn(loginData)
   }
 
   return (
     <div className={s.wrapper}>
       <h2>Login</h2>
-
+      {/* {isError && <p>{error?.response?.data?.message}</p>} */}
+      {/* {isSuccess && <p>{data?.token}</p>} */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={s.inputWrapper}>
           <label htmlFor="">Email address:</label>
@@ -80,9 +86,13 @@ const LoginForm = () => {
 
         <Link to={'/sign-up'}>Create an account</Link>
 
-        <button type="submit">
-          {isValid ? <Arrow /> : <Arrow style={{ opacity: '0.1' }} />}
-        </button>
+        {isPending ? (
+          <div>loading...</div>
+        ) : (
+          <button type="submit">
+            {isValid ? <Arrow /> : <Arrow style={{ opacity: '0.1' }} />}
+          </button>
+        )}
       </form>
     </div>
   )
