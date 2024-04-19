@@ -31,3 +31,11 @@ export const signInQuery = async (userData: LogInInputs) => {
 export const signUpQuery = async (userData: SignUpInputs) => {
   return await authInstance.post<void>('/sign-up', userData)
 }
+
+export const verifyEmailQuery = async (secret: string) => {
+  return await axios.get('http://localhost:8080/verify', {
+    params: {
+      code: secret,
+    },
+  })
+}

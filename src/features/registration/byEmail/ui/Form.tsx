@@ -1,12 +1,11 @@
-import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import s from './style.module.scss'
 import Arrow from 'shared/assets/images/arrow-next.svg?react'
-import { useRegistration } from '../model/registrationSlice'
 import { InputError } from 'shared/ui/InputError'
 import { ZodType, z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SignUpInputs } from 'shared/types/auth'
+import { useSignUp } from 'shared/services/queries'
 
 const uppercaseRegex = new RegExp(/^(?=.*?[A-Z])/)
 const lowercaseRegex = new RegExp(/^(?=.*?[a-z])/)
@@ -51,21 +50,21 @@ const SignUpForm = () => {
     register,
     formState: { errors, isValid },
     handleSubmit,
-    reset,
   } = useForm<SignUpInputs>({
     mode: 'onTouched',
     resolver: zodResolver(registrationSchema),
   })
 
-  const navigate = useNavigate()
+  const { mutate: signUp, isPending } = useSignUp()
 
-  const signUp = useRegistration(state => state.signUp)
+  const onSubmit = (sigUpData: SignUpInputs) => {
+    const signUpQueryData = {
+      username: sigUpData.username,
+      email: sigUpData.email,
+      password: sigUpData.password,
+    }
 
-  const onSubmit = (data: SignUpInputs) => {
-    // alert(JSON.stringify(data))
-    signUp(data)
-    navigate('/profile')
-    reset()
+    signUp(signUpQueryData)
   }
 
   return (
@@ -121,9 +120,13 @@ const SignUpForm = () => {
           )}
         </InputError>
 
-        <button type="submit">
-          {isValid ? <Arrow /> : <Arrow style={{ opacity: '0.1' }} />}
-        </button>
+        {isPending ? (
+          <div>loading...</div>
+        ) : (
+          <button type="submit">
+            {isValid ? <Arrow /> : <Arrow style={{ opacity: '0.1' }} />}
+          </button>
+        )}
       </form>
     </div>
   )
