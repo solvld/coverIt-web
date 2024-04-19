@@ -6,13 +6,7 @@ import { useRegistration } from '../model/registrationSlice'
 import { InputError } from 'shared/ui/InputError'
 import { ZodType, z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-
-type SignUpInputs = {
-  username: string
-  email: string
-  password: string
-  confirmPassword: string
-}
+import { SignUpInputs } from 'shared/types/auth'
 
 const uppercaseRegex = new RegExp(/^(?=.*?[A-Z])/)
 const lowercaseRegex = new RegExp(/^(?=.*?[a-z])/)

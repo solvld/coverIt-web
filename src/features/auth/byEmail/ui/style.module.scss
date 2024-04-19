@@ -24,30 +24,31 @@
     height: 90%;
     margin-top: 2rem;
 
-    input{
-      all:unset;
+    input {
+      all: unset;
       border-bottom: solid 1px;
       line-height: 2.5rem;
     }
 
-  .inputWrapper{
-    display: flex;
-    flex-direction: column;
-  }
+    .inputWrapper {
+      display: flex;
+      flex-direction: column;
+    }
 
-    label{
+    label {
       font-weight: 500;
       font-size: 1rem;
     }
 
-    a{
+    a {
       text-decoration: underline;
       text-decoration-thickness: 1px;
       text-underline-offset: 0.5rem;
       color: #888888;
       font-size: 0.95rem;
       transition: color 0.3s;
-      &:hover{
+
+      &:hover {
         color: #000;
       }
     }
@@ -59,4 +60,9 @@
       margin-left: auto;
     }
   }
+}
+
+.toast {
+  gap: 1rem;
+  font-family: "Source Code Pro";
 }
