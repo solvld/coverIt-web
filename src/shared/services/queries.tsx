@@ -1,6 +1,6 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { signInQuery, signUpQuery } from './authApi'
+import { signInQuery, signUpQuery, verifyEmailQuery } from './authApi'
 import { toast } from 'sonner'
 import Danger from 'shared/assets/images/dangerCircle.svg?react'
 import { useNavigate } from 'react-router-dom'
@@ -46,6 +46,18 @@ export const useSignUp = () => {
     },
     onSuccess() {
       navigate('/verify')
+    },
+  })
+}
+
+export const useVerify = (code: string) => {
+  return useQuery({
+    queryKey: ['secret', code],
+    queryFn: () => {
+      if (code) {
+        return verifyEmailQuery(code)
+      }
+      return
     },
   })
 }

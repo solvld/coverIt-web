@@ -33,7 +33,7 @@ export const signUpQuery = async (userData: SignUpInputs) => {
 }
 
 export const verifyEmailQuery = async (secret: string) => {
-  return await axios.get('http://localhost:8080/verify', {
+  return await authInstance.get('/verify', {
     params: {
       code: secret,
     },

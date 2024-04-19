@@ -28,19 +28,9 @@ const SNotification = styled.div`
   }
 `
 
-const Notification = () => {
-  return (
-    <>
-      <SNotification>
-        <Letter />
-        <span>
-          We have sent confirmation link to your email.
-          <br /> If you don't see the email, check your spam folder.
-        </span>
-      </SNotification>
-
-      <br />
-
+const Notification = ({ status }: { status: string }) => {
+  if (status === 'fail') {
+    return (
       <SNotification>
         <Decline />
         <span>
@@ -48,9 +38,11 @@ const Notification = () => {
           <br /> verified, or verification code is incorrect.
         </span>
       </SNotification>
+    )
+  }
 
-      <br />
-
+  if (status === 'success') {
+    return (
       <SNotification>
         <Done />
         <div>
@@ -58,7 +50,17 @@ const Notification = () => {
           <Link to={'/sign-in'}>Click here to login</Link>
         </div>
       </SNotification>
-    </>
+    )
+  }
+
+  return (
+    <SNotification>
+      <Letter />
+      <span>
+        We have sent confirmation link to your email.
+        <br /> If you don't see the email, check your spam folder.
+      </span>
+    </SNotification>
   )
 }
 
