@@ -1,37 +1,28 @@
-import { useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
 import s from './style.module.scss'
+import { registrationSchema } from '../lib/registrationValidation'
 import Arrow from 'shared/assets/images/arrow-next.svg?react'
-import { useRegistration } from '../model/registrationSlice'
-
-type SignUpInputs = {
-  username: string
-  email: string
-  password: string
-  confirmPassword: string
-}
-
-//заменить на нормальную валидацию
-const emailValidatePattern =
-  /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+import { InputError } from 'shared/ui/InputError'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { SignUpInputs } from 'shared/types/auth'
+import { useSignUp } from 'shared/services/queries'
 
 const SignUpForm = () => {
   const {
     register,
     formState: { errors, isValid },
     handleSubmit,
-    reset,
-  } = useForm<SignUpInputs>({ mode: 'onBlur' })
+  } = useForm<SignUpInputs>({
+    mode: 'onTouched',
+    resolver: zodResolver(registrationSchema),
+  })
 
-  const navigate = useNavigate()
+  const { mutate: signUp, isPending } = useSignUp()
 
-  const signUp = useRegistration(state => state.signUp)
+  const onSubmit = (sigUpData: SignUpInputs) => {
+    const { username, email, password } = sigUpData
 
-  const onSubmit = (data: SignUpInputs) => {
-    // alert(JSON.stringify(data))
-    signUp(data)
-    navigate('/profile')
-    reset()
+    signUp({ username, email, password })
   }
 
   return (
@@ -42,59 +33,58 @@ const SignUpForm = () => {
         <input
           type="text"
           {...register('username', {
-            required: 'Поле обязательно к заполнению',
+            required: true,
           })}
           placeholder="Enter your username"
+          autoComplete="username"
         />
-        <div>
+        <InputError>
           {errors?.username && <p>{errors?.username?.message || 'error'}</p>}
-        </div>
+        </InputError>
         <label>Email address:</label>
         <input
           {...register('email', {
-            required: 'Поле обязательно к заполнению',
-            pattern: {
-              value: emailValidatePattern,
-              message: 'Неверный формат email',
-            },
+            required: true,
           })}
           type="email"
           placeholder="Enter your email address"
         />
-        <div>{errors?.email && <p>{errors?.email?.message || 'error'}</p>}</div>
+        <InputError>
+          {errors?.email && <p>{errors?.email?.message || 'error'}</p>}
+        </InputError>
 
         <label htmlFor="">Password:</label>
         <input
           type="password"
           {...register('password', {
-            required: 'Поле обязательно к заполнению',
-            minLength: {
-              value: 8,
-              message: 'Минимум 8 символов',
-            },
+            required: true,
           })}
           placeholder="Enter password"
+          autoComplete="new-password"
         />
-        <div>
+        <InputError>
           {errors?.password && <p>{errors?.password?.message || 'error'}</p>}
-        </div>
+        </InputError>
         <input
           type="password"
           {...register('confirmPassword', {
-            required: 'Поле обязательно к заполнению',
-            minLength: {
-              value: 8,
-              message: 'Минимум 8 символов',
-            },
+            required: true,
           })}
           placeholder="Confirm password"
         />
-        <div>
-          {errors?.password && <p>{errors?.password?.message || 'error'}</p>}
-        </div>
-        <button type="submit" disabled={!isValid}>
-          {isValid ? <Arrow /> : null}
-        </button>
+        <InputError>
+          {errors?.confirmPassword && (
+            <p>{errors?.confirmPassword?.message || 'error'}</p>
+          )}
+        </InputError>
+
+        {isPending ? (
+          <div>loading...</div>
+        ) : (
+          <button type="submit">
+            {isValid ? <Arrow /> : <Arrow style={{ opacity: '0.1' }} />}
+          </button>
+        )}
       </form>
     </div>
   )

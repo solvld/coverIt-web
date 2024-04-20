@@ -1,13 +1,11 @@
 import { Link, Navigate } from 'react-router-dom'
 import s from './styles.module.scss'
-import { useRegistration } from 'features/registration/byEmail/model/registrationSlice'
 
 const Page = () => {
-  const isLoggedIn = useRegistration(state => state.isLoggedIn)
-  const username = useRegistration(state => state.user?.username)
-  const logOut = useRegistration(state => state.logOut)
+  const username = localStorage.getItem('token')
+  const logOut = () => localStorage.removeItem('token')
 
-  if (!isLoggedIn) {
+  if (!localStorage.getItem('token')) {
     return <Navigate to="/sign-in" />
   } else {
     return (
