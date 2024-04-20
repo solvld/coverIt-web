@@ -1,9 +1,9 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { signInQuery, signUpQuery, verifyEmailQuery } from './authApi'
-import { toast } from 'sonner'
-import Danger from 'shared/assets/images/dangerCircle.svg?react'
+
 import { useNavigate } from 'react-router-dom'
+import { toastOnError } from 'entities/ToastOnError/ui/toastOnError'
 
 export const useSignIn = () => {
   const navigate = useNavigate()
@@ -13,10 +13,7 @@ export const useSignIn = () => {
     onError(error) {
       if (axios.isAxiosError(error)) {
         console.log(error.response?.data.message)
-        toast(error.response?.data.message, {
-          duration: 8000,
-          icon: <Danger />,
-        })
+        toastOnError(error.response?.data.message)
       } else if (error instanceof Error) {
         console.log(error.message)
       }
@@ -36,10 +33,7 @@ export const useSignUp = () => {
     onError(error) {
       if (axios.isAxiosError(error)) {
         console.log(error.response?.data.message)
-        toast(error.response?.data.message, {
-          duration: 8000,
-          icon: <Danger />,
-        })
+        toastOnError(error.response?.data.message)
       } else if (error instanceof Error) {
         console.log(error.message)
       }

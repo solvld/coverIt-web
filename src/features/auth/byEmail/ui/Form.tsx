@@ -1,25 +1,12 @@
+import s from './style.module.scss'
+import { logInSchema } from '../lib/loginValidation'
+import Arrow from 'shared/assets/images/arrow-next.svg?react'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import s from './style.module.scss'
-import Arrow from 'shared/assets/images/arrow-next.svg?react'
-import { useRegistration } from 'features/registration/byEmail/model/registrationSlice'
-import { InputError } from 'shared/ui/InputError'
-import { ZodType, z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { InputError } from 'shared/ui/InputError'
 import { LogInInputs } from 'shared/types/auth'
-import { useSignIn } from 'shared/services/queries.tsx'
-import { Toaster } from 'sonner'
-
-const logInSchema: ZodType<LogInInputs> = z.object({
-  email: z
-    .string()
-    .min(1, { message: 'Поле обязательно к заполнению' })
-    .email({ message: 'Неверный формат email' }),
-  password: z
-    .string()
-    .min(1, { message: 'Поле обязательно к заполнению' })
-    .min(8, { message: 'Пароль слишком короткий' }),
-})
+import { useSignIn } from 'shared/services/queries'
 
 const LoginForm = () => {
   const {
@@ -31,13 +18,9 @@ const LoginForm = () => {
     resolver: zodResolver(logInSchema),
   })
 
-  const signIn = useRegistration(state => state.signIn)
-
   const { mutate: logIn, isPending } = useSignIn()
 
   const onSubmit = (loginData: LogInInputs) => {
-    //  alert(JSON.stringify(data))
-    signIn(loginData.email, loginData.password)
     logIn(loginData)
   }
 
@@ -87,13 +70,6 @@ const LoginForm = () => {
           )}
         </form>
       </div>
-      <Toaster
-        position="bottom-center"
-        visibleToasts={2}
-        toastOptions={{
-          className: s.toast,
-        }}
-      />
     </>
   )
 }

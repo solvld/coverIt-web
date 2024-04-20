@@ -1,18 +1,12 @@
-import SignUpForm from 'features/registration/byEmail'
 import s from './styles.module.scss'
-import { Toaster } from 'sonner'
+import SignUpForm from 'features/registration/byEmail'
+import { ToasterOnError } from 'entities/ToastOnError'
 
 const Page = () => {
   return (
     <div className={s.wrapper}>
       <SignUpForm />
-      <Toaster
-        position="bottom-center"
-        visibleToasts={2}
-        toastOptions={{
-          className: s.toast,
-        }}
-      />
+      <ToasterOnError />
     </div>
   )
 }
