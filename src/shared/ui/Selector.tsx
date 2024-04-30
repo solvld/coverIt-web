@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 
-const SSelector = styled.button<{ isActive?: boolean }>`
+const SSelector = styled.button<{ $isActive?: boolean }>`
   all: unset;
   height: 2rem;
   border-radius: 9px;
   background-color: ${props =>
-    props.isActive ? '#00ADB5' : 'rgba(0.133, 0.157, 0.192, 0.05)'};
-  color: ${props => props.isActive && '#fff'};
+    props.$isActive ? '#00ADB5' : 'rgba(0.133, 0.157, 0.192, 0.05)'};
+  color: ${props => props.$isActive && '#fff'};
   padding: 2px 10px;
   cursor: pointer;
   &:hover {
@@ -31,7 +31,7 @@ export const Selector = ({ value }: SelectorProps) => {
       onClick={handleClick}
       value={value}
       type="button"
-      isActive={isActive}
+      $isActive={isActive}
     >
       {value}
     </SSelector>

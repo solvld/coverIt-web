@@ -2,18 +2,19 @@ import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import Arrow from 'shared/assets/images/arrow-next.svg?react'
 import { Selector, SelectorsWrapper } from 'shared/ui/Selector'
+import { InputRadio } from 'shared/ui/InputRadio'
 
 import { mood, style } from 'shared/mocks/formSelectors'
 
-const FWrapper = styled.section`
+const FormWrapper = styled.section`
   max-width: 41.25rem;
   min-height: 62rem;
   width: 100%;
   background-color: #fff;
   border-radius: 9px;
-  margin-top: 1rem;
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.25);
   padding: 2rem;
+  margin-bottom: 2rem;
 
   h2 {
     text-align: center;
@@ -28,7 +29,7 @@ const SForm = styled.form`
   justify-content: space-around;
   padding: 0 3rem;
   margin-top: 2rem;
-  height: 90%;
+  height: 55rem;
 
   input[type='text'] {
     all: unset;
@@ -47,6 +48,17 @@ const SForm = styled.form`
     cursor: pointer;
     justify-self: end;
     margin-left: auto;
+  }
+`
+const InputWrapper = styled.div`
+  display: flex;
+  gap: 3.5rem;
+
+  label {
+    display: flex;
+    align-items: baseline;
+    font-weight: 500;
+    line-height: 1.5rem;
   }
 `
 
@@ -69,7 +81,7 @@ const Form = () => {
   })
   const onSubmit = (data: TrackInputs) => alert(JSON.stringify(data))
   return (
-    <FWrapper>
+    <FormWrapper>
       <h2>Generate cover for track or album</h2>
       <SForm onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="">Title</label>
@@ -126,28 +138,21 @@ const Form = () => {
           ))}
         </SelectorsWrapper>
 
-        <div>
-          <input
-            {...register('isLoFi')}
-            type="radio"
-            value="true"
-            id="isLoFi"
-          />
-          <label htmlFor="">Lo-fi</label>
+        <InputWrapper>
+          <label htmlFor="">
+            Lo-fi <InputRadio id="hi-fi" value="true" {...register('isLoFi')} />
+          </label>
 
-          <input
-            {...register('isLoFi')}
-            type="radio"
-            value="false"
-            id="isLoFi"
-          />
-          <label htmlFor="">Hi-Fi</label>
-        </div>
+          <label>
+            Hi-Fi
+            <InputRadio id="hi-fi" value="false" {...register('isLoFi')} />
+          </label>
+        </InputWrapper>
         <button type="submit">
           {isValid ? <Arrow /> : <Arrow style={{ opacity: '0.1' }} />}
         </button>
       </SForm>
-    </FWrapper>
+    </FormWrapper>
   )
 }
 

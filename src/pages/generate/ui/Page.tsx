@@ -9,7 +9,7 @@ const Generate = () => {
       <Link to={'/generate/playlist'}>
         <Button>playlist cover</Button>
       </Link>
-      <Link to={'/'}>
+      <Link to={'/generate/track'}>
         <Button>track cover</Button>
       </Link>
     </div>
