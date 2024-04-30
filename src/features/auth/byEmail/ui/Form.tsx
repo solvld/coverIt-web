@@ -27,7 +27,7 @@ const LoginForm = () => {
   return (
     <>
       <div className={s.wrapper}>
-        <h2>Login</h2>
+        <h2>Log in</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={s.inputWrapper}>
             <label htmlFor="">Email address:</label>

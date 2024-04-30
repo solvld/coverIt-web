@@ -2,4 +2,6 @@
 .toast {
   gap: 1rem;
   font-family: "Source Code Pro";
+  box-shadow: var(--shadow);
+  border-radius: 9px;
 }
