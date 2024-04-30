@@ -1,12 +1,16 @@
 import styled from 'styled-components'
 
-export const Checkbox = styled.input.attrs({ type: 'checkbox' })`
+export const Checkbox = styled.input.attrs({ type: 'checkbox' })<{
+  $primary?: boolean
+}>`
   -webkit-appearance: none;
   appearance: none;
   margin: 0;
   width: 1rem;
   height: 1rem;
-  border: 0.15em solid var(--text-color);
+  border: 0.15em solid;
+  border-color: ${props =>
+    props.$primary ? 'var(--primary-color)' : 'var(--text-color)'};
   border-radius: 0.15em;
   transform: translateY(-0.075em);
   display: grid;
