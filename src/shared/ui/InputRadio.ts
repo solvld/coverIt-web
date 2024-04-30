@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Checkbox = styled.input.attrs({ type: 'checkbox' })<{
+export const InputRadio = styled.input.attrs({ type: 'radio' })<{
   $primary?: boolean
 }>`
   -webkit-appearance: none;

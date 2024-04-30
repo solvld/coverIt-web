@@ -1,65 +1,7 @@
-import { Select } from 'shared/ui/Select'
-import s from './styles.module.scss'
-import { Checkbox } from 'shared/ui/Checkbox'
-import Arrow from 'shared/assets/images/arrow-next.svg?react'
-import { useState } from 'react'
-import { LinearLoading } from 'entities/LinearLoading'
+import GeneratePlaylistForm from 'features/generate-playlist'
 
 const GeneratePlaylist = () => {
-  const [isLoading, setIsLoading] = useState(false)
-
-  const handleSubmit = (event: { preventDefault: () => void }) => {
-    event.preventDefault()
-    setIsLoading(true)
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 5000)
-  }
-
-  return (
-    <section className={s.page}>
-      {isLoading ? (
-        <LinearLoading>We are cooking your cover...</LinearLoading>
-      ) : (
-        <div className={s.card}>
-          <h2>Generate cover for playlist</h2>
-          <form onSubmit={handleSubmit}>
-            <div className={s.form}>
-              <input
-                className={s.urlInput}
-                type="url"
-                placeholder="Enter Spotify or Yandex Music playlist url..."
-              />
-              <div className={s.allCheckbox}>
-                <label>
-                  <Checkbox />
-                  Abstract
-                </label>
-                <label>
-                  <Checkbox />
-                  Lo-Fi
-                </label>
-                <label>
-                  <Checkbox />
-                  Hi-Fi
-                </label>
-              </div>
-              <Select name="select">
-                <option value="value1" selected>
-                  Vibe
-                </option>
-                <option value="value2">Nice</option>
-                <option value="value3">Bumbox</option>
-              </Select>
-            </div>
-            <button type="submit">
-              <Arrow />
-            </button>
-          </form>
-        </div>
-      )}
-    </section>
-  )
+  return <GeneratePlaylistForm />
 }
 
 export default GeneratePlaylist

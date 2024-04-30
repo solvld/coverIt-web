@@ -1,12 +1,12 @@
 import s from './style.module.scss'
-import wolf from '../../../shared/assets/images/wolf.png'
+import wolf from 'shared/assets/images/image1.png'
 import { songs } from 'shared/mocks/songs'
 import AddCircle from 'shared/assets/images/add-circle.svg?react'
 import Regenerate from 'shared/assets/images/regenerate.svg?react'
 import Download from 'shared/assets/images/download.svg?react'
 import Shared from 'shared/assets/images/shared.svg?react'
 import Play from 'shared/assets/images/play.svg?react'
-import { Checkbox } from 'shared/ui/Checkbox'
+import { InputRadio } from 'shared/ui/InputRadio'
 
 export const GeneratedCard = () => {
   return (
@@ -37,11 +37,11 @@ export const GeneratedCard = () => {
             <AddCircle />
             <Regenerate />
             <label>
-              <Checkbox $primary />
+              <InputRadio $primary id="public" name="visible" />
               Public
             </label>
             <label>
-              <Checkbox $primary />
+              <InputRadio $primary id="private" name="visible" />
               Private
             </label>
           </div>
