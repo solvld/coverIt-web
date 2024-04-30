@@ -13,7 +13,11 @@ export const useSignIn = () => {
     onError(error) {
       if (axios.isAxiosError(error)) {
         console.log(error.response?.data.message)
-        toastOnError(error.response?.data.message)
+        if (error.response) {
+          toastOnError(error.response?.data.message)
+        } else {
+          toastOnError('Something went wrong....')
+        }
       } else if (error instanceof Error) {
         console.log(error.message)
       }
@@ -33,7 +37,11 @@ export const useSignUp = () => {
     onError(error) {
       if (axios.isAxiosError(error)) {
         console.log(error.response?.data.message)
-        toastOnError(error.response?.data.message)
+        if (error.response) {
+          toastOnError(error.response?.data.message)
+        } else {
+          toastOnError('Something went wrong....')
+        }
       } else if (error instanceof Error) {
         console.log(error.message)
       }
