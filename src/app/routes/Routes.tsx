@@ -13,6 +13,7 @@ import Profile from 'pages/profile'
 import LogIn from 'pages/logIn'
 import SignUp from 'pages/signUp'
 import Verify from 'pages/verify'
+import GenerateTrack from 'pages/generate-track'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +25,7 @@ export const router = createBrowserRouter(
       <Route path="/sign-in" element={<LogIn />} />
       <Route path="/sign-up" element={<SignUp />} />
       <Route path="/verify" element={<Verify />} />
+      <Route path="/track" element={<GenerateTrack />} />
     </Route>,
   ),
 )
