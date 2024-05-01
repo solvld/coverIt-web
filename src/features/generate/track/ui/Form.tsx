@@ -3,8 +3,11 @@ import styled from 'styled-components'
 import Arrow from 'shared/assets/images/arrow-next.svg?react'
 import { Selector, SelectorsWrapper } from 'shared/ui/Selector'
 import { InputRadio } from 'shared/ui/InputRadio'
+import { RefreshSelectors } from 'features/refresh-selectors'
 
 import { mood, style } from 'shared/mocks/formSelectors'
+import { useTrackForm } from '../model/formCollectDataSlice'
+import { useEffect } from 'react'
 
 const FormWrapper = styled.section`
   max-width: 41.25rem;
@@ -62,7 +65,7 @@ const InputWrapper = styled.div`
   }
 `
 
-interface TrackInputs {
+export interface TrackInputs {
   title: string
   mood: string
   object: string
@@ -76,10 +79,26 @@ const Form = () => {
     register,
     handleSubmit,
     formState: { isValid },
+    setValue,
+    reset,
   } = useForm<TrackInputs>({
     mode: 'onTouched',
   })
-  const onSubmit = (data: TrackInputs) => alert(JSON.stringify(data))
+
+  const setTag = useTrackForm(state => state.setTag)
+  const setString = useTrackForm(state => state.setTagFromString)
+  const setState = useTrackForm(state => state.setAllData)
+  const formState = useTrackForm(state => state.formState)
+
+  const onSubmit = (data: TrackInputs) => {
+    setState(data)
+    reset()
+  }
+  useEffect(() => {
+    setValue('mood', formState.moodTags)
+    setValue('coverDescription', formState.coverDescription)
+  }, [formState, setValue])
+
   return (
     <FormWrapper>
       <h2>Generate cover for track or album</h2>
@@ -99,11 +118,23 @@ const Form = () => {
           })}
           type="text"
           placeholder="foggy, slow, romantic, hyper pop, raw"
+          onChange={({ target }) => {
+            const { value } = target
+            setString(value, 'moodTags')
+          }}
         />
 
         <SelectorsWrapper>
-          {mood.map((e, index) => (
-            <Selector key={index} value={e} />
+          <RefreshSelectors />
+          {mood.map((tag, index) => (
+            <Selector
+              key={index}
+              value={tag}
+              handleOnClick={() => {
+                setTag(tag, 'moodTags')
+              }}
+              checked={formState.moodTags.includes(tag)}
+            />
           ))}
         </SelectorsWrapper>
 
@@ -117,7 +148,7 @@ const Form = () => {
         />
         <label htmlFor="">Surrounding</label>
         <input
-          {...register('object', {
+          {...register('surrounding', {
             required: true,
           })}
           type="text"
@@ -125,16 +156,28 @@ const Form = () => {
         />
         <label htmlFor="">Style (cover)</label>
         <input
-          {...register('object', {
+          {...register('coverDescription', {
             required: true,
           })}
           type="text"
-          placeholder="forest edge, the sun breaks through the trees"
+          placeholder="3D, blurred, mostly in white colors  "
+          onChange={({ target }) => {
+            const { value } = target
+            setString(value, 'coverDescription')
+          }}
         />
 
         <SelectorsWrapper>
-          {style.map((e, index) => (
-            <Selector key={index} value={e} />
+          <RefreshSelectors />
+          {style.map((tag, index) => (
+            <Selector
+              key={index}
+              value={tag}
+              handleOnClick={() => {
+                setTag(tag, 'coverDescription')
+              }}
+              checked={formState.coverDescription.includes(tag)}
+            />
           ))}
         </SelectorsWrapper>
 
@@ -152,6 +195,7 @@ const Form = () => {
           {isValid ? <Arrow /> : <Arrow style={{ opacity: '0.1' }} />}
         </button>
       </SForm>
+      {/* <p>{JSON.stringify(formState)}</p> */}
     </FormWrapper>
   )
 }
