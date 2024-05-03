@@ -1,3 +1,3 @@
-import Generate from './ui/Generate'
+import Generate from './ui/Page'
 
 export default Generate

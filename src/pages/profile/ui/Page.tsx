@@ -1,6 +1,9 @@
 import { Link, Navigate } from 'react-router-dom'
 import s from './styles.module.scss'
+import { Button } from 'shared/ui/Button'
 import { useCurrentUser } from 'shared/services/queries'
+
+
 
 const Page = () => {
   const token = localStorage.getItem('token')
@@ -21,19 +24,19 @@ const Page = () => {
       <div className={s.wrapper}>
         {isSuccess && <h2>{`@${username}`}</h2>}
         <Link to={'/'}>
-          <button>liked playlists</button>
+          <Button>liked playlists</Button>
         </Link>
 
         <Link to={'/'}>
-          <button>my playlists</button>
+          <Button>my playlists</Button>
         </Link>
 
         <Link to={'/'}>
-          <button>find users</button>
+          <Button>find users</Button>
         </Link>
 
         <Link to={'/sign-in'}>
-          <button onClick={logOut}>log out</button>
+          <Button onClick={logOut}>log out</Button>
         </Link>
 
         {/* <ul>
