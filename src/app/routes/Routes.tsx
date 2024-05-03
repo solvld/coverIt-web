@@ -14,20 +14,22 @@ import LogIn from 'pages/logIn'
 import SignUp from 'pages/signUp'
 import Verify from 'pages/verify'
 import GeneratePlaylist from 'pages/generate-playlist'
+import GenerateTrack from 'pages/generate-track'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
-      <Route index path="/" element={<MainPage />} />
-      <Route path="/archive" element={<Archive />} />
-      <Route path="/generate">
+      <Route index element={<MainPage />} />
+      <Route path="archive" element={<Archive />} />
+      <Route path="generate">
         <Route index element={<Generate />} />
         <Route path="playlist" element={<GeneratePlaylist />} />
+        <Route path="track" element={<GenerateTrack />} />
       </Route>
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/sign-in" element={<LogIn />} />
-      <Route path="/sign-up" element={<SignUp />} />
-      <Route path="/verify" element={<Verify />} />
+      <Route path="profile" element={<Profile />} />
+      <Route path="sign-in" element={<LogIn />} />
+      <Route path="sign-up" element={<SignUp />} />
+      <Route path="verify" element={<Verify />} />
     </Route>,
   ),
 )
