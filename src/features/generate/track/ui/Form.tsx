@@ -4,10 +4,9 @@ import Arrow from 'shared/assets/images/arrow-next.svg?react'
 import { Selector, SelectorsWrapper } from 'shared/ui/Selector'
 import { InputRadio } from 'shared/ui/InputRadio'
 import { RefreshSelectors } from 'features/refresh-selectors'
-
-import { mood, style } from 'shared/mocks/formSelectors'
 import { useTrackForm } from '../model/formCollectDataSlice'
 import { useEffect } from 'react'
+import { useRefreshSelectors } from 'features/refresh-selectors/api/refreshSelectorsQuery'
 
 const FormWrapper = styled.section`
   max-width: 41.25rem;
@@ -90,10 +89,25 @@ const Form = () => {
   const setState = useTrackForm(state => state.setAllData)
   const formState = useTrackForm(state => state.formState)
 
+  const token = localStorage.getItem('token')
+
+  const {
+    data: moodsData,
+    refetch: refetchMoods,
+    isSuccess: isMoods,
+  } = useRefreshSelectors('mood', token)
+  const {
+    data: stylesData,
+    refetch: refetchStyles,
+    isSuccess: isStyles,
+  } = useRefreshSelectors('style', token)
+
   const onSubmit = (data: TrackInputs) => {
     setState(data)
     reset()
   }
+
+  //обновлять на основе currentstate
   useEffect(() => {
     setValue('mood', formState.moodTags)
     setValue('coverDescription', formState.coverDescription)
@@ -125,17 +139,19 @@ const Form = () => {
         />
 
         <SelectorsWrapper>
-          <RefreshSelectors />
-          {mood.map((tag, index) => (
-            <Selector
-              key={index}
-              value={tag}
-              handleOnClick={() => {
-                setTag(tag, 'moodTags')
-              }}
-              checked={formState.moodTags.includes(tag)}
-            />
-          ))}
+          <RefreshSelectors onClick={refetchMoods} />
+          {isMoods
+            ? moodsData?.map((tag, index) => (
+                <Selector
+                  key={index}
+                  value={tag}
+                  handleOnClick={() => {
+                    setTag(tag, 'moodTags')
+                  }}
+                  checked={formState.moodTags.includes(tag)}
+                />
+              ))
+            : null}
         </SelectorsWrapper>
 
         <label htmlFor="">Object / action</label>
@@ -168,17 +184,18 @@ const Form = () => {
         />
 
         <SelectorsWrapper>
-          <RefreshSelectors />
-          {style.map((tag, index) => (
-            <Selector
-              key={index}
-              value={tag}
-              handleOnClick={() => {
-                setTag(tag, 'coverDescription')
-              }}
-              checked={formState.coverDescription.includes(tag)}
-            />
-          ))}
+          <RefreshSelectors onClick={refetchStyles} />
+          {isStyles &&
+            stylesData?.map((tag, index) => (
+              <Selector
+                key={index}
+                value={tag}
+                handleOnClick={() => {
+                  setTag(tag, 'coverDescription')
+                }}
+                checked={formState.coverDescription.includes(tag)}
+              />
+            ))}
         </SelectorsWrapper>
 
         <InputWrapper>

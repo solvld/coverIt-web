@@ -19,11 +19,15 @@ const RefreshButton = styled.button<{ $isActive: boolean }>`
       infinite;
   }
 `
-
-export const RefreshSelectors = () => {
+interface RefreshSelectorsProps {
+  onClick: () => void
+}
+export const RefreshSelectors = ({ onClick }: RefreshSelectorsProps) => {
   const [isActive, setIsActive] = useState(false)
+
   const handleClick = () => {
     setIsActive(true)
+    onClick()
     setTimeout(() => {
       setIsActive(false)
     }, 1500)
