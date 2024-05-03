@@ -3,8 +3,12 @@ import Logo from 'shared/assets/images/logo.svg?react'
 import Profile from 'shared/assets/images/user.svg?react'
 
 import s from './styles.module.scss'
+import { useState } from 'react'
 
 const Header = () => {
+  const [isLoggedIn] = useState(localStorage.getItem('token'))
+  const guardLink = isLoggedIn ? '/profile' : '/sign-in'
+
   const linkStyle = ({ isActive }: { isActive: boolean }) =>
     isActive ? s.activeNavLink : s.navLink
   return (
@@ -20,7 +24,7 @@ const Header = () => {
           archive
         </NavLink>
       </nav>
-      <NavLink to={'/profile'}>
+      <NavLink to={guardLink}>
         <Profile className={s.profileLink} />
       </NavLink>
     </header>

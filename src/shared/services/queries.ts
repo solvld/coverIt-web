@@ -4,6 +4,7 @@ import { signInQuery, signUpQuery, verifyEmailQuery } from './authApi'
 
 import { useNavigate } from 'react-router-dom'
 import { toastOnError } from 'entities/ToastOnError/ui/toastOnError'
+import { currentUserQuery } from './userApi'
 
 export const useSignIn = () => {
   const navigate = useNavigate()
@@ -58,6 +59,20 @@ export const useVerify = (code: string) => {
     queryFn: () => {
       if (code) {
         return verifyEmailQuery(code)
+      }
+      return
+    },
+  })
+}
+
+//User queries
+
+export const useCurrentUser = (token: string | null) => {
+  return useQuery({
+    queryKey: ['currentUser', token],
+    queryFn: () => {
+      if (token) {
+        return currentUserQuery(token)
       }
       return
     },
