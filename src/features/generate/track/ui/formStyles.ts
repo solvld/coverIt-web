@@ -55,3 +55,12 @@ export const InputWrapper = styled.div`
     line-height: 1.5rem;
   }
 `
+export const Error = styled.div`
+  height: 0.8rem;
+  p {
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 0.8rem;
+    color: var(--primary-color);
+  }
+`

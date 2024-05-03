@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { Error, FormWrapper, InputWrapper, SForm } from './formStyles'
 import Arrow from 'shared/assets/images/arrow-next.svg?react'
 import { Selector, SelectorsWrapper } from 'shared/ui/Selector'
 import { InputRadio } from 'shared/ui/InputRadio'
@@ -7,9 +9,8 @@ import {
   useRefreshSelectors,
 } from 'features/refresh-selectors'
 import { useTrackForm } from '../model/formCollectDataSlice'
-import { useEffect } from 'react'
-
-import { FormWrapper, InputWrapper, SForm } from './formStyles'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { generateTrackSchema } from '../lib/validation'
 
 export interface TrackInputs {
   title: string
@@ -24,11 +25,12 @@ const Form = () => {
   const {
     register,
     handleSubmit,
-    formState: { isValid },
+    formState: { isValid, errors },
     setValue,
     reset,
   } = useForm<TrackInputs>({
     mode: 'onTouched',
+    resolver: zodResolver(generateTrackSchema),
   })
 
   const setTag = useTrackForm(state => state.setTag)
@@ -74,6 +76,10 @@ const Form = () => {
           type="text"
           placeholder="Enter title of your track or album..."
         />
+        <Error>
+          {errors?.title && <p>{errors?.title?.message || 'error'}</p>}
+        </Error>
+
         <label htmlFor="">Mood (music)</label>
         <input
           {...register('mood', {
@@ -102,6 +108,9 @@ const Form = () => {
               ))
             : null}
         </SelectorsWrapper>
+        <Error>
+          {errors?.mood && <p>{errors?.mood?.message || 'error'}</p>}
+        </Error>
 
         <label htmlFor="">Object / action</label>
         <input
@@ -111,6 +120,10 @@ const Form = () => {
           type="text"
           placeholder="wet stone covered with moss, glows a little"
         />
+        <Error>
+          {errors?.object && <p>{errors?.object?.message || 'error'}</p>}
+        </Error>
+
         <label htmlFor="">Surrounding</label>
         <input
           {...register('surrounding', {
@@ -119,6 +132,12 @@ const Form = () => {
           type="text"
           placeholder="forest edge, the sun breaks through the trees"
         />
+        <Error>
+          {errors?.surrounding && (
+            <p>{errors?.surrounding?.message || 'error'}</p>
+          )}
+        </Error>
+
         <label htmlFor="">Style (cover)</label>
         <input
           {...register('coverDescription', {
@@ -146,10 +165,21 @@ const Form = () => {
               />
             ))}
         </SelectorsWrapper>
+        <Error>
+          {errors?.coverDescription && (
+            <p>{errors?.coverDescription?.message || 'error'}</p>
+          )}
+        </Error>
 
         <InputWrapper>
           <label htmlFor="">
-            Lo-fi <InputRadio id="hi-fi" value="true" {...register('isLoFi')} />
+            Lo-fi{' '}
+            <InputRadio
+              id="hi-fi"
+              value="true"
+              checked
+              {...register('isLoFi')}
+            />
           </label>
 
           <label>
