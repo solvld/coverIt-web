@@ -1,68 +1,15 @@
 import { useForm } from 'react-hook-form'
-import styled from 'styled-components'
 import Arrow from 'shared/assets/images/arrow-next.svg?react'
 import { Selector, SelectorsWrapper } from 'shared/ui/Selector'
 import { InputRadio } from 'shared/ui/InputRadio'
-import { RefreshSelectors } from 'features/refresh-selectors'
+import {
+  RefreshSelectors,
+  useRefreshSelectors,
+} from 'features/refresh-selectors'
 import { useTrackForm } from '../model/formCollectDataSlice'
 import { useEffect } from 'react'
-import { useRefreshSelectors } from 'features/refresh-selectors/api/refreshSelectorsQuery'
 
-const FormWrapper = styled.section`
-  max-width: 41.25rem;
-  min-height: 62rem;
-  width: 100%;
-  background-color: #fff;
-  border-radius: 9px;
-  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.25);
-  padding: 2rem;
-  margin-bottom: 2rem;
-
-  h2 {
-    text-align: center;
-    font-size: 1.25rem;
-    font-weight: 600;
-    padding-top: 3.75rem;
-  }
-`
-const SForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  padding: 0 3rem;
-  margin-top: 2rem;
-  height: 55rem;
-
-  input[type='text'] {
-    all: unset;
-    border-bottom: solid 1px;
-    line-height: 2.5rem;
-  }
-  input[type='radio'] {
-    margin: 1rem;
-  }
-  label {
-    font-weight: 500;
-    font-size: 1rem;
-  }
-  button[type='submit'] {
-    all: unset;
-    cursor: pointer;
-    justify-self: end;
-    margin-left: auto;
-  }
-`
-const InputWrapper = styled.div`
-  display: flex;
-  gap: 3.5rem;
-
-  label {
-    display: flex;
-    align-items: baseline;
-    font-weight: 500;
-    line-height: 1.5rem;
-  }
-`
+import { FormWrapper, InputWrapper, SForm } from './formStyles'
 
 export interface TrackInputs {
   title: string
@@ -87,7 +34,9 @@ const Form = () => {
   const setTag = useTrackForm(state => state.setTag)
   const setString = useTrackForm(state => state.setTagFromString)
   const setState = useTrackForm(state => state.setAllData)
-  const formState = useTrackForm(state => state.formState)
+  // const formState = useTrackForm(state => state.formState)
+  const currentTags = useTrackForm(state => state.currentTags)
+  const resetCurrentTags = useTrackForm(state => state.resetCurrentTags)
 
   const token = localStorage.getItem('token')
 
@@ -105,13 +54,13 @@ const Form = () => {
   const onSubmit = (data: TrackInputs) => {
     setState(data)
     reset()
+    resetCurrentTags()
   }
 
-  //обновлять на основе currentstate
   useEffect(() => {
-    setValue('mood', formState.moodTags)
-    setValue('coverDescription', formState.coverDescription)
-  }, [formState, setValue])
+    setValue('mood', currentTags.moodTags)
+    setValue('coverDescription', currentTags.styleTags)
+  }, [currentTags, setValue])
 
   return (
     <FormWrapper>
@@ -148,7 +97,7 @@ const Form = () => {
                   handleOnClick={() => {
                     setTag(tag, 'moodTags')
                   }}
-                  checked={formState.moodTags.includes(tag)}
+                  checked={currentTags.moodTags.includes(tag)}
                 />
               ))
             : null}
@@ -179,7 +128,7 @@ const Form = () => {
           placeholder="3D, blurred, mostly in white colors  "
           onChange={({ target }) => {
             const { value } = target
-            setString(value, 'coverDescription')
+            setString(value, 'styleTags')
           }}
         />
 
@@ -191,9 +140,9 @@ const Form = () => {
                 key={index}
                 value={tag}
                 handleOnClick={() => {
-                  setTag(tag, 'coverDescription')
+                  setTag(tag, 'styleTags')
                 }}
-                checked={formState.coverDescription.includes(tag)}
+                checked={currentTags.styleTags.includes(tag)}
               />
             ))}
         </SelectorsWrapper>
@@ -212,7 +161,12 @@ const Form = () => {
           {isValid ? <Arrow /> : <Arrow style={{ opacity: '0.1' }} />}
         </button>
       </SForm>
-      {/* <p>{JSON.stringify(formState)}</p> */}
+
+      {/* <ul>
+        {Object.keys(formState).map(row => (
+          <li>{`${row}: ${formState[row]}`}</li>
+        ))}
+      </ul> */}
     </FormWrapper>
   )
 }

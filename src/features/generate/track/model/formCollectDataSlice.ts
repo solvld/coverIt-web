@@ -3,47 +3,49 @@ import { TrackInputs } from '../ui/Form'
 import _ from 'lodash'
 
 interface FormState {
-  formState: {
-    title: string
+  formState: TrackInputs
+  currentTags: {
     moodTags: string
-    object: string
-    surrounding: string
-    coverDescription: string
-    isLoFi: boolean
+    styleTags: string
   }
   setTag: (newTag: string, inputType: InputType) => void
   setTagFromString: (value: string, inputType: InputType) => void
+  resetCurrentTags: () => void
   setAllData: (data: TrackInputs) => void
 }
 
-type InputType = 'moodTags' | 'coverDescription'
+type InputType = 'moodTags' | 'styleTags'
 
 export const useTrackForm = create<FormState>(set => ({
   formState: {
     title: '',
-    moodTags: '',
+    mood: '',
     object: '',
     surrounding: '',
     coverDescription: '',
     isLoFi: true,
   },
+  currentTags: {
+    moodTags: '',
+    styleTags: '',
+  },
   setTag: (newTag: string, inputType: InputType) =>
     set(state => {
-      const stateMoods = state.formState[inputType]
+      const stateTags = state.currentTags[inputType]
         .split(',')
         .map(tag => tag && tag.trim())
         .filter(tag => tag)
-      const setMoods = (): string => {
-        if (stateMoods.includes(newTag)) {
-          return stateMoods.filter(tag => tag !== newTag).join(', ')
+      const setTags = (): string => {
+        if (stateTags.includes(newTag)) {
+          return stateTags.filter(tag => tag !== newTag).join(', ')
         } else {
-          return [...stateMoods, newTag].join(', ')
+          return [...stateTags, newTag].join(', ')
         }
       }
       return {
-        formState: {
-          ...state.formState,
-          [inputType]: setMoods(),
+        currentTags: {
+          ...state.currentTags,
+          [inputType]: setTags(),
         },
       }
     }),
@@ -53,36 +55,43 @@ export const useTrackForm = create<FormState>(set => ({
         .split(',')
         .map(tag => tag && tag.trim())
         .filter(tag => tag)
-      const stateMoods = state.formState[inputType]
+      const stateTags = state.currentTags[inputType]
         .split(',')
         .map(tag => tag && tag.trim())
         .filter(tag => tag)
-      const diff = _.difference(tagsArray, stateMoods)
-      const newStateMoods = (): string => {
-        if (tagsArray.length > stateMoods.length && diff.length > 0) {
-          if (stateMoods.length === 0) {
+      const diff = _.difference(tagsArray, stateTags)
+      const newStateTags = (): string => {
+        if (tagsArray.length > stateTags.length && diff.length > 0) {
+          if (stateTags.length === 0) {
             return diff.join('')
           }
-          return [...stateMoods, diff].join(', ')
+          return [...stateTags, diff].join(', ')
         }
-        if (tagsArray.length < stateMoods.length && diff.length > 0) {
-          return _.pullAll(stateMoods, diff).join('')
+        if (tagsArray.length < stateTags.length && diff.length > 0) {
+          return _.pullAll(stateTags, diff).join('')
         }
         return value
       }
       return {
-        formState: {
-          ...state.formState,
-          [inputType]: newStateMoods(),
+        currentTags: {
+          ...state.currentTags,
+          [inputType]: newStateTags(),
         },
       }
     }),
+  resetCurrentTags: () =>
+    set(() => ({
+      currentTags: {
+        moodTags: '',
+        styleTags: '',
+      },
+    })),
   setAllData: data => {
     set(state => ({
       formState: {
         ...state.formState,
         title: data.title,
-        moodTags: data.mood,
+        mood: data.mood,
         object: data.object,
         surrounding: data.surrounding,
         coverDescription: data.coverDescription,
