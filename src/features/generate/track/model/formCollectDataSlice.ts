@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { TrackInputs } from '../ui/Form'
+import { TrackInputs } from 'shared/types/generate'
 import _ from 'lodash'
 
 interface FormState {

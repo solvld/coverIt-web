@@ -1,5 +1,5 @@
 import { ZodType, z } from 'zod'
-import { TrackInputs } from '../ui/Form'
+import { TrackInputs } from 'shared/types/generate'
 
 export const generateTrackSchema: ZodType<TrackInputs> = z.object({
   title: z
@@ -20,5 +20,5 @@ export const generateTrackSchema: ZodType<TrackInputs> = z.object({
   coverDescription: z
     .string()
     .min(1, { message: 'Please select at least one tag.' }),
-  isLoFi: z.boolean(),
+  isLoFi: z.string(),
 })

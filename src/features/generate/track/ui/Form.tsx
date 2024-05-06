@@ -11,32 +11,27 @@ import {
 import { useTrackForm } from '../model/formCollectDataSlice'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { generateTrackSchema } from '../lib/validation'
+import { TrackBody, TrackInputs } from 'shared/types/generate'
 
-export interface TrackInputs {
-  title: string
-  mood: string
-  object: string
-  surrounding: string
-  coverDescription: string
-  isLoFi: boolean
+interface GenerateTrackFormProps {
+  generateTrack: (data: TrackBody) => void
 }
-
-const Form = () => {
+const Form = ({ generateTrack }: GenerateTrackFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { isValid, errors },
     setValue,
-    reset,
+    // reset,
   } = useForm<TrackInputs>({
-    mode: 'onTouched',
+    mode: 'all',
     resolver: zodResolver(generateTrackSchema),
   })
 
   const setTag = useTrackForm(state => state.setTag)
   const setString = useTrackForm(state => state.setTagFromString)
   const setState = useTrackForm(state => state.setAllData)
-  // const formState = useTrackForm(state => state.formState)
+  const formState = useTrackForm(state => state.formState)
   const currentTags = useTrackForm(state => state.currentTags)
   const resetCurrentTags = useTrackForm(state => state.resetCurrentTags)
 
@@ -55,14 +50,31 @@ const Form = () => {
 
   const onSubmit = (data: TrackInputs) => {
     setState(data)
-    reset()
+    // reset()
     resetCurrentTags()
+    generateTrack({
+      title: data.title,
+      mood: data.mood.split(','),
+      object: data.object,
+      surrounding: data.surrounding,
+      coverDescription: data.coverDescription.split(','),
+      isLoFi: data.isLoFi === 'true',
+    })
   }
 
   useEffect(() => {
     setValue('mood', currentTags.moodTags)
     setValue('coverDescription', currentTags.styleTags)
   }, [currentTags, setValue])
+
+  useEffect(() => {
+    setValue('title', formState.title)
+    setValue('mood', formState.mood)
+    setValue('object', formState.object)
+    setValue('surrounding', formState.surrounding)
+    setValue('coverDescription', formState.coverDescription)
+    setValue('isLoFi', formState.isLoFi)
+  }, [formState, setValue])
 
   return (
     <FormWrapper>

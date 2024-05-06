@@ -1,9 +1,8 @@
-import { trackCoverRes } from 'shared/mocks/trackCoverResponse'
 import styled from 'styled-components'
 import Reload from 'shared/assets/images/reload.svg?react'
 import Download from 'shared/assets/images/download.svg?react'
 import Edit from 'shared/assets/images/edit-image.svg?react'
-import { mood, style } from 'shared/mocks/formSelectors'
+import { useTrackForm } from 'features/generate/track/model/formCollectDataSlice'
 
 const SCard = styled.section`
   max-width: 75rem;
@@ -65,20 +64,24 @@ const Actions = styled.div`
     cursor: pointer;
   }
 `
-const Card = () => {
-  const res = trackCoverRes
+
+interface TractCardProps {
+  coverLink: string
+}
+const Card = ({ coverLink }: TractCardProps) => {
+  const formState = useTrackForm(state => state.formState)
   return (
     <SCard>
       <Cover>
-        <img src={res.cover.link} alt="" />
+        <img src={coverLink} alt="" />
       </Cover>
       <div>
-        <TrackTitle>{res.title}</TrackTitle>
+        <TrackTitle>{formState.title}</TrackTitle>
         <Description>
           <div>
             <h4>Mood</h4>
             <TagWrapper>
-              {mood.slice(2, 9).map((e, index) => (
+              {formState.mood.split(',').map((e, index) => (
                 <Tag key={index}>{e}</Tag>
               ))}
             </TagWrapper>
@@ -86,18 +89,18 @@ const Card = () => {
 
           <div>
             <h4>Object / action</h4>
-            <p>wet stone covered with moss, glows a little</p>
+            <p>{formState.object}</p>
           </div>
 
           <div>
             <h4>Surrounding</h4>
-            <p>forest edge, the sun breaks through the bark of the trees</p>
+            <p>{formState.surrounding}</p>
           </div>
 
           <div>
             <h4>Style</h4>
             <TagWrapper>
-              {style.slice(3, 9).map((e, index) => (
+              {formState.coverDescription.split(',').map((e, index) => (
                 <Tag key={index}>{e}</Tag>
               ))}
             </TagWrapper>
@@ -110,7 +113,7 @@ const Card = () => {
 
         <Edit />
 
-        <a href={res.cover.link} download={`${res.title}.jpeg`}>
+        <a href={coverLink} download={`Cover.png`}>
           <Download />
         </a>
       </Actions>
