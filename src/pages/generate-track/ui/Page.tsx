@@ -13,18 +13,11 @@ const Page = () => {
     data: trackCoverData,
   } = useGenerateTrack()
 
-  // if (isPending) {
-  //   return (
-  //     <StyledPage>
-  //       <LinearLoading>We are cooking your track...</LinearLoading>
-  //     </StyledPage>
-  //   )
-  // }
-
   if (isSuccess) {
     return (
       <StyledPage>
         <TrackCard coverLink={trackCoverData.cover.link} />
+        <ToasterOnError />
       </StyledPage>
     )
   }

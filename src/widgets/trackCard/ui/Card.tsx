@@ -1,8 +1,10 @@
 import styled from 'styled-components'
-import Reload from 'shared/assets/images/reload.svg?react'
 import Download from 'shared/assets/images/download.svg?react'
 import Edit from 'shared/assets/images/edit-image.svg?react'
 import { useTrackForm } from 'features/generate/track/model/formCollectDataSlice'
+import { useEffect, useState } from 'react'
+import { useGenerateTrack } from 'features/generate/track/api/generateQuery'
+import { Regenerate } from 'features/regenerete'
 
 const SCard = styled.section`
   max-width: 75rem;
@@ -69,19 +71,46 @@ interface TractCardProps {
   coverLink: string
 }
 const Card = ({ coverLink }: TractCardProps) => {
-  const formState = useTrackForm(state => state.formState)
+  const [image, setImage] = useState(coverLink)
+  const { title, mood, object, surrounding, coverDescription, isLoFi } =
+    useTrackForm(state => state.formState)
+
+  const {
+    mutate: regenerateTrack,
+    isPending,
+    isSuccess,
+    data: newTrackImage,
+  } = useGenerateTrack()
+
+  useEffect(() => {
+    if (isSuccess) {
+      setImage(newTrackImage?.cover.link)
+    }
+  }, [isSuccess, newTrackImage])
+
+  const handleRegenerate = () => {
+    regenerateTrack({
+      title: title,
+      mood: mood.split(','),
+      object: object,
+      surrounding: surrounding,
+      coverDescription: coverDescription.split(','),
+      isLoFi: isLoFi === 'true',
+    })
+  }
+
   return (
     <SCard>
       <Cover>
-        <img src={coverLink} alt="" />
+        <img src={image} alt="track cover" />
       </Cover>
       <div>
-        <TrackTitle>{formState.title}</TrackTitle>
+        <TrackTitle>{title}</TrackTitle>
         <Description>
           <div>
             <h4>Mood</h4>
             <TagWrapper>
-              {formState.mood.split(',').map((e, index) => (
+              {mood.split(',').map((e, index) => (
                 <Tag key={index}>{e}</Tag>
               ))}
             </TagWrapper>
@@ -89,18 +118,18 @@ const Card = ({ coverLink }: TractCardProps) => {
 
           <div>
             <h4>Object / action</h4>
-            <p>{formState.object}</p>
+            <p>{object}</p>
           </div>
 
           <div>
             <h4>Surrounding</h4>
-            <p>{formState.surrounding}</p>
+            <p>{surrounding}</p>
           </div>
 
           <div>
             <h4>Style</h4>
             <TagWrapper>
-              {formState.coverDescription.split(',').map((e, index) => (
+              {coverDescription.split(',').map((e, index) => (
                 <Tag key={index}>{e}</Tag>
               ))}
             </TagWrapper>
@@ -109,11 +138,11 @@ const Card = ({ coverLink }: TractCardProps) => {
       </div>
 
       <Actions>
-        <Reload style={{ stroke: 'var(--primary-color)' }} />
+        <Regenerate onClick={handleRegenerate} isRotate={isPending} />
 
         <Edit />
 
-        <a href={coverLink} download={`Cover.png`}>
+        <a href={image} target="_blank" download={`Cover.png`}>
           <Download />
         </a>
       </Actions>
