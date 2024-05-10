@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 const SSelector = styled.button<{ $isActive?: boolean }>`
@@ -21,11 +21,19 @@ export const SelectorsWrapper = styled.div`
 `
 interface SelectorProps {
   value: string
+  handleOnClick: () => void
+  checked: boolean
 }
 
-export const Selector = ({ value }: SelectorProps) => {
-  const [isActive, setIsActive] = useState(false)
-  const handleClick = () => setIsActive(prev => !prev)
+export const Selector = ({ value, handleOnClick, checked }: SelectorProps) => {
+  const [isActive, setIsActive] = useState(checked)
+  const handleClick = () => {
+    setIsActive(prev => !prev)
+    handleOnClick()
+  }
+  useEffect(() => {
+    setIsActive(checked)
+  }, [checked])
   return (
     <SSelector
       onClick={handleClick}

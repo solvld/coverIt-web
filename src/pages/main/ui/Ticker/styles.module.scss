@@ -1,10 +1,9 @@
 .ticker {
   overflow: hidden;
-  z-index: 0;
+  padding: 2.5rem 0;
   .container {
     display: flex;
     align-items: center;
-    height: 6rem;
 
     p {
       white-space: nowrap;

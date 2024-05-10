@@ -67,14 +67,9 @@ export const useVerify = (code: string) => {
 
 //User queries
 
-export const useCurrentUser = (token: string | null) => {
+export const useCurrentUser = () => {
   return useQuery({
-    queryKey: ['currentUser', token],
-    queryFn: () => {
-      if (token) {
-        return currentUserQuery(token)
-      }
-      return
-    },
+    queryKey: ['currentUser'],
+    queryFn: currentUserQuery,
   })
 }
