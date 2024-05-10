@@ -1,9 +1,12 @@
-import { trackCoverRes } from 'shared/mocks/trackCoverResponse'
 import styled from 'styled-components'
-import Reload from 'shared/assets/images/reload.svg?react'
 import Download from 'shared/assets/images/download.svg?react'
-import Edit from 'shared/assets/images/edit-image.svg?react'
-import { mood, style } from 'shared/mocks/formSelectors'
+import { useTrackForm } from 'features/generate/track/model/formCollectDataSlice'
+import { useEffect, useState } from 'react'
+import { useGenerateTrack } from 'features/generate/track/api/generateQuery'
+import { Regenerate } from 'features/regenerate'
+import EditButton from './Edit'
+
+import plug from 'shared/assets/images/image1.png'
 
 const SCard = styled.section`
   max-width: 75rem;
@@ -65,20 +68,52 @@ const Actions = styled.div`
     cursor: pointer;
   }
 `
-const Card = () => {
-  const res = trackCoverRes
+
+interface TractCardProps {
+  coverLink: string | undefined
+  setIsCardActive: (arg: boolean) => void
+}
+const Card = ({ coverLink, setIsCardActive }: TractCardProps) => {
+  const [image, setImage] = useState(coverLink || plug)
+  const { title, mood, object, surrounding, coverDescription, isLoFi } =
+    useTrackForm(state => state.formState)
+
+  const {
+    mutate: regenerateTrack,
+    isPending,
+    isSuccess,
+    data: newTrackImage,
+  } = useGenerateTrack()
+
+  useEffect(() => {
+    if (isSuccess) {
+      setImage(newTrackImage?.cover.link)
+    }
+  }, [isSuccess, newTrackImage])
+
+  const handleRegenerate = () => {
+    regenerateTrack({
+      title: title,
+      mood: mood.split(','),
+      object: object,
+      surrounding: surrounding,
+      coverDescription: coverDescription.split(','),
+      isLoFi: isLoFi === 'true',
+    })
+  }
+
   return (
     <SCard>
       <Cover>
-        <img src={res.cover.link} alt="" />
+        <img src={image} alt="track cover" />
       </Cover>
       <div>
-        <TrackTitle>{res.title}</TrackTitle>
+        <TrackTitle>{title}</TrackTitle>
         <Description>
           <div>
             <h4>Mood</h4>
             <TagWrapper>
-              {mood.slice(2, 9).map((e, index) => (
+              {mood.split(',').map((e, index) => (
                 <Tag key={index}>{e}</Tag>
               ))}
             </TagWrapper>
@@ -86,18 +121,18 @@ const Card = () => {
 
           <div>
             <h4>Object / action</h4>
-            <p>wet stone covered with moss, glows a little</p>
+            <p>{object}</p>
           </div>
 
           <div>
             <h4>Surrounding</h4>
-            <p>forest edge, the sun breaks through the bark of the trees</p>
+            <p>{surrounding}</p>
           </div>
 
           <div>
             <h4>Style</h4>
             <TagWrapper>
-              {style.slice(3, 9).map((e, index) => (
+              {coverDescription.split(',').map((e, index) => (
                 <Tag key={index}>{e}</Tag>
               ))}
             </TagWrapper>
@@ -106,11 +141,11 @@ const Card = () => {
       </div>
 
       <Actions>
-        <Reload style={{ stroke: 'var(--primary-color)' }} />
+        <Regenerate onClick={handleRegenerate} isRotate={isPending} />
 
-        <Edit />
+        <EditButton onClick={() => setIsCardActive(false)} />
 
-        <a href={res.cover.link} download={`${res.title}.jpeg`}>
+        <a href={image} target="_blank" download={`Cover.png`}>
           <Download />
         </a>
       </Actions>
