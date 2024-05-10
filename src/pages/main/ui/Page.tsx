@@ -5,7 +5,7 @@ import s from './style.module.scss'
 
 const Page = () => {
   return (
-    <>
+    <div className={s.page}>
       <div className={s.cardsList}>
         {cards.map(card => (
           <CoverCard
@@ -19,7 +19,7 @@ const Page = () => {
         ))}
       </div>
       <Ticker />
-    </>
+    </div>
   )
 }
 

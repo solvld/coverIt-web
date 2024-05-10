@@ -47,8 +47,12 @@ const Header = () => {
           </>
         ) : (
           <>
-            <Link to={'/sign-up'}>sign un</Link>
-            <Link to={'/sign-in'}>log in</Link>
+            <NavLink to={'/sign-up'} className={linkStyle}>
+              sign un
+            </NavLink>
+            <NavLink to={'/sign-in'} className={linkStyle}>
+              log in
+            </NavLink>
           </>
         )}
       </div>
