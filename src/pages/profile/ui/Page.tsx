@@ -3,13 +3,11 @@ import s from './styles.module.scss'
 import { Button } from 'shared/ui/Button'
 import { useCurrentUser } from 'shared/services/queries'
 
-
-
 const Page = () => {
-  const token = localStorage.getItem('token')
+  // const token = localStorage.getItem('token')
   const logOut = () => localStorage.removeItem('token')
 
-  const { data, isSuccess } = useCurrentUser(token)
+  const { data, isSuccess } = useCurrentUser()
   let username = ''
   if (isSuccess) {
     if (data) {

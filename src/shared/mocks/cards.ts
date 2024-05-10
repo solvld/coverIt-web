@@ -38,7 +38,7 @@ export const cards = [
     ],
     position: {
       axesX: 2,
-      axesY: -4,
+      axesY: -2,
     },
   },
   {
@@ -111,7 +111,7 @@ export const cards = [
     ],
     position: {
       axesX: -7,
-      axesY: -10,
+      axesY: -8,
     },
   },
   {
@@ -143,7 +143,7 @@ export const cards = [
     ],
     position: {
       axesX: -9,
-      axesY: 2,
+      axesY: 0,
     },
   },
 ]
