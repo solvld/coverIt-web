@@ -1,10 +1,12 @@
 import styled from 'styled-components'
 import Download from 'shared/assets/images/download.svg?react'
-import Edit from 'shared/assets/images/edit-image.svg?react'
 import { useTrackForm } from 'features/generate/track/model/formCollectDataSlice'
 import { useEffect, useState } from 'react'
 import { useGenerateTrack } from 'features/generate/track/api/generateQuery'
-import { Regenerate } from 'features/regenerete'
+import { Regenerate } from 'features/regenerate'
+import EditButton from './Edit'
+
+import plug from 'shared/assets/images/image1.png'
 
 const SCard = styled.section`
   max-width: 75rem;
@@ -68,10 +70,11 @@ const Actions = styled.div`
 `
 
 interface TractCardProps {
-  coverLink: string
+  coverLink: string | undefined
+  setIsCardActive: (arg: boolean) => void
 }
-const Card = ({ coverLink }: TractCardProps) => {
-  const [image, setImage] = useState(coverLink)
+const Card = ({ coverLink, setIsCardActive }: TractCardProps) => {
+  const [image, setImage] = useState(coverLink || plug)
   const { title, mood, object, surrounding, coverDescription, isLoFi } =
     useTrackForm(state => state.formState)
 
@@ -140,7 +143,7 @@ const Card = ({ coverLink }: TractCardProps) => {
       <Actions>
         <Regenerate onClick={handleRegenerate} isRotate={isPending} />
 
-        <Edit />
+        <EditButton onClick={() => setIsCardActive(false)} />
 
         <a href={image} target="_blank" download={`Cover.png`}>
           <Download />

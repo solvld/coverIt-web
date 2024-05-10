@@ -12,7 +12,7 @@ const rotate = keyframes`
 const RegenerateButton = styled.button<{ $isActive: boolean }>`
   all: unset;
   cursor: pointer;
-  margin-left: -36px;
+  /* margin-left: -36px; */
   svg {
     stroke: var(--primary-color);
     animation: ${props => (props.$isActive ? rotate : 'none')} 1000ms linear
