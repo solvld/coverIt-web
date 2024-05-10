@@ -23,7 +23,7 @@ export const useTrackForm = create<FormState>(set => ({
     object: '',
     surrounding: '',
     coverDescription: '',
-    isLoFi: true,
+    isLoFi: 'true',
   },
   currentTags: {
     moodTags: '',
