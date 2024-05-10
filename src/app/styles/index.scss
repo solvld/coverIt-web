@@ -25,7 +25,7 @@ body {
   color: var(--text-color);
   min-height: 100dvh;
   width: 100vw;
-  // border: solid 2px greenyellow;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -38,8 +38,5 @@ a {
 }
 
 main{
-  min-height: calc(100dvh - 12.25rem);
-  // border: solid rebeccapurple;
-  // position: relative;
-  // overflow:hidden;
+  min-height: calc(100dvh - 110px);
 }

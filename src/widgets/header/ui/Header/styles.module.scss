@@ -1,57 +1,33 @@
 .header {
-  position: relative;
-  max-width: 1342px;
-  margin: 0 auto;
-  padding-bottom: 3.25rem;
-  padding-top: 1rem;
-  
+  // max-width: 1920px;
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px;
+  font-weight: 400;
+  font-size: 16px;
+  text-transform: uppercase;
+  line-height: 30px;
 
   nav {
     display: flex;
-    max-width: 71rem;
-    margin: 0 auto;
-    align-items: flex-end;
-    justify-content: space-around;
-    // border: solid;
-    height: 8rem;
-  }
-
-  .logo{
-    margin-bottom: 2.5rem;
-    margin-right: 18px;
-    @media (max-width: 660px) {
-      font-size: 1.5rem;
-      position: absolute;
-      top: 2rem;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      height: 3rem;
+    align-items: center;
+    gap: 40px;
+    height: 30px;
+    
+    a{
+      height: 30px;
     }
   }
+}
 
-  .profileLink{
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    @media (max-width: 660px){
-      height: 2rem;
-    }
-  }
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
 
-  .navLink {
-    font-size: 2.25rem;
-    margin-bottom: 0.75rem;
-    @media (max-width: 660px) {
-      font-size: 1.5rem;
-    }
-  }
-
-  .activeNavLink {
-    font-size: 2.25rem;
-    text-underline-offset: 0.25rem;
-    margin-bottom: 1.5rem;
-    // text-decoration: underline;
-    // text-decoration-color: var(--additional-text-color);
-    // text-decoration-thickness: 1px;
-  }
+.activeNavLink{
+  font-weight: 700;
 }
