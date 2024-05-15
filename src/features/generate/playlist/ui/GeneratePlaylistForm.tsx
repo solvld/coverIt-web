@@ -1,9 +1,76 @@
 import { Select } from 'shared/ui/Select'
-import s from './styles.module.scss'
 import { useState } from 'react'
 import { LinearLoading } from 'entities/LinearLoading'
 import { InputRadio } from 'shared/ui/InputRadio'
 import ArrowButton from 'shared/ui/ArrowButton'
+import styled from 'styled-components'
+
+const StyledCard = styled.div`
+  border-radius: 15px;
+  padding: 35px;
+  min-width: 610px;
+  height: 100%;
+  box-shadow: var(--shadow-card);
+  background: #fff;
+`
+const Title = styled.h2`
+  font-weight: 600;
+  font-size: 32px;
+  letter-spacing: -0.03em;
+`
+const FormWrapper = styled.div`
+  width: 100%;
+  max-width: 540px;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-bottom: 30px;
+`
+const StyledURLInput = styled.input.attrs({ type: 'url' })`
+  all: unset;
+  border-bottom: solid 1px;
+  line-height: 2.5rem;
+  width: 100%;
+  max-width: 540px;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 160%;
+  padding-bottom: 8px;
+
+  &::placeholder {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 160%;
+    color: var(--gray1);
+  }
+`
+const RadioLabel = styled.label`
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 160%;
+`
+const RadioButtonsWrappers = styled.div`
+  width: 100%;
+  height: 30px;
+  display: flex;
+  gap: 2rem;
+`
+const InputsRow = styled.div`
+  display: flex;
+  /* justify-content: space-between; */
+  gap: 1rem;
+  align-items: center;
+`
+const VerticalBar = styled.div`
+  height: 40px;
+  min-width: 2px;
+  background-color: var(--gray1);
+`
 
 const GeneratePlaylistForm = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -21,29 +88,40 @@ const GeneratePlaylistForm = () => {
   }
 
   return (
-    <div className={s.card}>
-      <h2>Generate cover for playlist</h2>
+    <StyledCard>
+      <Title>Generate cover for playlist</Title>
       <form onSubmit={handleSubmit}>
-        <div className={s.form}>
-          <input
-            className={s.urlInput}
+        <FormWrapper>
+          <StyledURLInput
             type="url"
             placeholder="Enter Spotify or Yandex Music playlist url..."
           />
-          <div className={s.allInputRadio}>
-            <label>
-              <InputRadio id="abstract" name="content" />
-              Abstract
-            </label>
-            <label>
-              <InputRadio id="lo-fi" name="content" />
-              Lo-Fi
-            </label>
-            <label>
-              <InputRadio id="hi-fi" name="content" />
-              Hi-Fi
-            </label>
-          </div>
+          <InputsRow>
+            <RadioButtonsWrappers>
+              <RadioLabel>
+                <InputRadio id="abstract" name="isAbstract" />
+                Abstract
+              </RadioLabel>
+              <RadioLabel>
+                <InputRadio id="realistic" name="isAbstract" />
+                Realistic
+              </RadioLabel>
+            </RadioButtonsWrappers>
+
+            <VerticalBar />
+
+            <RadioButtonsWrappers>
+              <RadioLabel>
+                <InputRadio id="lo-fi" name="isLoFi" />
+                Lo-Fi
+              </RadioLabel>
+              <RadioLabel>
+                <InputRadio id="hi-fi" name="isLoFi" />
+                Hi-Fi
+              </RadioLabel>
+            </RadioButtonsWrappers>
+          </InputsRow>
+
           <Select name="select">
             <option value="value1" selected>
               Vibe
@@ -51,10 +129,11 @@ const GeneratePlaylistForm = () => {
             <option value="value2">Nice</option>
             <option value="value3">Bumbox</option>
           </Select>
-        </div>
+        </FormWrapper>
+
         <ArrowButton />
       </form>
-    </div>
+    </StyledCard>
   )
 }
 
