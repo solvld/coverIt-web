@@ -1,109 +1,75 @@
-import { Select } from 'shared/ui/Select'
-import { useState } from 'react'
-import { LinearLoading } from 'entities/LinearLoading'
+// import { useState } from 'react'
 import { InputRadio } from 'shared/ui/InputRadio'
-import ArrowButton from 'shared/ui/ArrowButton'
-import styled from 'styled-components'
+import Select from 'react-select'
+import { vibes } from '../lib/vibes'
+import { Controller, useForm } from 'react-hook-form'
+import {
+  ArrowButton,
+  FormWrapper,
+  InputsRow,
+  RadioButtonsWrappers,
+  RadioLabel,
+  StyledCard,
+  StyledURLInput,
+  Title,
+  VerticalBar,
+} from 'shared/ui/form'
 
-const StyledCard = styled.div`
-  border-radius: 15px;
-  padding: 35px;
-  min-width: 610px;
-  height: 100%;
-  box-shadow: var(--shadow-card);
-  background: #fff;
-`
-const Title = styled.h2`
-  font-weight: 600;
-  font-size: 32px;
-  letter-spacing: -0.03em;
-`
-const FormWrapper = styled.div`
-  width: 100%;
-  max-width: 540px;
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  margin-bottom: 30px;
-`
-const StyledURLInput = styled.input.attrs({ type: 'url' })`
-  all: unset;
-  border-bottom: solid 1px;
-  line-height: 2.5rem;
-  width: 100%;
-  max-width: 540px;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 160%;
-  padding-bottom: 8px;
-
-  &::placeholder {
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 160%;
-    color: var(--gray1);
-  }
-`
-const RadioLabel = styled.label`
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 160%;
-`
-const RadioButtonsWrappers = styled.div`
-  width: 100%;
-  height: 30px;
-  display: flex;
-  gap: 2rem;
-`
-const InputsRow = styled.div`
-  display: flex;
-  /* justify-content: space-between; */
-  gap: 1rem;
-  align-items: center;
-`
-const VerticalBar = styled.div`
-  height: 40px;
-  min-width: 2px;
-  background-color: var(--gray1);
-`
-
+interface PlaylistInputs {
+  link: string
+  vibe: { label: string; value: string }
+  isAbstract: boolean
+  isLoFi: boolean
+}
 const GeneratePlaylistForm = () => {
-  const [isLoading, setIsLoading] = useState(false)
+  // const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = (event: { preventDefault: () => void }) => {
-    event.preventDefault()
-    setIsLoading(true)
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 5000)
-  }
+  // const handleSubmit = (event: { preventDefault: () => void }) => {
+  //   event.preventDefault()
+  //   setIsLoading(true)
+  //   setTimeout(() => {
+  //     setIsLoading(false)
+  //   }, 5000)
+  // }
 
-  if (isLoading) {
-    return <LinearLoading>We are cooking your cover...</LinearLoading>
+  // if (isLoading) {
+  //   return <LinearLoading>We are cooking your cover...</LinearLoading>
+  // }
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    // formState: { errors },
+  } = useForm<PlaylistInputs>({
+    mode: 'onTouched',
+  })
+
+  const onSubmit = (data: PlaylistInputs) => {
+    alert(JSON.stringify({ ...data, vibe: data.vibe.value }))
   }
 
   return (
     <StyledCard>
       <Title>Generate cover for playlist</Title>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <FormWrapper>
           <StyledURLInput
+            {...register('link', {
+              required: true,
+            })}
             type="url"
             placeholder="Enter Spotify or Yandex Music playlist url..."
           />
+
           <InputsRow>
             <RadioButtonsWrappers>
               <RadioLabel>
-                <InputRadio id="abstract" name="isAbstract" />
+                <InputRadio {...register('isAbstract')} value="true" checked />
                 Abstract
               </RadioLabel>
               <RadioLabel>
-                <InputRadio id="realistic" name="isAbstract" />
+                <InputRadio {...register('isAbstract')} value="false" />
                 Realistic
               </RadioLabel>
             </RadioButtonsWrappers>
@@ -112,23 +78,28 @@ const GeneratePlaylistForm = () => {
 
             <RadioButtonsWrappers>
               <RadioLabel>
-                <InputRadio id="lo-fi" name="isLoFi" />
+                <InputRadio {...register('isLoFi')} value="true" checked />
                 Lo-Fi
               </RadioLabel>
               <RadioLabel>
-                <InputRadio id="hi-fi" name="isLoFi" />
+                <InputRadio {...register('isLoFi')} value="false" />
                 Hi-Fi
               </RadioLabel>
             </RadioButtonsWrappers>
           </InputsRow>
-
-          <Select name="select">
-            <option value="value1" selected>
-              Vibe
-            </option>
-            <option value="value2">Nice</option>
-            <option value="value3">Bumbox</option>
-          </Select>
+          <Controller
+            control={control}
+            name="vibe"
+            render={({ field }) => (
+              <Select
+                {...field}
+                placeholder="Choose Vibe"
+                options={vibes}
+                className="react-select-container"
+                classNamePrefix="custom-select"
+              />
+            )}
+          />
         </FormWrapper>
 
         <ArrowButton />
