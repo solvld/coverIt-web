@@ -13,7 +13,15 @@ const rotate = keyframes`
 const RefreshButton = styled.button<{ $isActive: boolean }>`
   all: unset;
   cursor: pointer;
-  margin-left: -36px;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+  height: 52px;
+  width: 52px;
+  border-radius: 55px;
+  background-color: var(--gray0);
   svg {
     animation: ${props => (props.$isActive ? rotate : 'none')} 750ms linear
       infinite;

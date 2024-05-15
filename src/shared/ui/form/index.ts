@@ -3,11 +3,14 @@ import {
   StyledCard,
   Title,
   FormWrapper,
-  StyledURLInput,
+  StyledInput,
   RadioLabel,
   RadioButtonsWrappers,
   InputsRow,
   VerticalBar,
+  Error,
+  STrackForm,
+  Label,
 } from './styledForm'
 
 export {
@@ -15,9 +18,12 @@ export {
   Title,
   StyledCard,
   FormWrapper,
-  StyledURLInput,
+  StyledInput,
   RadioButtonsWrappers,
   RadioLabel,
   InputsRow,
   VerticalBar,
+  Error,
+  STrackForm,
+  Label,
 }

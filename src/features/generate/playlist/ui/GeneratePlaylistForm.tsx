@@ -10,7 +10,7 @@ import {
   RadioButtonsWrappers,
   RadioLabel,
   StyledCard,
-  StyledURLInput,
+  StyledInput,
   Title,
   VerticalBar,
 } from 'shared/ui/form'
@@ -54,7 +54,7 @@ const GeneratePlaylistForm = () => {
       <Title>Generate cover for playlist</Title>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormWrapper>
-          <StyledURLInput
+          <StyledInput
             {...register('link', {
               required: true,
             })}
