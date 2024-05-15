@@ -43,9 +43,9 @@ const Loading = styled.div`
   display: inline-block;
   width: 100%;
   height: 1rem;
-  background: var(--secondary-color);
+  background: var(--gray1);
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
+  border-radius: 15px;
   overflow: hidden;
   &:after {
     content: '';
@@ -53,7 +53,7 @@ const Loading = styled.div`
     left: 0;
     width: 0;
     height: 100%;
-    border-radius: 4px;
+    border-radius: 15px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     animation: ${load} 5s infinite;
   }

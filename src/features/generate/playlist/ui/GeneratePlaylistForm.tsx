@@ -1,4 +1,5 @@
-// import { useState } from 'react'
+import { useState } from 'react'
+import { LinearLoading } from 'entities/LinearLoading'
 import { InputRadio } from 'shared/ui/InputRadio'
 import Select from 'react-select'
 import { vibes } from '../lib/vibes'
@@ -22,19 +23,7 @@ interface PlaylistInputs {
   isLoFi: boolean
 }
 const GeneratePlaylistForm = () => {
-  // const [isLoading, setIsLoading] = useState(false)
-
-  // const handleSubmit = (event: { preventDefault: () => void }) => {
-  //   event.preventDefault()
-  //   setIsLoading(true)
-  //   setTimeout(() => {
-  //     setIsLoading(false)
-  //   }, 5000)
-  // }
-
-  // if (isLoading) {
-  //   return <LinearLoading>We are cooking your cover...</LinearLoading>
-  // }
+  const [isLoading, setIsLoading] = useState(false)
 
   const {
     register,
@@ -47,6 +36,14 @@ const GeneratePlaylistForm = () => {
 
   const onSubmit = (data: PlaylistInputs) => {
     alert(JSON.stringify({ ...data, vibe: data.vibe.value }))
+    setIsLoading(true)
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 5000)
+  }
+
+  if (isLoading) {
+    return <LinearLoading>We are cooking your cover...</LinearLoading>
   }
 
   return (
