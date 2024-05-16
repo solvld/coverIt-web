@@ -6,7 +6,7 @@ export const Title = styled.h2`
   letter-spacing: -0.03em;
   line-height: 40px;
 `
-export const StyledCard = styled.div`
+export const StyledCard = styled.section`
   border-radius: 15px;
   padding: 35px;
   min-width: 610px;
@@ -90,6 +90,11 @@ export const Label = styled.label`
   font-size: 32px;
   letter-spacing: -0.03em;
   line-height: 40px;
+  display: flex;
+  flex-direction: column;
+`
+export const FormContent = styled.div`
+  padding-top: 2rem;
   display: flex;
   flex-direction: column;
 `

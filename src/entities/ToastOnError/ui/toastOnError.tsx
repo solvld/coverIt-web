@@ -5,6 +5,6 @@ export const toastOnError = (errorMessage: string) => {
   toast(errorMessage, {
     duration: 8000,
     icon: <Danger />,
-    style: { width: '28rem', margin: '0 -3rem' },
+    style: { width: '610px', margin: '-1.5rem -8rem' },
   })
 }

@@ -24,9 +24,8 @@ export const useSignIn = () => {
       }
     },
     onSuccess(data) {
-      console.log(data.token)
       localStorage.setItem('token', data.token)
-      navigate('/profile')
+      navigate('/')
     },
   })
 }

@@ -1,17 +1,31 @@
-import s from './style.module.scss'
 import { logInSchema } from '../lib/loginValidation'
-import Arrow from 'shared/assets/images/arrow-next.svg?react'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { InputError } from 'shared/ui/InputError'
 import { LogInInputs } from 'shared/types/auth'
 import { useSignIn } from 'shared/services/queries'
+import {
+  ArrowButton,
+  FormContent,
+  Label,
+  StyledCard,
+  Title,
+  Error,
+  StyledInput,
+} from 'shared/ui/form'
+import styled from 'styled-components'
+import { LinkButton } from 'shared/ui/LinkButton'
+
+const LinkRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
 
 const LoginForm = () => {
   const {
     register,
-    formState: { errors, isValid },
+    formState: { errors },
     handleSubmit,
   } = useForm<LogInInputs>({
     mode: 'onTouched',
@@ -25,52 +39,49 @@ const LoginForm = () => {
   }
 
   return (
-    <>
-      <div className={s.wrapper}>
-        <h2>Log in</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className={s.inputWrapper}>
-            <label htmlFor="">Email address:</label>
-            <input
+    <StyledCard>
+      <Title>Log in</Title>
+      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+        <FormContent>
+          <Label>
+            Email address
+            <StyledInput
               {...register('email', {
-                required: 'Поле обязательно к заполнению',
+                required: true,
               })}
               type="email"
               placeholder="Enter your email address"
             />
-            <InputError>
+            <Error>
               {errors?.email && <p>{errors?.email?.message || 'error'}</p>}
-            </InputError>
-          </div>
+            </Error>
+          </Label>
 
-          <div className={s.inputWrapper}>
-            <label htmlFor="">Password:</label>
-            <input
+          <Label htmlFor="">
+            Password
+            <StyledInput
               type="password"
               {...register('password', {
-                required: 'Поле обязательно к заполнению',
+                required: true,
               })}
               placeholder="Enter your password"
             />
-            <InputError>
+            <Error>
               {errors?.password && (
                 <p>{errors?.password?.message || 'error'}</p>
               )}
-            </InputError>
-          </div>
+            </Error>
+          </Label>
+        </FormContent>
+        <LinkRow>
+          <LinkButton>
+            <Link to={'/sign-up'}>Create an account</Link>
+          </LinkButton>
 
-          <Link to={'/sign-up'}>Create an account</Link>
-
-          {isPending ? (
-            <div>loading...</div>
-          ) : (
-            <button type="submit">
-              {isValid ? <Arrow /> : <Arrow style={{ opacity: '0.1' }} />}
-            </button>
-          )}
-        </form>
-      </div>
-    </>
+          {isPending ? <ArrowButton disabled /> : <ArrowButton />}
+        </LinkRow>
+      </form>
+    </StyledCard>
   )
 }
 
