@@ -4,10 +4,7 @@ import { ZodType, z } from 'zod'
 export const logInSchema: ZodType<LogInInputs> = z.object({
   email: z
     .string()
-    .min(1, { message: 'Поле обязательно к заполнению' })
-    .email({ message: 'Неверный формат email' }),
-  password: z
-    .string()
-    .min(1, { message: 'Поле обязательно к заполнению' })
-    .min(8, { message: 'Пароль слишком короткий' }),
+    .min(1, { message: 'Please enter your email address' })
+    .email({ message: 'Please enter a valid email address' }),
+  password: z.string().min(1, { message: 'Please enter your password' }),
 })

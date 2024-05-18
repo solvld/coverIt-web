@@ -1,36 +1,27 @@
 import styled from 'styled-components'
 
-export const InputRadio = styled.input.attrs({ type: 'radio' })<{
-  $primary?: boolean
-}>`
+export const InputRadio = styled.input.attrs({ type: 'radio' })`
   -webkit-appearance: none;
   appearance: none;
-  margin: 0;
-  width: 1rem;
-  height: 1rem;
-  border: 0.15em solid;
-  border-color: ${props =>
-    props.$primary ? 'var(--primary-color)' : 'var(--text-color)'};
-  border-radius: 0.15em;
-  transform: translateY(-0.075em);
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
+  border: 2px solid var(--black);
+  border-radius: 4px;
   display: grid;
   place-content: center;
 
   &::before {
     content: '';
-    width: 0.6em;
-    height: 0.6em;
-    transform: scale(0);
-    transform-origin: bottom left;
-    transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em var(--primary-color);
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 120ms ease-in-out;
+    background-color: var(--black);
   }
 
   &:checked::before {
-    transform: scale(1);
-  }
-
-  &:disabled {
-    cursor: not-allowed;
+    opacity: 1;
   }
 `

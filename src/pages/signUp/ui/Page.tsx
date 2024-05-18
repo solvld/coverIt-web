@@ -1,13 +1,13 @@
-import s from './styles.module.scss'
 import SignUpForm from 'features/registration/byEmail'
 import { ToasterOnError } from 'entities/ToastOnError'
+import { StyledPage } from 'shared/ui/StyledPage'
 
 const Page = () => {
   return (
-    <div className={s.wrapper}>
+    <StyledPage>
       <SignUpForm />
       <ToasterOnError />
-    </div>
+    </StyledPage>
   )
 }
 
