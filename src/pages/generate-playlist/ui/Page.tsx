@@ -1,7 +1,12 @@
-import GeneratePlaylistForm from 'features/generate-playlist'
+import GeneratePlaylistForm from 'features/generate/playlist'
+import { StyledPage } from 'shared/ui/StyledPage'
 
 const GeneratePlaylist = () => {
-  return <GeneratePlaylistForm />
+  return (
+    <StyledPage>
+      <GeneratePlaylistForm />
+    </StyledPage>
+  )
 }
 
 export default GeneratePlaylist

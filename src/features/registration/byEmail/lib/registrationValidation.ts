@@ -11,29 +11,29 @@ export const registrationSchema: ZodType<SignUpInputs> = z
   .object({
     username: z
       .string()
-      .min(1, { message: 'Поле обязательно к заполнению' })
-      .min(2, 'Минимум два символа')
+      .min(1, { message: 'Please enter your username' })
+      .min(2, 'Minimum 2 characters')
       .max(20),
     email: z
       .string()
-      .min(1, { message: 'Поле обязательно к заполнению' })
-      .email({ message: 'Неверный формат email' }),
+      .min(1, { message: 'Please enter your email address' })
+      .email({ message: 'Please enter a valid email address' }),
     password: z
       .string()
-      .min(1, { message: 'Поле обязательно к заполнению' })
-      .min(8, { message: 'Минимум 8 символов' })
-      .regex(lowercaseRegex, { message: 'Минимум одна строчная буква' })
-      .regex(uppercaseRegex, { message: 'Минимум одна заглавная буква' })
-      .regex(digitRegex, { message: 'Минимум одна цифра' })
-      .regex(specialCharRegex, { message: 'Минимум один спецсимвол' })
+      .min(1, { message: 'Please create a password' })
+      .min(8, { message: 'Minimum 8 characters' })
+      .regex(lowercaseRegex, { message: 'Minimum one lowercase letter' })
+      .regex(uppercaseRegex, { message: 'Minimum one uppercase letter' })
+      .regex(digitRegex, { message: 'Minimum one digit' })
+      .regex(specialCharRegex, { message: 'Minimum one special character' })
       //.regex(consecutiveRegex, { message: 'Придумай пароль получше ;)' })
-      .max(20, { message: 'Максимум 20 символов' }),
+      .max(20, { message: 'Maximum 20 characters' }),
     confirmPassword: z
       .string()
-      .min(1, { message: 'Поле обязательно к заполнению' })
+      .min(1, { message: 'Please confirm your password' })
       .max(20),
   })
   .refine(data => data.password === data.confirmPassword, {
-    message: 'Пароль не совпадает :(',
+    message: 'Passwords do not match. Try again.',
     path: ['confirmPassword'],
   })

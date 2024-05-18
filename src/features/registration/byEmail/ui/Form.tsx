@@ -1,16 +1,22 @@
-import s from './style.module.scss'
 import { registrationSchema } from '../lib/registrationValidation'
-import Arrow from 'shared/assets/images/arrow-next.svg?react'
-import { InputError } from 'shared/ui/InputError'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SignUpInputs } from 'shared/types/auth'
 import { useSignUp } from 'shared/services/queries'
+import {
+  ArrowButton,
+  FormContent,
+  Label,
+  StyledCard,
+  Title,
+  Error,
+  StyledInput,
+} from 'shared/ui/form'
 
 const SignUpForm = () => {
   const {
     register,
-    formState: { errors, isValid },
+    formState: { errors },
     handleSubmit,
   } = useForm<SignUpInputs>({
     mode: 'onTouched',
@@ -26,67 +32,74 @@ const SignUpForm = () => {
   }
 
   return (
-    <div className={s.wrapper}>
-      <h2>Sign Up</h2>
+    <StyledCard>
+      <Title>Sign Up</Title>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label>Username</label>
-        <input
-          type="text"
-          {...register('username', {
-            required: true,
-          })}
-          placeholder="Enter your username"
-          autoComplete="username"
-        />
-        <InputError>
-          {errors?.username && <p>{errors?.username?.message || 'error'}</p>}
-        </InputError>
-        <label>Email address:</label>
-        <input
-          {...register('email', {
-            required: true,
-          })}
-          type="email"
-          placeholder="Enter your email address"
-        />
-        <InputError>
-          {errors?.email && <p>{errors?.email?.message || 'error'}</p>}
-        </InputError>
+        <FormContent>
+          <Label>
+            Username
+            <StyledInput
+              type="text"
+              {...register('username', {
+                required: true,
+              })}
+              placeholder="Enter your username"
+              autoComplete="username"
+            />
+            <Error>
+              {errors?.username && (
+                <p>{errors?.username?.message || 'error'}</p>
+              )}
+            </Error>
+          </Label>
 
-        <label htmlFor="">Password:</label>
-        <input
-          type="password"
-          {...register('password', {
-            required: true,
-          })}
-          placeholder="Enter password"
-          autoComplete="new-password"
-        />
-        <InputError>
-          {errors?.password && <p>{errors?.password?.message || 'error'}</p>}
-        </InputError>
-        <input
-          type="password"
-          {...register('confirmPassword', {
-            required: true,
-          })}
-          placeholder="Confirm password"
-        />
-        <InputError>
-          {errors?.confirmPassword && (
-            <p>{errors?.confirmPassword?.message || 'error'}</p>
-          )}
-        </InputError>
+          <Label>
+            Email address
+            <StyledInput
+              {...register('email', {
+                required: true,
+              })}
+              type="email"
+              placeholder="Enter your email address"
+            />
+            <Error>
+              {errors?.email && <p>{errors?.email?.message || 'error'}</p>}
+            </Error>
+          </Label>
 
-        {isPending ? (
-          <div>loading...</div>
-        ) : (
-          <button type="submit">
-            {isValid ? <Arrow /> : <Arrow style={{ opacity: '0.1' }} />}
-          </button>
-        )}
+          <Label>
+            Password
+            <StyledInput
+              type="password"
+              {...register('password', {
+                required: true,
+              })}
+              placeholder="Enter password"
+              autoComplete="new-password"
+            />
+            <Error>
+              {errors?.password && (
+                <p>{errors?.password?.message || 'error'}</p>
+              )}
+            </Error>
+            <StyledInput
+              type="password"
+              {...register('confirmPassword', {
+                required: true,
+              })}
+              placeholder="Confirm password"
+            />
+            <Error>
+              {errors?.confirmPassword && (
+                <p>{errors?.confirmPassword?.message || 'error'}</p>
+              )}
+            </Error>
+          </Label>
+        </FormContent>
+
+        {isPending ? <ArrowButton disabled /> : <ArrowButton />}
       </form>
-    </div>
+    </StyledCard>
   )
 }
 

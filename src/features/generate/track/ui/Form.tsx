@@ -1,8 +1,6 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { Error, FormWrapper, InputWrapper, SForm } from './formStyles'
-import Arrow from 'shared/assets/images/arrow-next.svg?react'
-import { Selector, SelectorsWrapper } from 'shared/ui/Selector'
+import { Selector, SelectorsRow, SelectorsWrapper } from 'shared/ui/Selector'
 import { InputRadio } from 'shared/ui/InputRadio'
 import {
   RefreshSelectors,
@@ -12,6 +10,17 @@ import { useTrackForm } from '../model/formCollectDataSlice'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { generateTrackSchema } from '../lib/validation'
 import { TrackBody, TrackInputs } from 'shared/types/generate'
+import {
+  ArrowButton,
+  RadioButtonsWrappers,
+  RadioLabel,
+  StyledCard,
+  Title,
+  Error,
+  STrackForm,
+  Label,
+  StyledInput,
+} from 'shared/ui/form'
 
 interface GenerateTrackFormProps {
   generateTrack: (data: TrackBody) => void
@@ -20,11 +29,11 @@ const Form = ({ generateTrack }: GenerateTrackFormProps) => {
   const {
     register,
     handleSubmit,
-    formState: { isValid, errors },
+    formState: { errors },
     setValue,
     // reset,
   } = useForm<TrackInputs>({
-    mode: 'all',
+    mode: 'onTouched',
     resolver: zodResolver(generateTrackSchema),
   })
 
@@ -77,55 +86,60 @@ const Form = ({ generateTrack }: GenerateTrackFormProps) => {
   }, [formState, setValue])
 
   return (
-    <FormWrapper>
-      <h2>Generate cover for track or album</h2>
-      <SForm onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="">Title</label>
-        <input
-          {...register('title', {
-            required: true,
-          })}
-          type="text"
-          placeholder="Enter title of your track or album..."
-        />
-        <Error>
-          {errors?.title && <p>{errors?.title?.message || 'error'}</p>}
-        </Error>
+    <StyledCard>
+      <Title>Generate cover for track or album</Title>
+      <STrackForm onSubmit={handleSubmit(onSubmit)}>
+        <Label>
+          Title
+          <StyledInput
+            {...register('title', {
+              required: true,
+            })}
+            type="text"
+            placeholder="Enter title of your track or album..."
+          />
+          <Error>
+            {errors?.title && <p>{errors?.title?.message || 'error'}</p>}
+          </Error>
+        </Label>
 
-        <label htmlFor="">Mood (music)</label>
-        <input
-          {...register('mood', {
-            required: true,
-          })}
-          type="text"
-          placeholder="foggy, slow, romantic, hyper pop, raw"
-          onChange={({ target }) => {
-            const { value } = target
-            setString(value, 'moodTags')
-          }}
-        />
-
-        <SelectorsWrapper>
+        <Label>
+          Mood (music)
+          <StyledInput
+            {...register('mood', {
+              required: true,
+            })}
+            type="text"
+            placeholder="foggy, slow, romantic, hyper pop, raw"
+            onChange={({ target }) => {
+              const { value } = target
+              setString(value, 'moodTags')
+            }}
+          />
+        </Label>
+        <SelectorsRow>
           <RefreshSelectors onClick={refetchMoods} />
-          {isMoods
-            ? moodsData?.map((tag, index) => (
-                <Selector
-                  key={index}
-                  value={tag}
-                  handleOnClick={() => {
-                    setTag(tag, 'moodTags')
-                  }}
-                  checked={currentTags.moodTags.includes(tag)}
-                />
-              ))
-            : null}
-        </SelectorsWrapper>
+          <SelectorsWrapper>
+            {isMoods
+              ? moodsData?.map((tag, index) => (
+                  <Selector
+                    key={index}
+                    value={tag}
+                    handleOnClick={() => {
+                      setTag(tag, 'moodTags')
+                    }}
+                    checked={currentTags.moodTags.includes(tag)}
+                  />
+                ))
+              : null}
+          </SelectorsWrapper>
+        </SelectorsRow>
         <Error>
           {errors?.mood && <p>{errors?.mood?.message || 'error'}</p>}
         </Error>
 
-        <label htmlFor="">Object / action</label>
-        <input
+        <Label>Object / Action</Label>
+        <StyledInput
           {...register('object', {
             required: true,
           })}
@@ -136,8 +150,8 @@ const Form = ({ generateTrack }: GenerateTrackFormProps) => {
           {errors?.object && <p>{errors?.object?.message || 'error'}</p>}
         </Error>
 
-        <label htmlFor="">Surrounding</label>
-        <input
+        <Label>Surrounding</Label>
+        <StyledInput
           {...register('surrounding', {
             required: true,
           })}
@@ -150,8 +164,8 @@ const Form = ({ generateTrack }: GenerateTrackFormProps) => {
           )}
         </Error>
 
-        <label htmlFor="">Style (cover)</label>
-        <input
+        <Label>Style (cover)</Label>
+        <StyledInput
           {...register('coverDescription', {
             required: true,
           })}
@@ -162,54 +176,48 @@ const Form = ({ generateTrack }: GenerateTrackFormProps) => {
             setString(value, 'styleTags')
           }}
         />
-
-        <SelectorsWrapper>
+        <SelectorsRow>
           <RefreshSelectors onClick={refetchStyles} />
-          {isStyles &&
-            stylesData?.map((tag, index) => (
-              <Selector
-                key={index}
-                value={tag}
-                handleOnClick={() => {
-                  setTag(tag, 'styleTags')
-                }}
-                checked={currentTags.styleTags.includes(tag)}
-              />
-            ))}
-        </SelectorsWrapper>
+          <SelectorsWrapper>
+            {isStyles &&
+              stylesData?.map((tag, index) => (
+                <Selector
+                  key={index}
+                  value={tag}
+                  handleOnClick={() => {
+                    setTag(tag, 'styleTags')
+                  }}
+                  checked={currentTags.styleTags.includes(tag)}
+                />
+              ))}
+          </SelectorsWrapper>
+        </SelectorsRow>
         <Error>
           {errors?.coverDescription && (
             <p>{errors?.coverDescription?.message || 'error'}</p>
           )}
         </Error>
 
-        <InputWrapper>
-          <label htmlFor="">
-            Lo-fi{' '}
-            <InputRadio
-              id="hi-fi"
-              value="true"
-              checked
-              {...register('isLoFi')}
-            />
-          </label>
-
-          <label>
+        <RadioButtonsWrappers>
+          <RadioLabel>
+            <InputRadio {...register('isLoFi')} value="true" checked />
+            Lo-Fi
+          </RadioLabel>
+          <RadioLabel>
+            <InputRadio {...register('isLoFi')} value="false" />
             Hi-Fi
-            <InputRadio id="hi-fi" value="false" {...register('isLoFi')} />
-          </label>
-        </InputWrapper>
-        <button type="submit">
-          {isValid ? <Arrow /> : <Arrow style={{ opacity: '0.1' }} />}
-        </button>
-      </SForm>
+          </RadioLabel>
+        </RadioButtonsWrappers>
+
+        <ArrowButton />
+      </STrackForm>
 
       {/* <ul>
         {Object.keys(formState).map(row => (
           <li>{`${row}: ${formState[row]}`}</li>
         ))}
       </ul> */}
-    </FormWrapper>
+    </StyledCard>
   )
 }
 

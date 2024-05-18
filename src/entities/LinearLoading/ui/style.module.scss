@@ -1,30 +1,41 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 25px;
-    min-height: 50vh;
-}
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 35px;
+  min-height: 50vh;
 
-h2 {
-    text-align: start;
-    line-height: 25.14px;
-    font-size: 1.25rem;
-    font-weight: 600;
+  h2{
+    animation: pulse 2s ease-in-out infinite;
+  }
 }
 
 .frame {
-    position: relative;
-    display: flex;
-    width: 41.25rem;
-    align-content: center;
-    justify-content: center;
-    padding: 37px 40px;
-    border-radius: 9px;
-    box-sizing: border-box;
-    background: #fff;
-    box-shadow:
-        inset 0 4px 1px 0 rgba(0, 0, 0, 0.03),
-        0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  position: relative;
+  display: flex;
+  border-radius: 15px;
+  padding: 35px;
+  width: 41.25rem;
+  align-content: center;
+  justify-content: center;
+  padding: 37px 40px;
+  border-radius: 15px;
+  box-sizing: border-box;
+  background: var(--background-color);
+  box-shadow: var(--shadow-card)
+}
+
+@keyframes pulse{
+  0% {
+    opacity: 1;
+  }
+  60% {
+    
+    opacity: 0.6;
+  }
+  100% {
+    
+    opacity: 1;
+  }
 }
