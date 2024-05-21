@@ -55,3 +55,24 @@ export interface PlaylistResponse {
   hiFiGenerationsLeft: number
   loFiGenerationsLeft: number
 }
+
+export type Covers = (TrackCover | PlaylistCover)[]
+
+export interface TrackCover {
+  id: number
+  created: string
+  link: string
+  isLoFi: boolean
+  prompt: string
+  isSaved: boolean
+}
+export interface PlaylistCover {
+  id: number
+  created: string
+  link: string
+  prompt: string
+  isAbstract: boolean
+  isLoFi: boolean
+  isSaved: boolean
+  vibe: Vibe
+}

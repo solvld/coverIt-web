@@ -1,5 +1,4 @@
 import s from './style.module.scss'
-import wolf from 'shared/assets/images/image1.png'
 import { songs } from 'shared/mocks/songs'
 import AddCircle from 'shared/assets/images/add-circle.svg?react'
 import Regenerate from 'shared/assets/images/regenerate.svg?react'
@@ -8,6 +7,8 @@ import Shared from 'shared/assets/images/shared.svg?react'
 import Play from 'shared/assets/images/play.svg?react'
 import styled from 'styled-components'
 import { Button } from 'shared/ui/Button'
+import { ImageSlider } from 'features/imageSlider'
+import { covers } from 'shared/mocks/covers'
 
 const SongsList = styled.ol`
   list-style-position: inside;
@@ -27,7 +28,7 @@ export const GeneratedCard = () => {
     <section className={s.page}>
       <div className={s.card}>
         <div className={s.main}>
-          <img src={wolf} alt="Wolf" />
+          <ImageSlider covers={covers} />
           <div>
             <h2>Lol music list</h2>
             <div className={s.actions}>
