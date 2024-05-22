@@ -1,4 +1,5 @@
 export const vibes = [
+  { value: null, label: '--' },
   { value: 'DANCING_FLOOR', label: 'Dancing floor' },
   { value: 'NATURE_DOES_NOT_CARE', label: "Nature doesn't care" },
   { value: 'BREAKING_DOWN', label: 'Breaking down' },
