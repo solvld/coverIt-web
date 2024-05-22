@@ -5,7 +5,7 @@ const URL = import.meta.env.VITE_API_URL
 const token = localStorage.getItem('token')
 
 const generateInstance = axios.create({
-  baseURL: `${URL}/cover/track`,
+  baseURL: `${URL}/cover/release`,
 })
 
 interface GenerateTrackResponse {

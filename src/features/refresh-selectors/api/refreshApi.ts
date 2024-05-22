@@ -3,7 +3,7 @@ import axios from 'axios'
 const URL = import.meta.env.VITE_API_URL
 
 const refreshInstance = axios.create({
-  baseURL: `${URL}/cover/track/generate`,
+  baseURL: `${URL}/cover/release/generate`,
 })
 
 export type QueryParams = 'mood' | 'style'

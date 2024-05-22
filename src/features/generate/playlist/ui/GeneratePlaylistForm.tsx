@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { LinearLoading } from 'entities/LinearLoading'
+// import { useState } from 'react'
+// import { LinearLoading } from 'entities/LinearLoading'
 import { InputRadio } from 'shared/ui/InputRadio'
 import Select from 'react-select'
 import { vibes } from '../lib/vibes'
@@ -14,59 +14,81 @@ import {
   StyledInput,
   Title,
   VerticalBar,
+  Error,
+  Label,
 } from 'shared/ui/form'
+import { PlaylistInputs } from 'shared/types/generate'
 
-interface PlaylistInputs {
-  link: string
-  vibe: { label: string; value: string }
-  isAbstract: boolean
-  isLoFi: boolean
+interface PlaylistForm {
+  generateCover(data: PlaylistInputs): void
 }
-const GeneratePlaylistForm = () => {
-  const [isLoading, setIsLoading] = useState(false)
+
+const GeneratePlaylistForm = ({ generateCover }: PlaylistForm) => {
+  // const [isLoading, setIsLoading] = useState(false)
 
   const {
     register,
     handleSubmit,
     control,
-    // formState: { errors },
+    formState: { errors },
   } = useForm<PlaylistInputs>({
     mode: 'onTouched',
   })
 
   const onSubmit = (data: PlaylistInputs) => {
-    alert(JSON.stringify({ ...data, vibe: data.vibe.value }))
-    setIsLoading(true)
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 5000)
+    console.log({ ...data, vibe: data.vibe.value })
+    const formatData = {
+      ...data,
+      isLoFi: data.isLoFi === 'true',
+      isAbstract: data.isAbstract === 'true',
+    }
+    generateCover(formatData)
+    // setIsLoading(true)
+    // setTimeout(() => {
+    //   setIsLoading(false)
+    // }, 5000)
   }
 
-  if (isLoading) {
-    return <LinearLoading>We are cooking your cover...</LinearLoading>
-  }
+  // if (isLoading) {
+  //   return <LinearLoading>We are cooking your cover...</LinearLoading>
+  // }
 
   return (
     <StyledCard>
       <Title>Generate cover for playlist</Title>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormWrapper>
-          <StyledInput
-            {...register('link', {
-              required: true,
-            })}
-            type="url"
-            placeholder="Enter Spotify or Yandex Music playlist url..."
-          />
+          <Label>
+            <StyledInput
+              {...register('link', {
+                required: 'please enter the link',
+              })}
+              type="url"
+              placeholder="Enter Spotify or Yandex Music playlist url..."
+            />
+            <Error>
+              {errors?.link && <p>{errors?.link?.message || 'error'}</p>}
+            </Error>
+          </Label>
 
           <InputsRow>
             <RadioButtonsWrappers>
               <RadioLabel>
-                <InputRadio {...register('isAbstract')} value="true" checked />
+                <InputRadio
+                  {...register('isAbstract', {
+                    required: true,
+                  })}
+                  value="true"
+                />
                 Abstract
               </RadioLabel>
               <RadioLabel>
-                <InputRadio {...register('isAbstract')} value="false" />
+                <InputRadio
+                  {...register('isAbstract', {
+                    required: true,
+                  })}
+                  value="false"
+                />
                 Realistic
               </RadioLabel>
             </RadioButtonsWrappers>
@@ -75,11 +97,21 @@ const GeneratePlaylistForm = () => {
 
             <RadioButtonsWrappers>
               <RadioLabel>
-                <InputRadio {...register('isLoFi')} value="true" checked />
+                <InputRadio
+                  {...register('isLoFi', {
+                    required: true,
+                  })}
+                  value="true"
+                />
                 Lo-Fi
               </RadioLabel>
               <RadioLabel>
-                <InputRadio {...register('isLoFi')} value="false" />
+                <InputRadio
+                  {...register('isLoFi', {
+                    required: true,
+                  })}
+                  value="false"
+                />
                 Hi-Fi
               </RadioLabel>
             </RadioButtonsWrappers>

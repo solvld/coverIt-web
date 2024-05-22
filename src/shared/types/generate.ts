@@ -23,8 +23,9 @@ export type Vibe =
   | 'CAMPFIRE_CALMNESS'
   | 'TOUGH_AND_STRAIGHT'
   | 'ENDLESS_JOY'
+  | null
 
-export interface PlaylistResponse {
+export interface GeneratePlaylistResponse {
   id: number
   title: string
   url: string
@@ -44,16 +45,16 @@ export interface PlaylistResponse {
       authors: string
     },
   ]
-  cover: {
-    id: number
-    created: string
-    link: string
-    prompt: string
-    isAbstract: boolean
-    isLoFi: boolean
-  }
+  covers: PlaylistCover[]
   hiFiGenerationsLeft: number
   loFiGenerationsLeft: number
+}
+
+export interface PlaylistInputs {
+  link: string
+  vibe: { value: string | null; label: string }
+  isAbstract: string | boolean
+  isLoFi: string | boolean
 }
 
 export type Covers = (TrackCover | PlaylistCover)[]

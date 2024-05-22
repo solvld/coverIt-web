@@ -1,5 +1,5 @@
 import s from './style.module.scss'
-import { songs } from 'shared/mocks/songs'
+// import { songs } from 'shared/mocks/songs'
 import AddCircle from 'shared/assets/images/add-circle.svg?react'
 import Regenerate from 'shared/assets/images/regenerate.svg?react'
 import Download from 'shared/assets/images/download.svg?react'
@@ -8,7 +8,8 @@ import Play from 'shared/assets/images/play.svg?react'
 import styled from 'styled-components'
 import { Button } from 'shared/ui/Button'
 import { ImageSlider } from 'features/imageSlider'
-import { covers } from 'shared/mocks/covers'
+// import { covers } from 'shared/mocks/covers'
+import { GeneratePlaylistResponse } from 'shared/types/generate'
 
 const SongsList = styled.ol`
   list-style-position: inside;
@@ -22,20 +23,23 @@ const SongsList = styled.ol`
     }
   }
 `
+interface PlaylistCardProps {
+  response: GeneratePlaylistResponse
+}
 
-export const GeneratedCard = () => {
+export const GeneratedCard = ({ response }: PlaylistCardProps) => {
   return (
     <section className={s.page}>
       <div className={s.card}>
         <div className={s.main}>
-          <ImageSlider covers={covers} />
+          <ImageSlider covers={response.covers} />
           <div>
-            <h2>Lol music list</h2>
+            <h2>{response?.title}</h2>
             <div className={s.actions}>
               <SongsList>
-                {songs.map((song, index) => (
+                {response?.tracks.map((song, index) => (
                   <li key={index}>
-                    {`${song.author} - `}
+                    {`${song.authors} - `}
                     <span>{song.title}</span>
                   </li>
                 ))}
