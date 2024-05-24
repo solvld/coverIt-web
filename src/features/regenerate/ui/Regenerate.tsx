@@ -1,4 +1,6 @@
+import { DetailedHTMLProps, HTMLAttributes } from 'react'
 import Reload from 'shared/assets/images/reload.svg?react'
+import { SButton } from 'shared/ui/Button'
 import styled, { keyframes } from 'styled-components'
 
 const rotate = keyframes`
@@ -9,26 +11,28 @@ const rotate = keyframes`
     transform: rotate(360deg);
   }
 `
-const RegenerateButton = styled.button<{ $isActive: boolean }>`
-  all: unset;
-  cursor: pointer;
-  /* margin-left: -36px; */
+const RegenerateButton = styled.span<{ $isActive: boolean }>`
+  margin-top: 5px;
   svg {
-    stroke: var(--primary-color);
     animation: ${props => (props.$isActive ? rotate : 'none')} 1000ms linear
       infinite;
   }
 `
-interface RegenerateProps {
-  onClick: () => void
+interface RegenerateProps
+  extends DetailedHTMLProps<
+    HTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
   isRotate: boolean
 }
 
-export default function Regenerate({ onClick, isRotate }: RegenerateProps) {
-  const handleClick = () => onClick()
+export default function Regenerate({ isRotate, ...props }: RegenerateProps) {
   return (
-    <RegenerateButton onClick={handleClick} $isActive={isRotate}>
-      <Reload />
-    </RegenerateButton>
+    <SButton {...props}>
+      <RegenerateButton $isActive={isRotate}>
+        <Reload />
+      </RegenerateButton>
+      Regenerate
+    </SButton>
   )
 }

@@ -25,6 +25,14 @@ export type Vibe =
   | 'ENDLESS_JOY'
   | null
 
+export interface Author {
+  id: number
+  username: string
+  email: string
+  loFiPlaylistGenerations: number
+  hiFiPlaylistGenerations: number
+}
+
 export interface GeneratePlaylistResponse {
   id: number
   title: string
@@ -32,13 +40,7 @@ export interface GeneratePlaylistResponse {
   vibe: Vibe
   isPrivate: boolean
   isSaved: boolean
-  author: {
-    id: number
-    username: string
-    email: string
-    loFiPlaylistGenerations: number
-    hiFiPlaylistGenerations: number
-  }
+  author: Author
   tracks: {
     title: string
     authors: string
@@ -54,6 +56,21 @@ export interface PlaylistInputs {
   vibe: { value: string | null; label: string }
   isAbstract: string | boolean
   isLoFi: string | boolean
+}
+
+export type PlaylistId = number
+
+export interface RegeneratePlaylistInputs extends Omit<PlaylistInputs, 'link'> {
+  playlistId: number
+}
+
+export interface RegeneratePlaylistResponse {
+  id: number
+  covers: PlaylistCover[]
+  vibe: Vibe
+  author: Author
+  hiFiGenerationsLeft: number
+  loFiGenerationsLeft: number
 }
 
 export type Covers = (TrackCover | PlaylistCover)[]

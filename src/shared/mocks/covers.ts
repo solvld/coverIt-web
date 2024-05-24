@@ -49,7 +49,7 @@ export const covers: PlaylistCover[] = [
 ]
 
 export const playlistResMock: GeneratePlaylistResponse = {
-  id: 0,
+  id: 1,
   title: 'Lol music list',
   url: 'https://open.spotify.com/playlist/5knWMCgLUxEa73cHuuDqa1?si=g_m2S2WVQMGWCEh1U9LYeg&pi=e-fqvAWblPSeWd&nd=1&dlsi=a8da63adf5b84812',
   vibe: 'DANCING_FLOOR',
