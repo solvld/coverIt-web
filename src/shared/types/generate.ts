@@ -39,12 +39,11 @@ export interface GeneratePlaylistResponse {
     loFiPlaylistGenerations: number
     hiFiPlaylistGenerations: number
   }
-  tracks: [
-    {
-      title: string
-      authors: string
-    },
-  ]
+  tracks: {
+    title: string
+    authors: string
+  }[]
+
   covers: PlaylistCover[]
   hiFiGenerationsLeft: number
   loFiGenerationsLeft: number

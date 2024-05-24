@@ -30,7 +30,7 @@ const GeneratePlaylistForm = ({ generateCover }: PlaylistForm) => {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<PlaylistInputs>({
     mode: 'onTouched',
   })
@@ -61,7 +61,7 @@ const GeneratePlaylistForm = ({ generateCover }: PlaylistForm) => {
           <Label>
             <StyledInput
               {...register('link', {
-                required: 'please enter the link',
+                required: 'Please enter the link',
               })}
               type="url"
               placeholder="Enter Spotify or Yandex Music playlist url..."
@@ -118,11 +118,13 @@ const GeneratePlaylistForm = ({ generateCover }: PlaylistForm) => {
           </InputsRow>
           <Controller
             control={control}
-            name="vibe"
+            {...register('vibe', {
+              required: true,
+            })}
             render={({ field }) => (
               <Select
                 {...field}
-                placeholder="Choose Vibe"
+                placeholder="Vibe"
                 options={vibes}
                 className="react-select-container"
                 classNamePrefix="custom-select"
@@ -130,8 +132,13 @@ const GeneratePlaylistForm = ({ generateCover }: PlaylistForm) => {
             )}
           />
         </FormWrapper>
+        <Error>
+          {(errors?.isLoFi || errors?.isAbstract || errors?.vibe) && (
+            <p>Please select params</p>
+          )}
+        </Error>
 
-        <ArrowButton />
+        <ArrowButton isDisabled={isValid} />
       </form>
     </StyledCard>
   )
