@@ -16,7 +16,7 @@ import {
 const SignUpForm = () => {
   const {
     register,
-    formState: { errors },
+    formState: { errors, isValid },
     handleSubmit,
   } = useForm<SignUpInputs>({
     mode: 'onTouched',
@@ -97,7 +97,11 @@ const SignUpForm = () => {
           </Label>
         </FormContent>
 
-        {isPending ? <ArrowButton disabled /> : <ArrowButton />}
+        {isPending ? (
+          <ArrowButton disabled />
+        ) : (
+          <ArrowButton isDisabled={isValid} />
+        )}
       </form>
     </StyledCard>
   )

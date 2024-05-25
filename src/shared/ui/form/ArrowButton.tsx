@@ -3,7 +3,7 @@ import Arrow from 'shared/assets/images/arrow-next.svg?react'
 
 interface ArrowButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  isDisabled: boolean
+  isDisabled?: boolean
 }
 
 const StyledButton = styled.button<{ $isDisabled?: boolean }>`
