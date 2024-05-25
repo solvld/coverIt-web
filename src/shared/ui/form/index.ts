@@ -11,6 +11,7 @@ import {
   Error,
   STrackForm,
   Label,
+  FormContent,
 } from './styledForm'
 
 export {
@@ -26,4 +27,5 @@ export {
   Error,
   STrackForm,
   Label,
+  FormContent,
 }
