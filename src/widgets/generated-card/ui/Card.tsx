@@ -5,40 +5,29 @@ import Shared from 'shared/assets/images/shared.svg?react'
 import Play from 'shared/assets/images/play.svg?react'
 import { Button } from 'shared/ui/Button'
 import { ImageSlider } from 'features/imageSlider'
-import { GeneratePlaylistResponse } from 'shared/types/generate'
+import { GeneratePlaylistResponse, PlaylistCover } from 'shared/types/generate'
 import { Title } from 'shared/ui/form'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Regenerate } from 'features/regenerate'
-import { useRegeneratePlaylist } from 'features/generate/playlist/api/generateQuery'
 
 interface PlaylistCardProps {
   response: GeneratePlaylistResponse
+  coverImages: PlaylistCover[]
+  setPopupActive?(state: boolean): void
+  isPending?: boolean
 }
 
-export const GeneratedCard = ({ response }: PlaylistCardProps) => {
+export const GeneratedCard = ({
+  response,
+  coverImages,
+  setPopupActive,
+  isPending = false,
+}: PlaylistCardProps) => {
   const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
-  const [coverImages, setCoverImages] = useState(response.covers)
-
-  const {
-    mutate: regeneratePlaylist,
-    isPending,
-    isSuccess,
-    data: regeneratedCovers,
-  } = useRegeneratePlaylist()
-
-  useEffect(() => {
-    if (isSuccess) {
-      setCoverImages(regeneratedCovers.covers)
-    }
-  }, [isSuccess, regeneratedCovers])
-
   const handleRegenerate = () => {
-    regeneratePlaylist({
-      playlistId: response.id,
-      isAbstract: true,
-      isLoFi: true,
-      vibe: { label: 'label', value: 'DANCING_FLOOR' },
-    })
+    if (setPopupActive) {
+      setPopupActive(true)
+    }
   }
 
   return (

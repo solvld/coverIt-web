@@ -10,7 +10,7 @@ export const StyledCard = styled.div`
   border-radius: 0.75rem; /* 15px */
   padding: 1.6rem; /* 35px */
   min-width: 28.6rem; /* 610px */
-  height: 100%;
+  /* height: 100%; */
   box-shadow: var(--shadow-card);
   background: var(--background-color);
   margin-bottom: 2rem;
