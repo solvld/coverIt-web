@@ -25,10 +25,10 @@ export const router = createBrowserRouter(
       <Route path="generate">
         <Route index element={<Generate />} />
         <Route path="playlist" element={<GeneratePlaylist />} />
-        <Route path="playlist/card/:id" element={<PlaylistCard />} />
         <Route path="track" element={<GenerateTrack />} />
         <Route path="playlist/card/:id" element={<></>} />
       </Route>
+      <Route path="playlist/card/:id" element={<PlaylistCard />} />
       <Route path="profile" element={<Profile />} />
       <Route path="sign-in" element={<LogIn />} />
       <Route path="sign-up" element={<SignUp />} />

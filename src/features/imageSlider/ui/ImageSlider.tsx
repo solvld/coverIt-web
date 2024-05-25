@@ -4,16 +4,17 @@ import styled from 'styled-components'
 
 interface ImageSliderProps extends HTMLAttributes<HTMLElement> {
   covers: Covers
+  setCurrentCover?(index: number): void
 }
 
 const Slider = styled.div`
-  width: 32rem;
-  height: 32rem;
+  width: 24rem;
+  height: 24rem;
   position: relative;
 `
 const Slide = styled.img`
-  width: 32rem;
-  height: 32rem;
+  width: 24rem;
+  height: 24rem;
   border-radius: 0.5rem;
 `
 const RightButton = styled.button`
@@ -36,7 +37,6 @@ const LeftButton = styled.button`
   all: unset;
   position: absolute;
   top: 50%;
-  /* transform: translate(0, -50%); */
   left: 0.5rem;
   font-size: 60px;
   opacity: 0.1;
@@ -49,7 +49,7 @@ const LeftButton = styled.button`
   }
 `
 
-const ImageSlider = ({ covers }: ImageSliderProps) => {
+const ImageSlider = ({ covers, setCurrentCover }: ImageSliderProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isButtonHide, setIsButtonHide] = useState(true)
 
@@ -63,11 +63,17 @@ const ImageSlider = ({ covers }: ImageSliderProps) => {
     const isFirstSlide = currentIndex === 0
     const newIndex = isFirstSlide ? covers.length - 1 : currentIndex - 1
     setCurrentIndex(newIndex)
+    if (setCurrentCover) {
+      setCurrentCover(newIndex)
+    }
   }
   const goToNext = () => {
     const isLastSlide = currentIndex === covers.length - 1
     const newIndex = isLastSlide ? 0 : currentIndex + 1
     setCurrentIndex(newIndex)
+    if (setCurrentCover) {
+      setCurrentCover(newIndex)
+    }
   }
 
   return (

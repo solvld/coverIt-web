@@ -1,49 +1,54 @@
 import s from './style.module.scss'
-// import { songs } from 'shared/mocks/songs'
 import AddCircle from 'shared/assets/images/add-circle.svg?react'
-import Regenerate from 'shared/assets/images/regenerate.svg?react'
 import Download from 'shared/assets/images/download.svg?react'
 import Shared from 'shared/assets/images/shared.svg?react'
 import Play from 'shared/assets/images/play.svg?react'
-import styled from 'styled-components'
 import { Button } from 'shared/ui/Button'
 import { ImageSlider } from 'features/imageSlider'
-// import { covers } from 'shared/mocks/covers'
-import { GeneratePlaylistResponse } from 'shared/types/generate'
+import { GeneratePlaylistResponse, PlaylistCover } from 'shared/types/generate'
+import { Title } from 'shared/ui/form'
+import { useState } from 'react'
+import { Regenerate } from 'features/regenerate'
 
-const SongsList = styled.ol`
-  list-style-position: inside;
-  li {
-    font-size: 20px;
-    line-height: 32px;
-    list-style-type: decimal;
-    color: var(--gray1);
-    span {
-      color: var(--black);
-    }
-  }
-`
 interface PlaylistCardProps {
   response: GeneratePlaylistResponse
+  coverImages: PlaylistCover[]
+  setPopupActive?(state: boolean): void
+  isPending?: boolean
 }
 
-export const GeneratedCard = ({ response }: PlaylistCardProps) => {
+export const GeneratedCard = ({
+  response,
+  coverImages,
+  setPopupActive,
+  isPending = false,
+}: PlaylistCardProps) => {
+  const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
+  const handleRegenerate = () => {
+    if (setPopupActive) {
+      setPopupActive(true)
+    }
+  }
+
   return (
     <section className={s.page}>
       <div className={s.card}>
         <div className={s.main}>
-          <ImageSlider covers={response.covers} />
+          <ImageSlider
+            setCurrentCover={setCurrentCoverIndex}
+            covers={coverImages}
+          />
           <div>
-            <h2>{response?.title}</h2>
+            <Title>{response?.title}</Title>
             <div className={s.actions}>
-              <SongsList>
+              <ol className={s.playlist}>
                 {response?.tracks.map((song, index) => (
                   <li key={index}>
                     {`${song.authors} - `}
                     <span>{song.title}</span>
                   </li>
                 ))}
-              </SongsList>
+              </ol>
             </div>
           </div>
         </div>
@@ -53,23 +58,27 @@ export const GeneratedCard = ({ response }: PlaylistCardProps) => {
               <AddCircle />
               Save
             </Button>
-            <Button>
-              <Regenerate />
-              Regenerate
-            </Button>
+            <Regenerate onClick={handleRegenerate} isRotate={isPending} />
           </div>
           <div>
             <Button>
-              <Download />
-              Download
+              <a
+                href={response.covers[currentCoverIndex].link}
+                download={`${response.title}_${currentCoverIndex}.jpeg`}
+              >
+                <Download />
+                Download
+              </a>
             </Button>
             <Button>
               <Shared />
-              Shared
+              Share
             </Button>
             <Button>
-              <Play />
-              Play
+              <a href={response.url} target="_blank">
+                <Play />
+                Play
+              </a>
             </Button>
           </div>
         </div>

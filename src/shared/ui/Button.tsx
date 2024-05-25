@@ -7,18 +7,40 @@ export const SButton = styled.button`
   flex-shrink: 0;
   background-color: var(--gray0);
   color: var(--black);
-  padding: 15px 25px;
-  border-radius: 55px;
+  padding: 0.75rem 1.125rem;
+  border-radius: 2.5rem;
   border: none;
   font-weight: 600;
-  font-size: 24px;
+  font-size: 1.125rem;
   line-height: 108%;
   align-items: center;
-  gap: 20px;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
   svg {
     stroke: var(--black);
-    height: 22px;
-    width: 22px;
+    height: 1rem;
+    width: 1rem;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &:hover {
+    background-color: var(--primary-color);
+    color: var(--gray0);
+    svg {
+      stroke: var(--gray0);
+    }
+    a {
+      color: var(--gray0);
+    }
+  }
+  &:active {
+    opacity: 0.8;
   }
 `
 interface ButtonProps

@@ -1,4 +1,4 @@
-import GeneratePlaylistForm from 'features/generate/playlist'
+import { GeneratePlaylistForm } from 'features/generate/playlist'
 import { StyledPage } from 'shared/ui/StyledPage'
 
 import { LinearLoading } from 'entities/LinearLoading'
@@ -26,7 +26,7 @@ const Page = () => {
     return (
       <StyledPage>
         {isPending ? (
-          <LinearLoading>We are cooking your track...</LinearLoading>
+          <LinearLoading>We are cooking your cover...</LinearLoading>
         ) : (
           <GeneratePlaylistForm generateCover={mutate} />
         )}
@@ -38,7 +38,12 @@ const Page = () => {
   if (isCardActive) {
     return (
       <StyledPage>
-        {isSuccess && <GeneratedCard response={playlistCoverData} />}
+        {isSuccess && (
+          <GeneratedCard
+            coverImages={playlistCoverData.covers}
+            response={playlistCoverData}
+          />
+        )}
         <ToasterOnError />
       </StyledPage>
     )

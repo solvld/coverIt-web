@@ -29,7 +29,7 @@ const Form = ({ generateTrack }: GenerateTrackFormProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
     // reset,
   } = useForm<TrackInputs>({
@@ -209,7 +209,7 @@ const Form = ({ generateTrack }: GenerateTrackFormProps) => {
           </RadioLabel>
         </RadioButtonsWrappers>
 
-        <ArrowButton />
+        <ArrowButton isDisabled={isValid} />
       </STrackForm>
 
       {/* <ul>

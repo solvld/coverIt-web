@@ -1,5 +1,3 @@
-// import { useState } from 'react'
-// import { LinearLoading } from 'entities/LinearLoading'
 import { InputRadio } from 'shared/ui/InputRadio'
 import Select from 'react-select'
 import { vibes } from '../lib/vibes'
@@ -11,66 +9,51 @@ import {
   RadioButtonsWrappers,
   RadioLabel,
   StyledCard,
-  StyledInput,
   Title,
   VerticalBar,
   Error,
-  Label,
 } from 'shared/ui/form'
-import { PlaylistInputs } from 'shared/types/generate'
+import { RegeneratePlaylistInputs } from 'shared/types/generate'
 
 interface PlaylistForm {
-  generateCover(data: PlaylistInputs): void
+  regenerateCover?(data: RegeneratePlaylistInputs): void
+  setPopupActive(state: boolean): void
 }
 
-const GeneratePlaylistForm = ({ generateCover }: PlaylistForm) => {
-  // const [isLoading, setIsLoading] = useState(false)
-
+export const RegeneratePlaylistForm = ({
+  regenerateCover,
+  setPopupActive,
+}: PlaylistForm) => {
   const {
     register,
     handleSubmit,
     control,
     formState: { errors, isValid },
-  } = useForm<PlaylistInputs>({
+  } = useForm<RegeneratePlaylistInputs>({
     mode: 'onTouched',
   })
 
-  const onSubmit = (data: PlaylistInputs) => {
+  const onSubmit = (data: RegeneratePlaylistInputs) => {
     console.log({ ...data, vibe: data.vibe.value })
     const formatData = {
       ...data,
       isLoFi: data.isLoFi === 'true',
       isAbstract: data.isAbstract === 'true',
+      //Заменить на текущий айдишник
+      playlistId: 1,
     }
-    generateCover(formatData)
-    // setIsLoading(true)
-    // setTimeout(() => {
-    //   setIsLoading(false)
-    // }, 5000)
+    if (setPopupActive && regenerateCover) {
+      // alert(JSON.stringify(formatData))
+      regenerateCover(formatData)
+      setPopupActive(false)
+    }
   }
-
-  // if (isLoading) {
-  //   return <LinearLoading>We are cooking your cover...</LinearLoading>
-  // }
 
   return (
     <StyledCard>
-      <Title>Generate cover for playlist</Title>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <Title>Regenerate playlist</Title>
+      <form onSubmit={handleSubmit(onSubmit)} style={{ paddingTop: '1.4rem' }}>
         <FormWrapper>
-          <Label>
-            <StyledInput
-              {...register('link', {
-                required: 'Please enter the link',
-              })}
-              type="url"
-              placeholder="Enter Spotify or Yandex Music playlist url..."
-            />
-            <Error>
-              {errors?.link && <p>{errors?.link?.message || 'error'}</p>}
-            </Error>
-          </Label>
-
           <InputsRow>
             <RadioButtonsWrappers>
               <RadioLabel>
@@ -143,5 +126,3 @@ const GeneratePlaylistForm = ({ generateCover }: PlaylistForm) => {
     </StyledCard>
   )
 }
-
-export default GeneratePlaylistForm
