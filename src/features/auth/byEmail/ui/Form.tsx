@@ -14,7 +14,7 @@ import {
   StyledInput,
 } from 'shared/ui/form'
 import styled from 'styled-components'
-import { LinkButton } from 'shared/ui/LinkButton'
+import { Button } from 'shared/ui/Button'
 
 const LinkRow = styled.div`
   display: flex;
@@ -74,9 +74,9 @@ const LoginForm = () => {
           </Label>
         </FormContent>
         <LinkRow>
-          <LinkButton>
+          <Button>
             <Link to={'/sign-up'}>Create an account</Link>
-          </LinkButton>
+          </Button>
 
           {isPending ? (
             <ArrowButton disabled />
