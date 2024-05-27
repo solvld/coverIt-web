@@ -1,19 +1,19 @@
 import { useMutation } from '@tanstack/react-query'
-import { generateTrackQuery, regenerateTrackQuery } from './generateApi'
+import { generatePlaylistQuery, regeneratePlaylistQuery } from './generateApi'
 import { queryError } from 'shared/lib/queryError'
 
-export const useGenerateTrack = () => {
+export const useGeneratePlaylist = () => {
   return useMutation({
-    mutationFn: generateTrackQuery,
+    mutationFn: generatePlaylistQuery,
 
     onError(error) {
       queryError(error)
     },
   })
 }
-export const useRegenerateTrack = () => {
+export const useRegeneratePlaylist = () => {
   return useMutation({
-    mutationFn: regenerateTrackQuery,
+    mutationFn: regeneratePlaylistQuery,
 
     onError(error) {
       queryError(error)

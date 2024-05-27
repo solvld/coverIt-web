@@ -17,10 +17,10 @@ const RefreshButton = styled.button<{ $isActive: boolean }>`
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  margin: 1rem 0;
-  height: 52px;
-  width: 52px;
-  border-radius: 55px;
+  margin: 0.75rem 0;
+  height: 2.45rem;
+  width: 2.45rem;
+  border-radius: 2.5rem;
   background-color: var(--gray0);
   svg {
     animation: ${props => (props.$isActive ? rotate : 'none')} 750ms linear
@@ -38,7 +38,7 @@ export const RefreshSelectors = ({ onClick }: RefreshSelectorsProps) => {
     onClick()
     setTimeout(() => {
       setIsActive(false)
-    }, 1500)
+    }, 750)
   }
   return (
     <RefreshButton type="button" $isActive={isActive} onClick={handleClick}>

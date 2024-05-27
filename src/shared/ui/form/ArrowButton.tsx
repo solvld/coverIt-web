@@ -2,15 +2,18 @@ import styled from 'styled-components'
 import Arrow from 'shared/assets/images/arrow-next.svg?react'
 
 interface ArrowButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  isDisabled?: boolean
+}
 
-const StyledButton = styled.button`
+const StyledButton = styled.button<{ $isDisabled?: boolean }>`
   all: unset;
   cursor: pointer;
-  height: 56px;
-  width: 56px;
+  height: 2.625rem;
+  width: 2.625rem;
   border-radius: 50%;
-  background-color: var(--gray0);
+  background-color: ${props =>
+    props.$isDisabled ? 'var(--gray0)' : 'var(--gray1)'};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,14 +22,19 @@ const StyledButton = styled.button`
   margin-left: auto;
 
   svg {
-    fill: var(--black);
+    fill: ${props =>
+      props.$isDisabled ? 'var(--black)' : 'var(--gray-disabled)'};
     transition: all 0.5s;
+    height: 1rem;
+    width: 1.265rem;
   }
 
   &:hover {
-    background-color: var(--primary-color);
+    background-color: ${props =>
+      props.$isDisabled ? 'var(--primary-color)' : 'var(--gray1)'};
     svg {
-      fill: var(--gray0);
+      fill: ${props =>
+        props.$isDisabled ? 'var(--gray0)' : 'var(--gray-disabled)'};
     }
   }
   &:disabled {
@@ -40,9 +48,9 @@ const StyledButton = styled.button`
     opacity: 0.7;
   }
 `
-export default function ArrowButton({ ...rest }: ArrowButtonProps) {
+export default function ArrowButton({ isDisabled, ...rest }: ArrowButtonProps) {
   return (
-    <StyledButton type="submit" {...rest}>
+    <StyledButton type="submit" $isDisabled={isDisabled} {...rest}>
       <Arrow />
     </StyledButton>
   )

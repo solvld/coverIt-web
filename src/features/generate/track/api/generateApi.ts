@@ -5,7 +5,7 @@ const URL = import.meta.env.VITE_API_URL
 const token = localStorage.getItem('token')
 
 const generateInstance = axios.create({
-  baseURL: `${URL}/cover/track`,
+  baseURL: `${URL}/cover/release`,
 })
 
 interface GenerateTrackResponse {
@@ -18,16 +18,41 @@ interface GenerateTrackResponse {
     hiFiReleaseGenerations: number
     loFiReleaseGenerations: number
   }
-  cover: {
+  covers: {
+    id: number
+    created: string
     link: string
-    isLoFi: boolean
-  }
+    isLoFi: true
+    prompt: string
+    isSaved: boolean
+  }[]
   createdAt: string
 }
 
 export const generateTrackQuery = async (inputs: TrackBody) => {
   return (
     await generateInstance.post<GenerateTrackResponse>('/generate', inputs, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  ).data
+}
+
+interface RegenerateTrackBody extends TrackBody {
+  releaseId: number
+}
+
+export const regenerateTrackQuery = async (inputs: RegenerateTrackBody) => {
+  const body = {
+    title: inputs.title,
+    mood: inputs.mood,
+    object: inputs.object,
+    surrounding: inputs.surrounding,
+    isLoFi: inputs.isLoFi,
+    coverDescription: inputs.coverDescription,
+  }
+  return (
+    await generateInstance.patch<GenerateTrackResponse>('/regenerate', body, {
+      params: { release_id: inputs.releaseId },
       headers: { Authorization: `Bearer ${token}` },
     })
   ).data

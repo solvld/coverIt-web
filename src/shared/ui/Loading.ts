@@ -53,7 +53,7 @@ const Loading = styled.div`
     left: 0;
     width: 0;
     height: 100%;
-    border-radius: 15px;
+    border-radius: 0.75rem;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     animation: ${load} 5s infinite;
   }

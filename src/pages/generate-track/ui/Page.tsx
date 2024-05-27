@@ -39,8 +39,9 @@ const Page = () => {
       <StyledPage>
         {isSuccess && (
           <TrackCard
-            coverLink={trackCoverData?.cover?.link}
+            covers={trackCoverData?.covers}
             setIsCardActive={setIsCardActive}
+            releaseId={trackCoverData?.id}
           />
         )}
         <ToasterOnError />

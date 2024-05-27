@@ -1,3 +1,3 @@
-import GeneratePlaylist from './ui/Page'
+import Page from './ui/Page'
 
-export default GeneratePlaylist
+export default Page

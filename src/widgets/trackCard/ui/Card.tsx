@@ -1,42 +1,30 @@
 import styled from 'styled-components'
 import Download from 'shared/assets/images/download.svg?react'
+import Edit from 'shared/assets/images/edit-image.svg?react'
 import { useTrackForm } from 'features/generate/track/model/formCollectDataSlice'
 import { useEffect, useState } from 'react'
-import { useGenerateTrack } from 'features/generate/track/api/generateQuery'
+import { useRegenerateTrack } from 'features/generate/track/api/generateQuery'
 import { Regenerate } from 'features/regenerate'
-import EditButton from './Edit'
+import { ImageSlider } from 'features/imageSlider'
+import { TrackCover } from 'shared/types/generate'
+import { Button } from 'shared/ui/Button'
+import { Title } from 'shared/ui/form'
 
-import plug from 'shared/assets/images/image1.png'
-
-const SCard = styled.section`
-  max-width: 75rem;
+const SCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  max-width: 56rem;
   width: 100%;
-  height: 42rem;
-  margin-bottom: 2rem;
-  border-radius: 9px;
-  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.25);
-  display: grid;
-  grid-template: 1fr 1fr / 32rem 1fr;
-  gap: 2rem;
-  padding: 4rem 0 2rem 4rem;
-`
-const Cover = styled.figure`
-  width: 32rem;
-  height: 32rem;
-
-  img {
-    width: 32rem;
-    height: 32rem;
-  }
-`
-const TrackTitle = styled.h3`
-  font-size: 2rem;
-  padding-top: 0.5rem;
-  padding-bottom: 1.5rem;
+  gap: 1.5rem;
+  padding: 1.65rem;
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow);
 `
 const Description = styled.div`
+  margin-top: 1.5rem;
   display: flex;
-  height: 28.5rem;
+  height: 20rem;
   flex-direction: column;
   justify-content: space-between;
   cursor: default;
@@ -63,18 +51,19 @@ const TagWrapper = styled.div`
 `
 const Actions = styled.div`
   display: flex;
-  gap: 2rem;
-  svg {
-    cursor: pointer;
-  }
+  align-items: center;
+  gap: 0.5rem;
 `
 
 interface TractCardProps {
-  coverLink: string | undefined
+  covers: TrackCover[]
+  releaseId: number
   setIsCardActive: (arg: boolean) => void
 }
-const Card = ({ coverLink, setIsCardActive }: TractCardProps) => {
-  const [image, setImage] = useState(coverLink || plug)
+const Card = ({ covers, releaseId, setIsCardActive }: TractCardProps) => {
+  const [coverImages, setCoverImages] = useState(covers)
+  const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
+
   const { title, mood, object, surrounding, coverDescription, isLoFi } =
     useTrackForm(state => state.formState)
 
@@ -83,11 +72,11 @@ const Card = ({ coverLink, setIsCardActive }: TractCardProps) => {
     isPending,
     isSuccess,
     data: newTrackImage,
-  } = useGenerateTrack()
+  } = useRegenerateTrack()
 
   useEffect(() => {
     if (isSuccess) {
-      setImage(newTrackImage?.cover.link)
+      setCoverImages(newTrackImage?.covers)
     }
   }, [isSuccess, newTrackImage])
 
@@ -99,57 +88,78 @@ const Card = ({ coverLink, setIsCardActive }: TractCardProps) => {
       surrounding: surrounding,
       coverDescription: coverDescription.split(','),
       isLoFi: isLoFi === 'true',
+      releaseId: releaseId,
     })
   }
 
   return (
-    <SCard>
-      <Cover>
-        <img src={image} alt="track cover" />
-      </Cover>
-      <div>
-        <TrackTitle>{title}</TrackTitle>
-        <Description>
+    <section>
+      <SCard>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            gap: '31px',
+          }}
+        >
+          <ImageSlider
+            covers={coverImages}
+            setCurrentCover={setCurrentCoverIndex}
+          />
           <div>
-            <h4>Mood</h4>
-            <TagWrapper>
-              {mood.split(',').map((e, index) => (
-                <Tag key={index}>{e}</Tag>
-              ))}
-            </TagWrapper>
+            <Title>{title}</Title>
+            <Description>
+              <div>
+                <h4>Mood</h4>
+                <TagWrapper>
+                  {mood.split(',').map((e, index) => (
+                    <Tag key={index}>{e}</Tag>
+                  ))}
+                </TagWrapper>
+              </div>
+
+              <div>
+                <h4>Object / action</h4>
+                <p>{object}</p>
+              </div>
+
+              <div>
+                <h4>Surrounding</h4>
+                <p>{surrounding}</p>
+              </div>
+
+              <div>
+                <h4>Style</h4>
+                <TagWrapper>
+                  {coverDescription.split(',').map((e, index) => (
+                    <Tag key={index}>{e}</Tag>
+                  ))}
+                </TagWrapper>
+              </div>
+            </Description>
           </div>
+        </div>
+        <Actions>
+          <Regenerate onClick={handleRegenerate} isRotate={isPending} />
 
-          <div>
-            <h4>Object / action</h4>
-            <p>{object}</p>
-          </div>
+          <Button onClick={() => setIsCardActive(false)}>
+            <Edit />
+            Edit
+          </Button>
 
-          <div>
-            <h4>Surrounding</h4>
-            <p>{surrounding}</p>
-          </div>
-
-          <div>
-            <h4>Style</h4>
-            <TagWrapper>
-              {coverDescription.split(',').map((e, index) => (
-                <Tag key={index}>{e}</Tag>
-              ))}
-            </TagWrapper>
-          </div>
-        </Description>
-      </div>
-
-      <Actions>
-        <Regenerate onClick={handleRegenerate} isRotate={isPending} />
-
-        <EditButton onClick={() => setIsCardActive(false)} />
-
-        <a href={image} target="_blank" download={`Cover.png`}>
-          <Download />
-        </a>
-      </Actions>
-    </SCard>
+          <Button>
+            <a
+              href={coverImages[currentCoverIndex].link}
+              download={`${title}_${currentCoverIndex}.jpeg`}
+              target="_balnk"
+            >
+              <Download />
+              Download
+            </a>
+          </Button>
+        </Actions>
+      </SCard>
+    </section>
   )
 }
 
