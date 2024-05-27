@@ -65,6 +65,7 @@ export const GeneratedCard = ({
               <a
                 href={response.covers[currentCoverIndex].link}
                 download={`${response.title}_${currentCoverIndex}.jpeg`}
+                target="_balnk"
               >
                 <Download />
                 Download

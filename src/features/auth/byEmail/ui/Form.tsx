@@ -14,7 +14,7 @@ import {
   StyledInput,
 } from 'shared/ui/form'
 import styled from 'styled-components'
-import { LinkButton } from 'shared/ui/LinkButton'
+import { Button } from 'shared/ui/Button'
 
 const LinkRow = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ const LinkRow = styled.div`
 const LoginForm = () => {
   const {
     register,
-    formState: { errors },
+    formState: { errors, isValid },
     handleSubmit,
   } = useForm<LogInInputs>({
     mode: 'onTouched',
@@ -74,11 +74,15 @@ const LoginForm = () => {
           </Label>
         </FormContent>
         <LinkRow>
-          <LinkButton>
+          <Button>
             <Link to={'/sign-up'}>Create an account</Link>
-          </LinkButton>
+          </Button>
 
-          {isPending ? <ArrowButton disabled /> : <ArrowButton />}
+          {isPending ? (
+            <ArrowButton disabled />
+          ) : (
+            <ArrowButton isDisabled={isValid} />
+          )}
         </LinkRow>
       </form>
     </StyledCard>

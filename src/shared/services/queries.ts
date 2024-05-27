@@ -1,10 +1,8 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
-import axios from 'axios'
 import { signInQuery, signUpQuery, verifyEmailQuery } from './authApi'
-
 import { useNavigate } from 'react-router-dom'
-import { toastOnError } from 'entities/ToastOnError/ui/toastOnError'
 import { currentUserQuery } from './userApi'
+import { queryError } from 'shared/lib/queryError'
 
 export const useSignIn = () => {
   const navigate = useNavigate()
@@ -12,16 +10,7 @@ export const useSignIn = () => {
   return useMutation({
     mutationFn: signInQuery,
     onError(error) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.response?.data.message)
-        if (error.response) {
-          toastOnError(error.response?.data.message)
-        } else {
-          toastOnError('Something went wrong....')
-        }
-      } else if (error instanceof Error) {
-        console.log(error.message)
-      }
+      queryError(error)
     },
     onSuccess(data) {
       localStorage.setItem('token', data.token)
@@ -35,16 +24,7 @@ export const useSignUp = () => {
   return useMutation({
     mutationFn: signUpQuery,
     onError(error) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.response?.data.message)
-        if (error.response) {
-          toastOnError(error.response?.data.message)
-        } else {
-          toastOnError('Something went wrong....')
-        }
-      } else if (error instanceof Error) {
-        console.log(error.message)
-      }
+      queryError(error)
     },
     onSuccess() {
       navigate('/verify')
