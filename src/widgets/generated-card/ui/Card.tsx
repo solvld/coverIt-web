@@ -1,7 +1,6 @@
 import s from './style.module.scss'
 import AddCircle from 'shared/assets/images/add-circle.svg?react'
 import Download from 'shared/assets/images/download.svg?react'
-import Shared from 'shared/assets/images/shared.svg?react'
 import Play from 'shared/assets/images/play.svg?react'
 import { Button } from 'shared/ui/Button'
 import { ImageSlider } from 'features/imageSlider'
@@ -9,6 +8,7 @@ import { GeneratePlaylistResponse, PlaylistCover } from 'shared/types/generate'
 import { Title } from 'shared/ui/form'
 import { useState } from 'react'
 import { Regenerate } from 'features/regenerate'
+import { ShareButton } from 'features/shareButton'
 
 interface PlaylistCardProps {
   response: GeneratePlaylistResponse
@@ -71,10 +71,9 @@ export const GeneratedCard = ({
                 Download
               </a>
             </Button>
-            <Button>
-              <Shared />
-              Share
-            </Button>
+
+            <ShareButton />
+
             <Button>
               <a href={response.url} target="_blank">
                 <Play />
