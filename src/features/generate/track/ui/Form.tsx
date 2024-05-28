@@ -200,7 +200,7 @@ const Form = ({ generateTrack }: GenerateTrackFormProps) => {
 
         <RadioButtonsWrappers>
           <RadioLabel>
-            <InputRadio {...register('isLoFi')} value="true" checked />
+            <InputRadio {...register('isLoFi')} value="true" />
             Lo-Fi
           </RadioLabel>
           <RadioLabel>

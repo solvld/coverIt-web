@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import Download from 'shared/assets/images/download.svg?react'
 import Edit from 'shared/assets/images/edit-image.svg?react'
+import AddCircle from 'shared/assets/images/add-circle.svg?react'
 import { useTrackForm } from 'features/generate/track/model/formCollectDataSlice'
 import { useEffect, useState } from 'react'
 import { useRegenerateTrack } from 'features/generate/track/api/generateQuery'
@@ -9,6 +10,7 @@ import { ImageSlider } from 'features/imageSlider'
 import { TrackCover } from 'shared/types/generate'
 import { Button } from 'shared/ui/Button'
 import { Title } from 'shared/ui/form'
+import { Link } from 'react-router-dom'
 
 const SCard = styled.div`
   display: flex;
@@ -58,9 +60,9 @@ const Actions = styled.div`
 interface TractCardProps {
   covers: TrackCover[]
   releaseId: number
-  setIsCardActive: (arg: boolean) => void
+  setIsCardActive?: (arg: boolean) => void
 }
-const Card = ({ covers, releaseId, setIsCardActive }: TractCardProps) => {
+const Card = ({ covers, releaseId }: TractCardProps) => {
   const [coverImages, setCoverImages] = useState(covers)
   const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
 
@@ -140,11 +142,18 @@ const Card = ({ covers, releaseId, setIsCardActive }: TractCardProps) => {
           </div>
         </div>
         <Actions>
+          <Button>
+            <AddCircle />
+            Save
+          </Button>
+
           <Regenerate onClick={handleRegenerate} isRotate={isPending} />
 
-          <Button onClick={() => setIsCardActive(false)}>
-            <Edit />
-            Edit
+          <Button>
+            <Link to={'/generate/track'}>
+              <Edit />
+              Edit
+            </Link>
           </Button>
 
           <Button>
