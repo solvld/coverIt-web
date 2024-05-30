@@ -18,7 +18,7 @@ const Header = () => {
     <header className={s.header}>
       <nav>
         <NavLink to={'/'}>
-          <Logo />
+          <Logo className={s.logo} />
         </NavLink>
         <NavLink to={'/generate'} className={linkStyle}>
           generate

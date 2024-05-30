@@ -7,3 +7,5 @@ export const vibes = [
   { value: 'TOUGH_AND_STRAIGHT', label: 'Tough and straight' },
   { value: 'ENDLESS_JOY', label: 'Endless joy' },
 ]
+
+export type VibesOptions = typeof vibes

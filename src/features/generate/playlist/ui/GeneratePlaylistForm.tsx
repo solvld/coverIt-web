@@ -1,5 +1,3 @@
-// import { useState } from 'react'
-// import { LinearLoading } from 'entities/LinearLoading'
 import { InputRadio } from 'shared/ui/InputRadio'
 import Select from 'react-select'
 import { vibes } from '../lib/vibes'
@@ -24,8 +22,6 @@ interface PlaylistForm {
 }
 
 const GeneratePlaylistForm = ({ generateCover }: PlaylistForm) => {
-  // const [isLoading, setIsLoading] = useState(false)
-
   const {
     register,
     handleSubmit,
@@ -43,14 +39,17 @@ const GeneratePlaylistForm = ({ generateCover }: PlaylistForm) => {
       isAbstract: data.isAbstract === 'true',
     }
     generateCover(formatData)
-    // setIsLoading(true)
-    // setTimeout(() => {
-    //   setIsLoading(false)
-    // }, 5000)
   }
 
-  // if (isLoading) {
-  //   return <LinearLoading>We are cooking your cover...</LinearLoading>
+  const urlValidation: RegExp = new RegExp(
+    /^(https?:\/\/)?(www\.)?(open\.spotify\.com\/playlist\/)[a-zA-Z0-9]+.*$/,
+  )
+
+  // const selectStyles: StylesConfig<VibesOptions, false> = {
+  //   control: provided => ({
+  //     ...provided,
+  //     minWidth: 2,
+  //   }),
   // }
 
   return (
@@ -62,6 +61,10 @@ const GeneratePlaylistForm = ({ generateCover }: PlaylistForm) => {
             <StyledInput
               {...register('link', {
                 required: 'Please enter the link',
+                pattern: {
+                  value: urlValidation,
+                  message: 'Make sure you copied the entire URL from Spotify.',
+                },
               })}
               type="url"
               placeholder="Enter Spotify or Yandex Music playlist url..."
@@ -116,21 +119,24 @@ const GeneratePlaylistForm = ({ generateCover }: PlaylistForm) => {
               </RadioLabel>
             </RadioButtonsWrappers>
           </InputsRow>
-          <Controller
-            control={control}
-            {...register('vibe', {
-              required: true,
-            })}
-            render={({ field }) => (
-              <Select
-                {...field}
-                placeholder="Vibe"
-                options={vibes}
-                className="react-select-container"
-                classNamePrefix="custom-select"
-              />
-            )}
-          />
+          <div>
+            <Controller
+              control={control}
+              {...register('vibe', {
+                required: true,
+              })}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  placeholder="Vibe"
+                  options={vibes}
+                  className="react-select-container"
+                  classNamePrefix="custom-select"
+                  // styles={selectStyles}
+                />
+              )}
+            />
+          </div>
         </FormWrapper>
         <Error>
           {(errors?.isLoFi || errors?.isAbstract || errors?.vibe) && (
