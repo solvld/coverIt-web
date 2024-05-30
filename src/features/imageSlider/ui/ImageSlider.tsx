@@ -7,16 +7,6 @@ interface ImageSliderProps extends HTMLAttributes<HTMLElement> {
   setCurrentCover?(index: number): void
 }
 
-const Slider = styled.div`
-  width: 24rem;
-  height: 24rem;
-  position: relative;
-`
-const Slide = styled.img`
-  width: 24rem;
-  height: 24rem;
-  border-radius: 0.5rem;
-`
 const RightButton = styled.button`
   all: unset;
   position: absolute;
@@ -24,13 +14,13 @@ const RightButton = styled.button`
   /* transform: translate(0, -50%); */
   right: 0.5rem;
   font-size: 60px;
-  opacity: 0.1;
+  opacity: 0;
   cursor: pointer;
   scale: 0.6;
   transition: all 0.4s;
   &:hover {
-    opacity: 0.3;
     scale: 1;
+    color: var(--black);
   }
 `
 const LeftButton = styled.button`
@@ -39,14 +29,34 @@ const LeftButton = styled.button`
   top: 50%;
   left: 0.5rem;
   font-size: 60px;
-  opacity: 0.1;
+  opacity: 0;
+  color: var(--black);
   cursor: pointer;
   scale: 0.6;
   transition: all 0.4s;
   &:hover {
-    opacity: 0.3;
     scale: 1;
   }
+`
+const Slider = styled.div`
+  width: 24rem;
+  height: 24rem;
+  position: relative;
+  &:hover {
+    ${LeftButton} {
+      opacity: 0.7;
+      cursor: pointer;
+    }
+    ${RightButton} {
+      opacity: 0.7;
+      cursor: pointer;
+    }
+  }
+`
+const Slide = styled.img`
+  width: 24rem;
+  height: 24rem;
+  border-radius: 0.5rem;
 `
 
 const ImageSlider = ({ covers, setCurrentCover }: ImageSliderProps) => {
