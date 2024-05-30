@@ -23,8 +23,8 @@ export const generatePlaylistQuery = async (inputs: PlaylistInputs) => {
       {
         params: {
           vibe: inputs.vibe.value,
-          is_abstract: inputs.isAbstract === 'true',
-          is_lofi: inputs.isLoFi === 'true',
+          is_abstract: inputs.isAbstract,
+          is_lofi: inputs.isLoFi,
         },
         headers: {
           Authorization: token ? `Bearer ${token}` : null,

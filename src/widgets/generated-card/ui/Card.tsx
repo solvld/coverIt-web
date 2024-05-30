@@ -9,6 +9,7 @@ import { Title } from 'shared/ui/form'
 import { useState } from 'react'
 import { Regenerate } from 'features/regenerate'
 import { ShareButton } from 'features/shareButton'
+import { saveFile } from 'shared/lib/safeFile'
 
 interface PlaylistCardProps {
   response: GeneratePlaylistResponse
@@ -61,15 +62,16 @@ export const GeneratedCard = ({
             <Regenerate onClick={handleRegenerate} isRotate={isPending} />
           </div>
           <div>
-            <Button>
-              <a
-                href={response.covers[currentCoverIndex]?.link}
-                download={`${response.title}_${currentCoverIndex}.jpeg`}
-                target="_balnk"
-              >
-                <Download />
-                Download
-              </a>
+            <Button
+              onClick={() =>
+                saveFile(
+                  coverImages[currentCoverIndex]?.link,
+                  response.title.trimEnd().replace(' ', '_'),
+                )
+              }
+            >
+              <Download />
+              Download
             </Button>
 
             <ShareButton />
