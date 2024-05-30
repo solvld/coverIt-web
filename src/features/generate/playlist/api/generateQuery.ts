@@ -1,10 +1,17 @@
 import { useMutation } from '@tanstack/react-query'
 import { generatePlaylistQuery, regeneratePlaylistQuery } from './generateApi'
 import { queryError } from 'shared/lib/queryError'
+import { useNavigate } from 'react-router-dom'
 
 export const useGeneratePlaylist = () => {
+  const navigate = useNavigate()
   return useMutation({
     mutationFn: generatePlaylistQuery,
+
+    onSuccess(data) {
+      const playlistId = data.id
+      navigate(`/generate/playlist/cover/${playlistId}`)
+    },
 
     onError(error) {
       queryError(error)

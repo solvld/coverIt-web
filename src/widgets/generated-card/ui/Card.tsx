@@ -63,7 +63,7 @@ export const GeneratedCard = ({
           <div>
             <Button>
               <a
-                href={response.covers[currentCoverIndex].link}
+                href={response.covers[currentCoverIndex]?.link}
                 download={`${response.title}_${currentCoverIndex}.jpeg`}
                 target="_balnk"
               >

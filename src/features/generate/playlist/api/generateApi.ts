@@ -21,7 +21,11 @@ export const generatePlaylistQuery = async (inputs: PlaylistInputs) => {
         link: inputs.link,
       },
       {
-        params: { vibe: inputs.vibe.value, is_abstract: true, is_lofi: true },
+        params: {
+          vibe: inputs.vibe.value,
+          is_abstract: inputs.isAbstract === 'true',
+          is_lofi: inputs.isLoFi === 'true',
+        },
         headers: {
           Authorization: token ? `Bearer ${token}` : null,
           'Content-Type': 'application/json',
@@ -42,8 +46,8 @@ export const regeneratePlaylistQuery = async (
         params: {
           playlist_id: inputs.playlistId,
           vibe: inputs.vibe.value,
-          is_abstract: true,
-          is_lofi: true,
+          is_abstract: inputs.isAbstract === 'true',
+          is_lofi: inputs.isLoFi === 'true',
         },
         headers: {
           Authorization: token ? `Bearer ${token}` : null,
