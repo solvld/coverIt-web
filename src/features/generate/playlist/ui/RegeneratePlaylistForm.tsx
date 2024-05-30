@@ -14,6 +14,7 @@ import {
   Error,
 } from 'shared/ui/form'
 import { RegeneratePlaylistInputs } from 'shared/types/generate'
+import { useParams } from 'react-router-dom'
 
 interface PlaylistForm {
   regenerateCover?(data: RegeneratePlaylistInputs): void
@@ -33,14 +34,12 @@ export const RegeneratePlaylistForm = ({
     mode: 'onTouched',
   })
 
+  const { id } = useParams()
+
   const onSubmit = (data: RegeneratePlaylistInputs) => {
-    console.log({ ...data, vibe: data.vibe.value })
     const formatData = {
       ...data,
-      isLoFi: data.isLoFi === 'true',
-      isAbstract: data.isAbstract === 'true',
-      //Заменить на текущий айдишник
-      playlistId: 1,
+      playlistId: Number(id),
     }
     if (setPopupActive && regenerateCover) {
       // alert(JSON.stringify(formatData))

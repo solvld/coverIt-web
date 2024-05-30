@@ -1,7 +1,6 @@
 import s from './style.module.scss'
 import AddCircle from 'shared/assets/images/add-circle.svg?react'
 import Download from 'shared/assets/images/download.svg?react'
-import Shared from 'shared/assets/images/shared.svg?react'
 import Play from 'shared/assets/images/play.svg?react'
 import { Button } from 'shared/ui/Button'
 import { ImageSlider } from 'features/imageSlider'
@@ -9,6 +8,8 @@ import { GeneratePlaylistResponse, PlaylistCover } from 'shared/types/generate'
 import { Title } from 'shared/ui/form'
 import { useState } from 'react'
 import { Regenerate } from 'features/regenerate'
+import { ShareButton } from 'features/shareButton'
+import { saveFile } from 'shared/lib/safeFile'
 
 interface PlaylistCardProps {
   response: GeneratePlaylistResponse
@@ -61,20 +62,20 @@ export const GeneratedCard = ({
             <Regenerate onClick={handleRegenerate} isRotate={isPending} />
           </div>
           <div>
-            <Button>
-              <a
-                href={response.covers[currentCoverIndex].link}
-                download={`${response.title}_${currentCoverIndex}.jpeg`}
-                target="_balnk"
-              >
-                <Download />
-                Download
-              </a>
+            <Button
+              onClick={() =>
+                saveFile(
+                  coverImages[currentCoverIndex]?.link,
+                  response.title.trimEnd().replace(' ', '_'),
+                )
+              }
+            >
+              <Download />
+              Download
             </Button>
-            <Button>
-              <Shared />
-              Share
-            </Button>
+
+            <ShareButton />
+
             <Button>
               <a href={response.url} target="_blank">
                 <Play />

@@ -25,7 +25,7 @@ const Page = () => {
     return (
       <StyledPage>
         {isPending ? (
-          <LinearLoading>We are cooking your track...</LinearLoading>
+          <LinearLoading>We are cooking your cover...</LinearLoading>
         ) : (
           <GenerateTrackForm generateTrack={mutate} />
         )}
