@@ -2,12 +2,13 @@ import { Link, Navigate } from 'react-router-dom'
 import s from './styles.module.scss'
 import { Button } from 'shared/ui/Button'
 import { useCurrentUser } from 'shared/services/queries'
+import { useLogin } from 'features/auth/byEmail'
 
 const Page = () => {
-  // const token = localStorage.getItem('token')
-  const logOut = () => localStorage.removeItem('token')
+  const token = localStorage.getItem('token') || ''
+  const logOut = useLogin(state => state.logOut)
 
-  const { data, isSuccess } = useCurrentUser()
+  const { data, isSuccess } = useCurrentUser(token)
   let username = ''
   if (isSuccess) {
     if (data) {

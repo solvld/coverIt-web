@@ -2,18 +2,15 @@ import { Link, NavLink } from 'react-router-dom'
 import Logo from 'shared/assets/images/logo.svg?react'
 
 import s from './styles.module.scss'
-import { useState } from 'react'
 import { useCurrentUser } from 'shared/services/queries'
+import { useLogin } from 'features/auth/byEmail'
 
 const Header = () => {
-  const [isLoggedIn] = useState(() => {
-    if (localStorage.getItem('token')) {
-      return true
-    }
-    return false
-  })
+  const isLoggedIn = useLogin(state => state.isLoggedIn)
+  const logOut = useLogin(state => state.logOut)
 
-  const { data, isSuccess } = useCurrentUser()
+  const token = localStorage.getItem('token') || ''
+  const { data, isSuccess } = useCurrentUser(token)
 
   const linkStyle = ({ isActive }: { isActive: boolean }) =>
     isActive ? s.activeNavLink : s.navLink
@@ -48,7 +45,9 @@ const Header = () => {
         {isLoggedIn ? (
           <>
             <Link to={'/'}>subscribe</Link>
-            {isSuccess && <span>{`@${data.username}`}</span>}
+            {isSuccess && (
+              <span onClick={logOut}>{`@${data.data.username}`}</span>
+            )}
           </>
         ) : (
           <>
