@@ -10,7 +10,9 @@ export const useGeneratePlaylist = () => {
 
     onSuccess(data) {
       const playlistId = data.id
-      navigate(`/generate/playlist/cover/${playlistId}`)
+      setTimeout(() => {
+        navigate(`/generate/playlist/cover/${playlistId}`)
+      }, 300)
     },
 
     onError(error) {
