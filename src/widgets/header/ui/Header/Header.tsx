@@ -4,12 +4,17 @@ import Logo from 'shared/assets/images/logo.svg?react'
 import s from './styles.module.scss'
 import { useCurrentUser } from 'shared/services/queries'
 import { useLogin } from 'features/auth/byEmail'
+import { useEffect } from 'react'
 
 const Header = () => {
   const isLoggedIn = useLogin(state => state.isLoggedIn)
   const logOut = useLogin(state => state.logOut)
-
+  const checkToken = useLogin(state => state.checkToken)
   const token = localStorage.getItem('token') || ''
+
+  useEffect(() => {
+    checkToken(token)
+  }, [checkToken, token])
   const { data, isSuccess } = useCurrentUser(token)
 
   const linkStyle = ({ isActive }: { isActive: boolean }) =>
