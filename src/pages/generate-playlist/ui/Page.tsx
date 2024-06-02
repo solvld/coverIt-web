@@ -4,51 +4,33 @@ import { StyledPage } from 'shared/ui/StyledPage'
 import { LinearLoading } from 'entities/LinearLoading'
 import { ToasterOnError } from 'entities/ToastOnError'
 import { useEffect, useState } from 'react'
-import { GeneratedCard } from 'widgets/generated-card/ui/Card'
 import { useGeneratePlaylist } from 'features/generate/playlist/api/generateQuery'
 
 const Page = () => {
-  const [isCardActive, setIsCardActive] = useState(false)
-  const {
-    mutate,
-    isPending,
-    isSuccess,
-    data: playlistCoverData,
-  } = useGeneratePlaylist()
+  const [isFormActive, setIsFormActive] = useState(true)
+  const { mutate, isPending, isSuccess, isError } = useGeneratePlaylist()
 
   useEffect(() => {
-    if (isSuccess) {
-      setIsCardActive(true)
+    if (isPending) {
+      setIsFormActive(false)
     }
-  }, [isSuccess])
+    if (isError) {
+      setIsFormActive(true)
+    }
+  }, [isPending, isError])
 
-  if (!isCardActive) {
-    return (
-      <StyledPage>
-        {isPending ? (
-          <LinearLoading>We are cooking your cover...</LinearLoading>
-        ) : (
-          <GeneratePlaylistForm generateCover={mutate} />
-        )}
-        <ToasterOnError />
-      </StyledPage>
-    )
-  }
-
-  if (isCardActive) {
-    return (
-      <StyledPage>
-        {isSuccess && (
-          <GeneratedCard
-            coverImages={playlistCoverData.covers}
-            response={playlistCoverData}
-          />
-        )}
-        <ToasterOnError />
-      </StyledPage>
-    )
-  }
-  console.log(isCardActive)
+  return (
+    <StyledPage>
+      {isFormActive ? (
+        <GeneratePlaylistForm generateCover={mutate} />
+      ) : (
+        <LinearLoading isDone={isSuccess}>
+          We are cooking your cover...
+        </LinearLoading>
+      )}
+      <ToasterOnError />
+    </StyledPage>
+  )
 }
 
 export default Page

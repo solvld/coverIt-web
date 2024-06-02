@@ -93,3 +93,14 @@ export interface PlaylistCover {
   isSaved: boolean
   vibe: Vibe
 }
+
+export interface SavePlaylistCoverParams {
+  playlistId: number
+  coverId: number
+  isPrivate: boolean
+}
+
+export type SavePlaylistCoverResponse = Omit<
+  GeneratePlaylistResponse,
+  'isSaved'
+>

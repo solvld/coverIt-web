@@ -5,26 +5,20 @@ interface LoginSate {
   isLoggedIn: boolean
   logIn: () => void
   logOut: () => void
+  checkToken: (token: string) => void
 }
-const token = localStorage.getItem('token') || ''
 
-const checkToken = async (token: string) => {
-  try {
-    const status = (await currentUserQuery(token)).status
-    return status === 200
-  } catch (error) {
-    console.log(error)
-    return false
-  }
-}
-const logState = await checkToken(token)
 export const useLogin = create<LoginSate>(set => ({
-  isLoggedIn: logState,
+  isLoggedIn: false,
   logIn: () => {
     return set({ isLoggedIn: true })
   },
   logOut: () => {
     localStorage.removeItem('token')
     return set({ isLoggedIn: false })
+  },
+  checkToken: async (token: string) => {
+    const status = (await currentUserQuery(token)).status
+    return set({ isLoggedIn: status === 200 })
   },
 }))
