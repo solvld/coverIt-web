@@ -1,5 +1,4 @@
 import s from './style.module.scss'
-import AddCircle from 'shared/assets/images/add-circle.svg?react'
 import Download from 'shared/assets/images/download.svg?react'
 import Play from 'shared/assets/images/play.svg?react'
 import { Button } from 'shared/ui/Button'
@@ -8,8 +7,8 @@ import { GeneratePlaylistResponse, PlaylistCover } from 'shared/types/generate'
 import { Title } from 'shared/ui/form'
 import { useState } from 'react'
 import { Regenerate } from 'features/regenerate'
-import { ShareButton } from 'features/shareButton'
 import { saveFile } from 'shared/lib/safeFile'
+import { SaveCover } from 'features/saveCover'
 
 interface PlaylistCardProps {
   response: GeneratePlaylistResponse
@@ -55,12 +54,14 @@ export const GeneratedCard = ({
         </div>
         <div className={s.bottom}>
           <div>
-            <Button>
-              <AddCircle />
-              Save
-            </Button>
             <Regenerate onClick={handleRegenerate} isRotate={isPending} />
+            <SaveCover
+              playlistId={response.id}
+              coverId={coverImages[currentCoverIndex]?.id}
+              isSaved={response.isSaved}
+            />
           </div>
+
           <div>
             <Button
               onClick={() =>
@@ -73,8 +74,6 @@ export const GeneratedCard = ({
               <Download />
               Download
             </Button>
-
-            <ShareButton />
 
             <Button>
               <a href={response.url} target="_blank">
