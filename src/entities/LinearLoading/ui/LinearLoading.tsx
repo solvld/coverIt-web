@@ -2,12 +2,19 @@ import { Loading } from 'shared/ui/Loading'
 import s from './style.module.scss'
 import { Title } from 'shared/ui/form'
 
-export const LinearLoading = ({ children }: { children: React.ReactNode }) => {
+interface LinearLoadingProps {
+  isDone?: boolean
+  children: React.ReactNode
+}
+export const LinearLoading = ({
+  children,
+  isDone = false,
+}: LinearLoadingProps) => {
   return (
     <div className={s.container}>
       <Title>{children}</Title>
       <div className={s.frame}>
-        <Loading />
+        <Loading $isDone={isDone} />
       </div>
     </div>
   )

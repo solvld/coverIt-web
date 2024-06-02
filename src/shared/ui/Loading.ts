@@ -1,20 +1,20 @@
 import styled, { keyframes } from 'styled-components'
 
-const load = keyframes`
+const load1 = keyframes`
   0% {
     width: 0;
     background: var(--primary-color);
   }
-  25% {
-    width: 40%;
+  20% {
+    width: 50%;
     background: var(--primary-color);
   }
-  50% {
+  55% {
     width: 60%;
     background: var(--primary-color);
   }
-  75% {
-    width: 75%;
+  98% {
+    width: 88%;
     background: var(--primary-color);
   }
   100% {
@@ -38,7 +38,7 @@ const Container = styled.div`
     0 4px 4px 0 rgba(0, 0, 0, 0.25);
 `
 
-const Loading = styled.div`
+const Loading = styled.div<{ $isDone: boolean }>`
   position: relative;
   display: inline-block;
   width: 100%;
@@ -51,11 +51,15 @@ const Loading = styled.div`
     content: '';
     position: absolute;
     left: 0;
-    width: 0;
+    width: ${props => (props.$isDone ? '100%' : '0')};
     height: 100%;
     border-radius: 0.75rem;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    animation: ${load} 5s infinite;
+    transition: all 400ms;
+    animation: ${load1} ${props => (props.$isDone ? '10s' : '20s')}
+      cubic-bezier(0.64, 0.71, 0, 1) forwards;
+  }
+  &:after {
   }
 `
 

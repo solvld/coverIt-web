@@ -12,7 +12,8 @@ const rotate = keyframes`
   }
 `
 const RegenerateButton = styled.span<{ $isActive: boolean }>`
-  margin-top: 5px;
+  display: flex;
+  align-items: center;
   svg {
     animation: ${props => (props.$isActive ? rotate : 'none')} 1000ms linear
       infinite;
