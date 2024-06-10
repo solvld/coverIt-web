@@ -1,3 +1,5 @@
+import { create } from 'zustand'
+
 import img10 from 'shared/assets/images/image10.png?url'
 import img11 from 'shared/assets/images/image11.png?url'
 import img12 from 'shared/assets/images/image12.png?url'
@@ -7,7 +9,19 @@ import img15 from 'shared/assets/images/image15.png?url'
 import img16 from 'shared/assets/images/image16.png?url'
 import img17 from 'shared/assets/images/image17.png?url'
 
-export const cards = [
+interface Playlist {
+  id: number
+  title: string
+  image: string
+  songs: string[]
+}
+
+interface PlaylistsState {
+  currentPlaylist: null | Playlist['id']
+  playlists: Playlist[]
+}
+
+const PLAYLISTS: Playlist[] = [
   {
     id: 2,
     title: 'Sochi City',
@@ -19,10 +33,6 @@ export const cards = [
       'Yakutsk - Lena River',
       'Vladivostok - Golden Horn Bay',
     ],
-    position: {
-      axesX: -2.25,
-      axesY: 0,
-    },
   },
   {
     id: 3,
@@ -36,10 +46,6 @@ export const cards = [
       'Yaroslavl - Volga River',
       'Tyumen - Tura River',
     ],
-    position: {
-      axesX: 2,
-      axesY: -2,
-    },
   },
   {
     id: 4,
@@ -51,10 +57,6 @@ export const cards = [
       'Voronezh - Voronezh River',
       'Krasnodar - Kuban River',
     ],
-    position: {
-      axesX: 5,
-      axesY: 0,
-    },
   },
   {
     id: 10,
@@ -72,10 +74,6 @@ export const cards = [
       'Pskov - Velikaya River',
       'Voronezh - Voronezh River',
     ],
-    position: {
-      axesX: 5,
-      axesY: 8,
-    },
   },
   {
     id: 5,
@@ -93,10 +91,6 @@ export const cards = [
       'Pskov - Velikaya River',
       'Voronezh - Voronezh River',
     ],
-    position: {
-      axesX: -4,
-      axesY: 0,
-    },
   },
   {
     id: 6,
@@ -109,10 +103,6 @@ export const cards = [
       'Yakutsk - Lena River',
       'Vladivostok - Golden Horn Bay',
     ],
-    position: {
-      axesX: -7,
-      axesY: -8,
-    },
   },
   {
     id: 7,
@@ -126,10 +116,6 @@ export const cards = [
       'Yaroslavl - Volga River',
       'Tyumen - Tura River',
     ],
-    position: {
-      axesX: -6,
-      axesY: -5,
-    },
   },
   {
     id: 8,
@@ -141,9 +127,12 @@ export const cards = [
       'Voronezh - Voronezh River',
       'Krasnodar - Kuban River',
     ],
-    position: {
-      axesX: -9,
-      axesY: 0,
-    },
   },
 ]
+
+export const usePlaylistsStore = create<PlaylistsState>(set => ({
+  currentPlaylist: null,
+  playlists: PLAYLISTS,
+  setCurrentPlaylist: (playlistID: Playlist['id']) =>
+    set({ currentPlaylist: playlistID }),
+}))

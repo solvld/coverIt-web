@@ -1,10 +1,45 @@
 import Ticker from './Ticker/Ticker'
 import { CoverCard } from 'entities/coverCard'
-import { cards } from 'shared/mocks/cards'
 import s from './style.module.scss'
 import cardStyles from 'entities/coverCard/ui/CoverCard/styles.module.scss'
 import { styled } from 'styled-components'
 import { BOUNDING_NODE_ID } from 'entities/coverCard/ui/CoverCard/CoverCard.tsx'
+import { usePlaylistsStore } from 'pages/main/model/playlistsSlice.ts'
+
+const CARDS_POSITIONS: Array<{ axesX: number; axesY: number }> = [
+  {
+    axesX: -2.25,
+    axesY: 0,
+  },
+  {
+    axesX: 2,
+    axesY: -2,
+  },
+  {
+    axesX: 5,
+    axesY: 0,
+  },
+  {
+    axesX: 5,
+    axesY: 8,
+  },
+  {
+    axesX: -4,
+    axesY: 0,
+  },
+  {
+    axesX: -7,
+    axesY: -8,
+  },
+  {
+    axesX: -6,
+    axesY: -5,
+  },
+  {
+    axesX: -9,
+    axesY: 0,
+  },
+]
 
 const CoversContainer = styled.div`
   //this styles prevents other cards from hover while we're dragging something
@@ -17,18 +52,20 @@ const CoversContainer = styled.div`
 `
 
 const Page = () => {
+  const playlists = usePlaylistsStore(({ playlists }) => playlists)
+
   return (
     <div className={s.page}>
       <div id={BOUNDING_NODE_ID} className={s.dragBounding} />
       <CoversContainer className={s.cardsList}>
-        {cards.map(card => (
+        {playlists.map(({ id, title, songs, image }, index) => (
           <CoverCard
-            key={card.id}
-            title={card.title}
-            songs={card.songs}
-            image={card.image}
-            index={card.id}
-            position={card.position}
+            key={id}
+            title={title}
+            songs={songs}
+            image={image}
+            index={id}
+            position={CARDS_POSITIONS[index]}
           />
         ))}
       </CoversContainer>
