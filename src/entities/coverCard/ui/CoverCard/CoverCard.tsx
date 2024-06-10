@@ -15,6 +15,7 @@ const Card = styled.aside`
     z-index: 90;
 
     .${s.description} {
+      transition-delay: 0.25s;
       transform: translateX(0);
     }
   }
