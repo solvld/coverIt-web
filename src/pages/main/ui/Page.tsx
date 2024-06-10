@@ -58,16 +58,18 @@ const Page = () => {
     <div className={s.page}>
       <div id={BOUNDING_NODE_ID} className={s.dragBounding} />
       <CoversContainer className={s.cardsList}>
-        {Array.from(playlists.values()).map(({ id, title, songs, image }, index) => (
-          <CoverCard
-            key={id}
-            title={title}
-            songs={songs}
-            image={image}
-            id={id}
-            position={CARDS_POSITIONS[index]}
-          />
-        ))}
+        {Array.from(playlists.values()).map(
+          ({ id, title, songs, image }, index) => (
+            <CoverCard
+              key={id}
+              title={title}
+              songs={songs}
+              image={image}
+              id={id}
+              position={CARDS_POSITIONS[index]}
+            />
+          ),
+        )}
       </CoversContainer>
       <Ticker />
     </div>

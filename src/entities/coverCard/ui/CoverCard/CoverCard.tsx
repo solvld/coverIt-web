@@ -1,9 +1,10 @@
-import { useRef } from 'react'
+import { useRef, FC } from 'react'
 import Draggable from 'react-draggable'
 import { styled } from 'styled-components'
 
 import s from './styles.module.scss'
 
+import { IPlaylist } from 'pages/main/model/playlistsSlice.ts'
 import CoverImage from './CoverImage'
 import CoverDescription from './CoverDescription'
 import { getREMValue } from 'shared/utils/getREMValue.ts'
@@ -21,19 +22,9 @@ const Card = styled.aside`
   }
 `
 
-const CoverCard = ({
-  title,
-  image,
-  songs,
-  position,
-  id,
-}: {
-  title: string
-  image: string
-  songs: string[]
-  id: number
-  position: { axesX: number; axesY: number }
-}) => {
+const CoverCard: FC<
+  IPlaylist & { position: { axesX: number; axesY: number } }
+> = ({ title, image, songs, position, id }) => {
   const { setCurrentPlaylist, resetCurrentPlaylist } = usePlaylistsStore(
     ({ setCurrentPlaylist, resetCurrentPlaylist }) => ({
       setCurrentPlaylist,

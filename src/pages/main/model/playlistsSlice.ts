@@ -9,19 +9,19 @@ import img15 from 'shared/assets/images/image15.png?url'
 import img16 from 'shared/assets/images/image16.png?url'
 import img17 from 'shared/assets/images/image17.png?url'
 
-interface Playlist {
+export interface IPlaylist {
   id: number
   title: string
   image: string
   songs: string[]
 }
 
-type PlaylistsMap = Map<Playlist['id'], Playlist>
+type PlaylistsMap = Map<IPlaylist['id'], IPlaylist>
 
 interface PlaylistsState {
-  currentPlaylistID: null | Playlist['id']
+  currentPlaylistID: null | IPlaylist['id']
   playlists: PlaylistsMap
-  setCurrentPlaylist: (newPlaylist: Playlist['id']) => void
+  setCurrentPlaylist: (newPlaylist: IPlaylist['id']) => void
   resetCurrentPlaylist: () => void
 }
 
@@ -161,7 +161,7 @@ const PLAYLISTS: PlaylistsMap = new Map([
 export const usePlaylistsStore = create<PlaylistsState>(set => ({
   currentPlaylistID: null,
   playlists: PLAYLISTS,
-  setCurrentPlaylist: (playlistID: Playlist['id']) =>
+  setCurrentPlaylist: (playlistID: IPlaylist['id']) =>
     set({ currentPlaylistID: playlistID }),
   resetCurrentPlaylist: () => set({ currentPlaylistID: null }),
 }))
