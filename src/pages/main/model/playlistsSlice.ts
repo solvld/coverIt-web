@@ -16,121 +16,147 @@ interface Playlist {
   songs: string[]
 }
 
+type PlaylistsMap = Map<Playlist['id'], Playlist>
+
 interface PlaylistsState {
   currentPlaylist: null | Playlist['id']
-  playlists: Playlist[]
+  playlists: PlaylistsMap
   setCurrentPlaylist: (newPlaylist: Playlist['id']) => void
   resetCurrentPlaylist: () => void
 }
 
-const PLAYLISTS: Playlist[] = [
-  {
-    id: 2,
-    title: 'Sochi City',
-    image: img12,
-    songs: [
-      'Sochi - Mzymta River',
-      'Irkutsk - Angara River',
-      'Novosibirsk - Ob River',
-      'Yakutsk - Lena River',
-      'Vladivostok - Golden Horn Bay',
-    ],
-  },
-  {
-    id: 3,
-    title: 'Khabarovsk Crab',
-    image: img10,
-    songs: [
-      'Khabarovsk - Amur River',
-      'Rostov-on-Don - Don River',
-      'Kaliningrad - Pregolya River',
-      'Tver - Volga River',
-      'Yaroslavl - Volga River',
-      'Tyumen - Tura River',
-    ],
-  },
-  {
-    id: 4,
-    title: 'Kuban Rain',
-    image: img14,
-    songs: [
-      'Arkhangelsk - Northern Dvina River',
-      'Pskov - Velikaya River',
-      'Voronezh - Voronezh River',
-      'Krasnodar - Kuban River',
-    ],
-  },
-  {
-    id: 10,
-    title: 'Volga Sad',
-    image: img15,
-    songs: [
-      'Volga - Oka River',
-      'Moscow - Volga River',
-      'Kazan - Kama River',
-      'Saint Petersburg - Neva River',
-      'Ufa - Belaya River',
-      'Novosibirsk - Ob River',
-      'Yakutsk - Lena River',
-      'Arkhangelsk - Northern Dvina River',
-      'Pskov - Velikaya River',
-      'Voronezh - Voronezh River',
-    ],
-  },
-  {
-    id: 5,
-    title: 'Volga Sad',
-    image: img11,
-    songs: [
-      'Volga - Oka River',
-      'Moscow - Volga River',
-      'Kazan - Kama River',
-      'Saint Petersburg - Neva River',
-      'Ufa - Belaya River',
-      'Novosibirsk - Ob River',
-      'Yakutsk - Lena River',
-      'Arkhangelsk - Northern Dvina River',
-      'Pskov - Velikaya River',
-      'Voronezh - Voronezh River',
-    ],
-  },
-  {
-    id: 6,
-    title: 'Sochi City',
-    image: img13,
-    songs: [
-      'Sochi - Mzymta River',
-      'Irkutsk - Angara River',
-      'Novosibirsk - Ob River',
-      'Yakutsk - Lena River',
-      'Vladivostok - Golden Horn Bay',
-    ],
-  },
-  {
-    id: 7,
-    title: 'Khabarovsk Crab',
-    image: img16,
-    songs: [
-      'Khabarovsk - Amur River',
-      'Rostov-on-Don - Don River',
-      'Kaliningrad - Pregolya River',
-      'Tver - Volga River',
-      'Yaroslavl - Volga River',
-      'Tyumen - Tura River',
-    ],
-  },
-  {
-    id: 8,
-    title: 'Kuban Rain',
-    image: img17,
-    songs: [
-      'Arkhangelsk - Northern Dvina River',
-      'Pskov - Velikaya River',
-      'Voronezh - Voronezh River',
-      'Krasnodar - Kuban River',
-    ],
-  },
-]
+const PLAYLISTS: PlaylistsMap = new Map([
+  [
+    2,
+    {
+      id: 2,
+      title: 'Sochi City',
+      image: img12,
+      songs: [
+        'Sochi - Mzymta River',
+        'Irkutsk - Angara River',
+        'Novosibirsk - Ob River',
+        'Yakutsk - Lena River',
+        'Vladivostok - Golden Horn Bay',
+      ],
+    },
+  ],
+  [
+    3,
+    {
+      id: 3,
+      title: 'Khabarovsk Crab',
+      image: img10,
+      songs: [
+        'Khabarovsk - Amur River',
+        'Rostov-on-Don - Don River',
+        'Kaliningrad - Pregolya River',
+        'Tver - Volga River',
+        'Yaroslavl - Volga River',
+        'Tyumen - Tura River',
+      ],
+    },
+  ],
+  [
+    4,
+    {
+      id: 4,
+      title: 'Kuban Rain',
+      image: img14,
+      songs: [
+        'Arkhangelsk - Northern Dvina River',
+        'Pskov - Velikaya River',
+        'Voronezh - Voronezh River',
+        'Krasnodar - Kuban River',
+      ],
+    },
+  ],
+  [
+    10,
+    {
+      id: 10,
+      title: 'Volga Sad',
+      image: img15,
+      songs: [
+        'Volga - Oka River',
+        'Moscow - Volga River',
+        'Kazan - Kama River',
+        'Saint Petersburg - Neva River',
+        'Ufa - Belaya River',
+        'Novosibirsk - Ob River',
+        'Yakutsk - Lena River',
+        'Arkhangelsk - Northern Dvina River',
+        'Pskov - Velikaya River',
+        'Voronezh - Voronezh River',
+      ],
+    },
+  ],
+  [
+    5,
+    {
+      id: 5,
+      title: 'Volga Sad',
+      image: img11,
+      songs: [
+        'Volga - Oka River',
+        'Moscow - Volga River',
+        'Kazan - Kama River',
+        'Saint Petersburg - Neva River',
+        'Ufa - Belaya River',
+        'Novosibirsk - Ob River',
+        'Yakutsk - Lena River',
+        'Arkhangelsk - Northern Dvina River',
+        'Pskov - Velikaya River',
+        'Voronezh - Voronezh River',
+      ],
+    },
+  ],
+  [
+    6,
+    {
+      id: 6,
+      title: 'Sochi City',
+      image: img13,
+      songs: [
+        'Sochi - Mzymta River',
+        'Irkutsk - Angara River',
+        'Novosibirsk - Ob River',
+        'Yakutsk - Lena River',
+        'Vladivostok - Golden Horn Bay',
+      ],
+    },
+  ],
+  [
+    7,
+    {
+      id: 7,
+      title: 'Khabarovsk Crab',
+      image: img16,
+      songs: [
+        'Khabarovsk - Amur River',
+        'Rostov-on-Don - Don River',
+        'Kaliningrad - Pregolya River',
+        'Tver - Volga River',
+        'Yaroslavl - Volga River',
+        'Tyumen - Tura River',
+      ],
+    },
+  ],
+  [
+    8,
+    {
+      id: 8,
+      title: 'Kuban Rain',
+      image: img17,
+      songs: [
+        'Arkhangelsk - Northern Dvina River',
+        'Pskov - Velikaya River',
+        'Voronezh - Voronezh River',
+        'Krasnodar - Kuban River',
+      ],
+    },
+  ],
+])
 
 export const usePlaylistsStore = create<PlaylistsState>(set => ({
   currentPlaylist: null,
