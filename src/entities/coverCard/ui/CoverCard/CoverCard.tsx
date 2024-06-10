@@ -19,6 +19,8 @@ const Card = styled.article<{ $position: { axesX: number; axesY: number } }>(
   `,
 )
 
+export const BOUNDING_NODE_ID = 'cardDragBounding'
+
 const CoverCard = ({
   title,
   image,
@@ -37,6 +39,7 @@ const CoverCard = ({
   return (
     <Draggable
       nodeRef={cardRef}
+      bounds={`#${BOUNDING_NODE_ID}`}
       defaultPosition={{
         x: remValue * position.axesX,
         y: remValue * position.axesY,
