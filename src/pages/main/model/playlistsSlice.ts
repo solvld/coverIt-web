@@ -19,7 +19,7 @@ interface Playlist {
 type PlaylistsMap = Map<Playlist['id'], Playlist>
 
 interface PlaylistsState {
-  currentPlaylist: null | Playlist['id']
+  currentPlaylistID: null | Playlist['id']
   playlists: PlaylistsMap
   setCurrentPlaylist: (newPlaylist: Playlist['id']) => void
   resetCurrentPlaylist: () => void
@@ -159,9 +159,9 @@ const PLAYLISTS: PlaylistsMap = new Map([
 ])
 
 export const usePlaylistsStore = create<PlaylistsState>(set => ({
-  currentPlaylist: null,
+  currentPlaylistID: null,
   playlists: PLAYLISTS,
   setCurrentPlaylist: (playlistID: Playlist['id']) =>
-    set({ currentPlaylist: playlistID }),
-  resetCurrentPlaylist: () => set({ currentPlaylist: null }),
+    set({ currentPlaylistID: playlistID }),
+  resetCurrentPlaylist: () => set({ currentPlaylistID: null }),
 }))
