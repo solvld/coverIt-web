@@ -1,6 +1,6 @@
 import { useRef } from 'react'
-import styled, { css } from 'styled-components'
 import Draggable from 'react-draggable'
+import { styled } from 'styled-components'
 
 import s from './styles.module.scss'
 
@@ -8,17 +8,17 @@ import CoverImage from './CoverImage'
 import CoverDescription from './CoverDescription'
 import { getREMValue } from 'shared/utils/getREMValue.ts'
 
-const Card = styled.article<{ $position: { axesX: number; axesY: number } }>(
-  ({ $position: { axesX, axesY } }) => css`
-    // transform: translate(${axesX}rem, ${axesY}rem);
-
-    //@media (max-width: 1376px) {
-    //  transform: translate(0, 0);
-    //}
-  `,
-)
-
 export const BOUNDING_NODE_ID = 'cardDragBounding'
+
+const Card = styled.aside`
+  &.react-draggable-dragging {
+    z-index: 90;
+
+    .${s.description} {
+      transform: translateX(0);
+    }
+  }
+`
 
 const CoverCard = ({
   title,
@@ -45,7 +45,7 @@ const CoverCard = ({
       }}
       handle={`.${s.image}`}
     >
-      <Card $position={position} className={s.cardItem} ref={cardRef}>
+      <Card className={s.cardItem} ref={cardRef}>
         <CoverImage image={image} />
         <CoverDescription title={title} songs={songs} />
       </Card>
