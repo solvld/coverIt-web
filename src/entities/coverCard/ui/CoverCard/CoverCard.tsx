@@ -7,6 +7,7 @@ import s from './styles.module.scss'
 import CoverImage from './CoverImage'
 import CoverDescription from './CoverDescription'
 import { getREMValue } from 'shared/utils/getREMValue.ts'
+import { usePlaylistsStore } from 'pages/main/model/playlistsSlice.ts'
 
 export const BOUNDING_NODE_ID = 'cardDragBounding'
 
@@ -25,13 +26,21 @@ const CoverCard = ({
   image,
   songs,
   position,
+  id,
 }: {
   title: string
   image: string
   songs: string[]
-  index: number
+  id: number
   position: { axesX: number; axesY: number }
 }) => {
+  const { setCurrentPlaylist, resetCurrentPlaylist } = usePlaylistsStore(
+    ({ setCurrentPlaylist, resetCurrentPlaylist }) => ({
+      setCurrentPlaylist,
+      resetCurrentPlaylist,
+    }),
+  )
+
   const cardRef = useRef<HTMLDivElement>(null)
   const parentRef = useRef<HTMLElement | null>(null)
   const remValue = getREMValue()
@@ -59,7 +68,12 @@ const CoverCard = ({
         y: remValue * position.axesY,
       }}
     >
-      <Card className={s.cardItem} ref={cardRef}>
+      <Card
+        className={s.cardItem}
+        ref={cardRef}
+        onMouseEnter={() => setCurrentPlaylist(id)}
+        onMouseLeave={resetCurrentPlaylist}
+      >
         <CoverImage image={image} />
         <CoverDescription title={title} songs={songs} />
       </Card>

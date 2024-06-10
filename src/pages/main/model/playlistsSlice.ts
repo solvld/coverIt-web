@@ -19,6 +19,8 @@ interface Playlist {
 interface PlaylistsState {
   currentPlaylist: null | Playlist['id']
   playlists: Playlist[]
+  setCurrentPlaylist: (newPlaylist: Playlist['id']) => void
+  resetCurrentPlaylist: () => void
 }
 
 const PLAYLISTS: Playlist[] = [
@@ -135,4 +137,5 @@ export const usePlaylistsStore = create<PlaylistsState>(set => ({
   playlists: PLAYLISTS,
   setCurrentPlaylist: (playlistID: Playlist['id']) =>
     set({ currentPlaylist: playlistID }),
+  resetCurrentPlaylist: () => set({ currentPlaylist: null }),
 }))

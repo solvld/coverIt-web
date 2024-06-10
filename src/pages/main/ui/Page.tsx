@@ -64,7 +64,7 @@ const Page = () => {
             title={title}
             songs={songs}
             image={image}
-            index={id}
+            id={id}
             position={CARDS_POSITIONS[index]}
           />
         ))}
