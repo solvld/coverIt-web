@@ -104,3 +104,17 @@ export type SavePlaylistCoverResponse = Omit<
   GeneratePlaylistResponse,
   'isSaved'
 >
+
+export interface GenerateReleaseResponse {
+  id: number
+  title: string
+  author: {
+    id: number
+    username: string
+    email: string
+    hiFiReleaseGenerations: number
+    loFiReleaseGenerations: number
+  }
+  covers: TrackCover[]
+  createdAt: string
+}

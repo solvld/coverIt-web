@@ -11,7 +11,7 @@ const Generate = () => {
       <Link to={'/generate/playlist'}>
         <Button>playlist cover</Button>
       </Link>
-      <Link to={isLoggedIn ? '/generate/track' : '/sign-in'}>
+      <Link to={isLoggedIn ? '/generate/release' : '/sign-in'}>
         <Button>track cover</Button>
       </Link>
     </div>
