@@ -15,7 +15,6 @@ const Card = styled.aside`
     z-index: 90;
 
     .${s.description} {
-      transition-delay: 0.25s;
       transform: translateX(0);
     }
   }
@@ -34,17 +33,31 @@ const CoverCard = ({
   position: { axesX: number; axesY: number }
 }) => {
   const cardRef = useRef<HTMLDivElement>(null)
+  const parentRef = useRef<HTMLElement | null>(null)
   const remValue = getREMValue()
+
+  const onDragStart = () => {
+    if (!parentRef.current) {
+      parentRef.current = cardRef.current!.parentElement
+    }
+
+    parentRef.current!.classList.add('has-dragging-element')
+  }
+
+  const onDragStop = () => {
+    parentRef.current!.classList.remove('has-dragging-element')
+  }
 
   return (
     <Draggable
       nodeRef={cardRef}
       bounds={`#${BOUNDING_NODE_ID}`}
+      onStart={onDragStart}
+      onStop={onDragStop}
       defaultPosition={{
         x: remValue * position.axesX,
         y: remValue * position.axesY,
       }}
-      handle={`.${s.image}`}
     >
       <Card className={s.cardItem} ref={cardRef}>
         <CoverImage image={image} />
