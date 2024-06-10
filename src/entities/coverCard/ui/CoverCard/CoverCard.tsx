@@ -10,7 +10,6 @@ import { getREMValue } from 'shared/utils/getREMValue.ts'
 
 const Card = styled.article<{ $position: { axesX: number; axesY: number } }>(
   ({ $position: { axesX, axesY } }) => css`
-    cursor: grab;
     // transform: translate(${axesX}rem, ${axesY}rem);
 
     //@media (max-width: 1376px) {
@@ -44,6 +43,7 @@ const CoverCard = ({
         x: remValue * position.axesX,
         y: remValue * position.axesY,
       }}
+      handle={`.${s.image}`}
     >
       <Card $position={position} className={s.cardItem} ref={cardRef}>
         <CoverImage image={image} />
