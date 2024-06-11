@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GeneratePlaylistResponse } from 'shared/types/generate'
+import { GenerateReleaseResponse } from 'shared/types/generate'
 
 const URL = import.meta.env.VITE_API_URL
 const token = localStorage.getItem('token')
@@ -10,7 +10,7 @@ const playlistInstance = axios.create({
 
 export const getGeneratedReleaseQuery = async (releaseId: number) => {
   return (
-    await playlistInstance.get<GeneratePlaylistResponse>('/get', {
+    await playlistInstance.get<GenerateReleaseResponse>('/get', {
       params: {
         id: releaseId,
       },

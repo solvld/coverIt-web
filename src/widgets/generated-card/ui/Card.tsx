@@ -56,6 +56,7 @@ export const GeneratedCard = ({
           <div>
             <Regenerate onClick={handleRegenerate} isRotate={isPending} />
             <SaveCover
+              type="playlist"
               playlistId={response.id}
               coverId={coverImages[currentCoverIndex]?.id}
               isSaved={response.isSaved}

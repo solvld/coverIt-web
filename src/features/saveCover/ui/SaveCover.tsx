@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { RadioLabel } from 'shared/ui/form'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSavePlaylist } from './api/saveCoverQuery'
+import { useSavePlaylist, useSaveRelease } from './api/saveCoverQuery'
 
 export const InputCheckbox = styled.input.attrs({ type: 'checkbox' })`
   -webkit-appearance: none;
@@ -35,13 +35,17 @@ export const InputCheckbox = styled.input.attrs({ type: 'checkbox' })`
 
 interface SaveCoverProps {
   coverId: number
-  playlistId: number
+  playlistId?: number
   isSaved?: boolean
+  releaseId?: number
+  type: 'release' | 'playlist'
 }
 export default function SaveCover({
   coverId,
   playlistId,
   isSaved,
+  releaseId,
+  type,
 }: SaveCoverProps) {
   const [isPrivate, setIsPrivate] = useState(true)
   const token = localStorage.getItem('token')
@@ -50,16 +54,23 @@ export default function SaveCover({
     setIsPrivate(prev => !prev)
   }
 
-  const { isSuccess, mutate: saveCover } = useSavePlaylist()
+  const { isSuccess: isSuccessPlaylist, mutate: savePlaylist } =
+    useSavePlaylist()
+  const { isSuccess: isSuccessRelease, mutate: saveRelease } = useSaveRelease()
+
   const handleSave = () => {
     if (token) {
-      saveCover({ coverId, playlistId, isPrivate, token })
+      if (playlistId) {
+        savePlaylist({ coverId, playlistId, isPrivate, token })
+      } else if (releaseId) {
+        saveRelease({ coverId, releaseId, token })
+      }
     } else {
       navigate('/sign-in')
     }
   }
 
-  const coverSaved = isSaved || isSuccess
+  const coverSaved = isSaved || isSuccessPlaylist || isSuccessRelease
 
   return (
     <div style={coverSaved ? { opacity: 0.5, pointerEvents: 'none' } : {}}>
@@ -67,15 +78,17 @@ export default function SaveCover({
         {coverSaved ? <Done /> : <AddCircle />}
         {coverSaved ? 'Saved' : 'Save'}
       </Button>
-      <RadioLabel>
-        <InputCheckbox
-          onChange={handleChange}
-          name="check"
-          value={isPrivate.toString()}
-          checked={!isPrivate}
-        />
-        Public
-      </RadioLabel>
+      {type === 'playlist' ? (
+        <RadioLabel>
+          <InputCheckbox
+            onChange={handleChange}
+            name="check"
+            value={isPrivate.toString()}
+            checked={!isPrivate}
+          />
+          Public
+        </RadioLabel>
+      ) : null}
     </div>
   )
 }

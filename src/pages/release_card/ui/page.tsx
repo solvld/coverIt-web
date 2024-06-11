@@ -28,7 +28,11 @@ function Page() {
   return (
     <StyledPage>
       {releaseResponse && (
-        <TrackCard releaseId={releaseId} covers={coverImages} />
+        <TrackCard
+          releaseId={releaseId}
+          covers={coverImages}
+          releaseResponse={releaseResponse}
+        />
       )}
       {isPending && <DotsLoader />}
       {isLoadingError && <h4>Cover not found...</h4>}

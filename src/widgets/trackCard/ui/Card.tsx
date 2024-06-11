@@ -1,17 +1,17 @@
 import styled from 'styled-components'
 import Download from 'shared/assets/images/download.svg?react'
 import Edit from 'shared/assets/images/edit-image.svg?react'
-import AddCircle from 'shared/assets/images/add-circle.svg?react'
 import { useTrackForm } from 'features/generate/track/model/formCollectDataSlice'
 import { useEffect, useState } from 'react'
 import { useRegenerateTrack } from 'features/generate/track/api/generateQuery'
 import { Regenerate } from 'features/regenerate'
 import { ImageSlider } from 'features/imageSlider'
-import { TrackCover } from 'shared/types/generate'
+import { GenerateReleaseResponse, TrackCover } from 'shared/types/generate'
 import { Button } from 'shared/ui/Button'
 import { Link } from 'react-router-dom'
 import { saveFile } from 'shared/lib/safeFile'
 import { CardTitle } from 'shared/ui/card/cardTitle'
+import { SaveCover } from 'features/saveCover'
 
 const SCard = styled.div`
   display: flex;
@@ -52,9 +52,9 @@ const Description = styled.div`
   }
 `
 const Tag = styled.span`
-  padding: 4px 10px;
-  color: #fff;
-  border-radius: 9px;
+  padding: 0.3rem 1.2rem;
+  color: var(--gray0);
+  border-radius: 1.3rem;
   background-color: var(--primary-color);
 `
 const TagWrapper = styled.div`
@@ -76,9 +76,9 @@ const Bottom = styled.div`
 interface TractCardProps {
   covers: TrackCover[]
   releaseId: number
-  setIsCardActive?: (arg: boolean) => void
+  releaseResponse: GenerateReleaseResponse
 }
-const Card = ({ covers, releaseId }: TractCardProps) => {
+const Card = ({ covers, releaseId, releaseResponse }: TractCardProps) => {
   const [coverImages, setCoverImages] = useState(covers)
   const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
 
@@ -122,12 +122,12 @@ const Card = ({ covers, releaseId }: TractCardProps) => {
         >
           <ImageSlider setCurrentCover={setCurrentCoverIndex} covers={covers} />
           <div>
-            <CardTitle>{title}</CardTitle>
+            <CardTitle>{releaseResponse.title}</CardTitle>
             <Description>
               <div>
                 <h4>Mood</h4>
                 <TagWrapper>
-                  {mood.split(',').map((e, index) => (
+                  {releaseResponse.mood.map((e, index) => (
                     <Tag key={index}>{e}</Tag>
                   ))}
                 </TagWrapper>
@@ -135,18 +135,18 @@ const Card = ({ covers, releaseId }: TractCardProps) => {
 
               <div>
                 <h4>Object / action</h4>
-                <p>{object}</p>
+                <p>{releaseResponse.object}</p>
               </div>
 
               <div>
                 <h4>Surrounding</h4>
-                <p>{surrounding}</p>
+                <p>{releaseResponse.surrounding}</p>
               </div>
 
               <div>
                 <h4>Style</h4>
                 <TagWrapper>
-                  {coverDescription.split(',').map((e, index) => (
+                  {releaseResponse.coverDescription.map((e, index) => (
                     <Tag key={index}>{e}</Tag>
                   ))}
                 </TagWrapper>
@@ -156,10 +156,11 @@ const Card = ({ covers, releaseId }: TractCardProps) => {
         </div>
         <Bottom>
           <Actions>
-            <Button>
-              <AddCircle />
-              Save
-            </Button>
+            <SaveCover
+              type="release"
+              releaseId={releaseResponse.id}
+              coverId={releaseResponse.covers[currentCoverIndex]?.id}
+            />
 
             <Regenerate onClick={handleRegenerate} isRotate={isPending} />
 
