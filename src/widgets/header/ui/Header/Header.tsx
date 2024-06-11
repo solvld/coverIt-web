@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import Logo from 'shared/assets/images/logo.svg?react'
 
 import s from './styles.module.scss'
@@ -15,11 +15,19 @@ const Header = () => {
   const checkToken = useLogin(state => state.checkToken)
   const token = localStorage.getItem('token') || ''
   const menuRef = useRef<HTMLDivElement>(null)
+  const location = useLocation()
 
   useEffect(() => {
     checkToken(token)
   }, [checkToken, token])
   const { data, isSuccess } = useCurrentUser(token)
+
+  useEffect(() => {
+    const currentUrl = location.pathname
+    if (currentUrl.includes('/generate')) {
+      setIsMenuOpen(false)
+    }
+  }, [location])
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -40,7 +48,16 @@ const Header = () => {
           <Logo className={s.logo} />
         </NavLink>
         <div className={s.generate} ref={menuRef}>
-          <span onClick={() => setIsMenuOpen(prev => !prev)}>generate</span>
+          <span
+            onClick={() => setIsMenuOpen(prev => !prev)}
+            style={
+              location.pathname.includes('/generate')
+                ? { fontWeight: '700' }
+                : {}
+            }
+          >
+            generate
+          </span>
           <GenerateOptions
             isMenuOpen={isMenuOpen}
             setIsMenuOpen={setIsMenuOpen}
@@ -69,7 +86,10 @@ const Header = () => {
           <>
             <Link to={'/'}>subscribe</Link>
             {isSuccess && (
-              <span onClick={logOut}>{`@${data.data.username}`}</span>
+              <span
+                className={s.username}
+                onClick={logOut}
+              >{`@${data.data.username}`}</span>
             )}
           </>
         ) : (
