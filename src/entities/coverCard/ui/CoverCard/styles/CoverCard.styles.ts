@@ -35,7 +35,9 @@ export const CoverCardDescription = styled.aside`
 export const CoverCardContainer = styled.aside`
   position: relative;
   z-index: 1;
-  transition: transform 0.25s ease-out 0s;
+  transition:
+    transform 0.15s ease-out,
+    box-shadow 0.2s ease;
   width: 17rem;
 
   &:hover,
