@@ -23,10 +23,13 @@ export interface IPlaylist {
 type PlaylistsMap = Map<IPlaylist['id'], IPlaylist>
 
 interface PlaylistsState {
-  currentPlaylistID: null | IPlaylist['id']
-  playlists: PlaylistsMap
+  currentPlaylistID: IPlaylist['id'] | null
+  isChangingCurrentPlaylistAllowed: boolean
+  blockChangingCurrentPlaylist: () => void
+  allowChangingCurrentPlaylist: () => void
   setCurrentPlaylist: (newPlaylist: IPlaylist['id']) => void
   resetCurrentPlaylist: () => void
+  playlists: PlaylistsMap
 }
 
 const PLAYLISTS: PlaylistsMap = new Map([
@@ -162,10 +165,26 @@ const PLAYLISTS: PlaylistsMap = new Map([
   ],
 ])
 
-export const usePlaylistsStore = create<PlaylistsState>(set => ({
-  currentPlaylistID: null,
-  playlists: PLAYLISTS,
-  setCurrentPlaylist: (playlistID: IPlaylist['id']) =>
-    set({ currentPlaylistID: playlistID }),
-  resetCurrentPlaylist: () => set({ currentPlaylistID: null }),
-}))
+export const usePlaylistsStore = create<PlaylistsState>(set => {
+  return {
+    currentPlaylistID: null,
+    isChangingCurrentPlaylistAllowed: true,
+    blockChangingCurrentPlaylist: () =>
+      set({ isChangingCurrentPlaylistAllowed: false }),
+    allowChangingCurrentPlaylist: () =>
+      set({ isChangingCurrentPlaylistAllowed: true }),
+    setCurrentPlaylist: (playlistID: IPlaylist['id']) =>
+      set(({ isChangingCurrentPlaylistAllowed, currentPlaylistID }) => {
+        return isChangingCurrentPlaylistAllowed
+          ? { currentPlaylistID: playlistID }
+          : { currentPlaylistID }
+      }),
+    resetCurrentPlaylist: () =>
+      set(({ isChangingCurrentPlaylistAllowed, currentPlaylistID }) =>
+        isChangingCurrentPlaylistAllowed
+          ? { currentPlaylistID: null }
+          : { currentPlaylistID },
+      ),
+    playlists: PLAYLISTS,
+  }
+})

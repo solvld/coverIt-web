@@ -14,12 +14,12 @@ export const BOUNDING_NODE_ID = 'cardDragBounding'
 const CoverCard: FC<
   IPlaylist & { position: { axesX: number; axesY: number } }
 > = ({ title, image, songs, position, id }) => {
-  const { setCurrentPlaylist, resetCurrentPlaylist } = usePlaylistsStore(
-    ({ setCurrentPlaylist, resetCurrentPlaylist }) => ({
-      setCurrentPlaylist,
-      resetCurrentPlaylist,
-    }),
-  )
+  const {
+    setCurrentPlaylist,
+    resetCurrentPlaylist,
+    blockChangingCurrentPlaylist,
+    allowChangingCurrentPlaylist,
+  } = usePlaylistsStore(state => state)
 
   const cardRef = useRef<HTMLDivElement>(null)
   const parentRef = useRef<HTMLElement | null>(null)
@@ -31,6 +31,7 @@ const CoverCard: FC<
     }
 
     parentRef.current!.classList.add('has-dragging-element')
+    blockChangingCurrentPlaylist()
   }
 
   return (
@@ -40,6 +41,7 @@ const CoverCard: FC<
       onStart={onDragStart}
       onStop={() => {
         parentRef.current!.classList.remove('has-dragging-element')
+        allowChangingCurrentPlaylist()
       }}
       defaultPosition={{
         x: remValue * position.axesX,
