@@ -1,0 +1,25 @@
+.menu {
+  padding: 0.4rem;
+  border-radius: 0.25rem;
+  box-shadow: var(--shadow);
+  background-color: var(--gray0);
+  list-style: none;
+  position: absolute;
+  z-index: 10;
+  top: 2rem;
+  left: -0.4rem;
+
+  transform: scale(0);
+  transform-origin: top;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+
+  li:hover {
+    font-weight: 700;
+  }
+}
+
+.menu.active {
+  transform: scale(1);
+  opacity: 1;
+}

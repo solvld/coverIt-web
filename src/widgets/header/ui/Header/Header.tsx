@@ -5,17 +5,31 @@ import s from './styles.module.scss'
 import { useCurrentUser } from 'shared/services/queries'
 import { useLogin } from 'features/auth/byEmail'
 import { useEffect } from 'react'
-
+import { GenerateOptions } from 'entities/GenerateOptions'
+import { useState } from 'react'
+import { useRef } from 'react'
 const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const isLoggedIn = useLogin(state => state.isLoggedIn)
   const logOut = useLogin(state => state.logOut)
   const checkToken = useLogin(state => state.checkToken)
   const token = localStorage.getItem('token') || ''
+  const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     checkToken(token)
   }, [checkToken, token])
   const { data, isSuccess } = useCurrentUser(token)
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setIsMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  })
 
   const linkStyle = ({ isActive }: { isActive: boolean }) =>
     isActive ? s.activeNavLink : s.navLink
@@ -25,9 +39,13 @@ const Header = () => {
         <NavLink to={'/'}>
           <Logo className={s.logo} />
         </NavLink>
-        <NavLink to={'/generate'} className={linkStyle}>
-          generate
-        </NavLink>
+        <div className={s.generate} ref={menuRef}>
+          <span onClick={() => setIsMenuOpen(prev => !prev)}>generate</span>
+          <GenerateOptions
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+          />
+        </div>
         <NavLink to={'/archive'} className={linkStyle}>
           archive
         </NavLink>
