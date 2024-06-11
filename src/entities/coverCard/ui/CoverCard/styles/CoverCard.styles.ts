@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+export const REACT_DRAGGABLE_ACTIVE_CLASS = 'react-draggable-dragging'
+
 export const CoverCardDescription = styled.aside`
   position: absolute;
   z-index: 0;

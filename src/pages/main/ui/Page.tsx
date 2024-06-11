@@ -1,8 +1,10 @@
 import Ticker from './Ticker/Ticker'
 import { CoverCard } from 'entities/coverCard'
-import s from './style.module.scss'
-import { CoverCardContainer } from 'entities/coverCard/ui/CoverCard/styles/CoverCard.styles.ts'
-import { styled } from 'styled-components'
+import {
+  PageContainer,
+  DragBounding,
+  CoversContainer,
+} from 'pages/main/ui/Page.styles.ts'
 import { BOUNDING_NODE_ID } from 'entities/coverCard/ui/CoverCard/CoverCard.tsx'
 import { usePlaylistsStore } from 'pages/main/model/playlistsSlice.ts'
 
@@ -41,23 +43,13 @@ const CARDS_POSITIONS: Array<{ axesX: number; axesY: number }> = [
   },
 ]
 
-const CoversContainer = styled.div`
-  //this styles prevents other cards from hover while we're dragging something
-  //idk why the same thing in not working in css-modules
-  &.has-dragging-element {
-    ${CoverCardContainer}:not(.react-draggable-dragging) {
-      pointer-events: none;
-    }
-  }
-`
-
 const Page = () => {
   const playlists = usePlaylistsStore(({ playlists }) => playlists)
 
   return (
-    <div className={s.page}>
-      <div id={BOUNDING_NODE_ID} className={s.dragBounding} />
-      <CoversContainer className={s.cardsList}>
+    <PageContainer>
+      <DragBounding id={BOUNDING_NODE_ID} />
+      <CoversContainer>
         {Array.from(playlists.values()).map(
           ({ id, title, songs, image }, index) => (
             <CoverCard
@@ -72,7 +64,7 @@ const Page = () => {
         )}
       </CoversContainer>
       <Ticker />
-    </div>
+    </PageContainer>
   )
 }
 
