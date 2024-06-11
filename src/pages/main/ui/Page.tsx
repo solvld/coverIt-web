@@ -1,10 +1,6 @@
 import Ticker from './Ticker/Ticker'
 import { CoverCard } from 'entities/coverCard'
-import {
-  PageContainer,
-  DragBounding,
-  CoversContainer,
-} from 'pages/main/ui/Page.styles.ts'
+import { PageContainer, CoversContainer } from 'pages/main/ui/Page.styles.ts'
 import { BOUNDING_NODE_ID } from 'entities/coverCard/ui/CoverCard/CoverCard.tsx'
 import { usePlaylistsStore } from 'pages/main/model/playlistsSlice.ts'
 
@@ -48,8 +44,7 @@ const Page = () => {
 
   return (
     <PageContainer>
-      <DragBounding id={BOUNDING_NODE_ID} />
-      <CoversContainer>
+      <CoversContainer id={BOUNDING_NODE_ID}>
         {Array.from(playlists.values()).map(
           ({ id, title, songs, image }, index) => (
             <CoverCard
