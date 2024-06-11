@@ -9,8 +9,9 @@ import { Regenerate } from 'features/regenerate'
 import { ImageSlider } from 'features/imageSlider'
 import { TrackCover } from 'shared/types/generate'
 import { Button } from 'shared/ui/Button'
-import { Title } from 'shared/ui/form'
 import { Link } from 'react-router-dom'
+import { saveFile } from 'shared/lib/safeFile'
+import { CardTitle } from 'shared/ui/card/cardTitle'
 
 const SCard = styled.div`
   display: flex;
@@ -22,6 +23,14 @@ const SCard = styled.div`
   padding: 1.65rem;
   border-radius: 0.75rem;
   box-shadow: var(--shadow);
+  img {
+    width: 26.5rem;
+    height: 26.5rem;
+  }
+  .slider {
+    width: 26.5rem;
+    height: 26.5rem;
+  }
 `
 const Description = styled.div`
   margin-top: 1.5rem;
@@ -30,6 +39,8 @@ const Description = styled.div`
   flex-direction: column;
   justify-content: space-between;
   cursor: default;
+  min-width: 25rem;
+  width: 100%;
 
   h4 {
     font-size: 1.5rem;
@@ -55,6 +66,11 @@ const Actions = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+`
+const Bottom = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `
 
 interface TractCardProps {
@@ -104,12 +120,9 @@ const Card = ({ covers, releaseId }: TractCardProps) => {
             gap: '31px',
           }}
         >
-          <ImageSlider
-            covers={coverImages}
-            setCurrentCover={setCurrentCoverIndex}
-          />
+          <ImageSlider setCurrentCover={setCurrentCoverIndex} covers={covers} />
           <div>
-            <Title>{title}</Title>
+            <CardTitle>{title}</CardTitle>
             <Description>
               <div>
                 <h4>Mood</h4>
@@ -141,32 +154,35 @@ const Card = ({ covers, releaseId }: TractCardProps) => {
             </Description>
           </div>
         </div>
-        <Actions>
-          <Button>
-            <AddCircle />
-            Save
-          </Button>
+        <Bottom>
+          <Actions>
+            <Button>
+              <AddCircle />
+              Save
+            </Button>
 
-          <Regenerate onClick={handleRegenerate} isRotate={isPending} />
+            <Regenerate onClick={handleRegenerate} isRotate={isPending} />
 
-          <Button>
-            <Link to={'/generate/track'}>
-              <Edit />
-              Edit
-            </Link>
-          </Button>
+            <Button>
+              <Link to={'/generate/release'}>
+                <Edit />
+                Edit
+              </Link>
+            </Button>
+          </Actions>
 
-          <Button>
-            <a
-              href={coverImages[currentCoverIndex].link}
-              download={`${title}_${currentCoverIndex}.jpeg`}
-              target="_balnk"
-            >
-              <Download />
-              Download
-            </a>
+          <Button
+            onClick={() =>
+              saveFile(
+                coverImages[currentCoverIndex]?.link,
+                title.trimEnd().replace(' ', '_'),
+              )
+            }
+          >
+            <Download />
+            Download
           </Button>
-        </Actions>
+        </Bottom>
       </SCard>
     </section>
   )

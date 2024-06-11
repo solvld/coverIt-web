@@ -87,7 +87,7 @@ const ImageSlider = ({ covers, setCurrentCover }: ImageSliderProps) => {
   }
 
   return (
-    <Slider>
+    <Slider className="slider">
       {!isButtonHide && <LeftButton onClick={goToPrevious}>❰</LeftButton>}
       {!isButtonHide && <RightButton onClick={goToNext}>❱</RightButton>}
       <Slide src={covers[currentIndex]?.link} alt="cover" />

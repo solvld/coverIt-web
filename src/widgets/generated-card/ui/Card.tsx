@@ -4,11 +4,11 @@ import Play from 'shared/assets/images/play.svg?react'
 import { Button } from 'shared/ui/Button'
 import { ImageSlider } from 'features/imageSlider'
 import { GeneratePlaylistResponse, PlaylistCover } from 'shared/types/generate'
-import { Title } from 'shared/ui/form'
 import { useState } from 'react'
 import { Regenerate } from 'features/regenerate'
 import { saveFile } from 'shared/lib/safeFile'
 import { SaveCover } from 'features/saveCover'
+import { CardTitle } from 'shared/ui/card/cardTitle'
 
 interface PlaylistCardProps {
   response: GeneratePlaylistResponse
@@ -39,7 +39,7 @@ export const GeneratedCard = ({
             covers={coverImages}
           />
           <div>
-            <Title>{response?.title}</Title>
+            <CardTitle>{response?.title}</CardTitle>
             <div className={s.actions}>
               <ol className={s.playlist}>
                 {response?.tracks.map((song, index) => (
