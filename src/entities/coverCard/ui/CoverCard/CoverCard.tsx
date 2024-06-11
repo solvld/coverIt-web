@@ -1,8 +1,7 @@
 import { useRef, FC } from 'react'
 import Draggable from 'react-draggable'
-import { styled } from 'styled-components'
 
-import s from './styles.module.scss'
+import { CoverCardContainer } from './styles/CoverCard.styles.ts'
 
 import { IPlaylist } from 'pages/main/model/playlistsSlice.ts'
 import CoverImage from './CoverImage'
@@ -11,16 +10,6 @@ import { getREMValue } from 'shared/utils/getREMValue.ts'
 import { usePlaylistsStore } from 'pages/main/model/playlistsSlice.ts'
 
 export const BOUNDING_NODE_ID = 'cardDragBounding'
-
-const Card = styled.aside`
-  &.react-draggable-dragging {
-    z-index: 90;
-
-    .${s.description} {
-      transform: translateX(0);
-    }
-  }
-`
 
 const CoverCard: FC<
   IPlaylist & { position: { axesX: number; axesY: number } }
@@ -57,15 +46,14 @@ const CoverCard: FC<
         y: remValue * position.axesY,
       }}
     >
-      <Card
-        className={s.cardItem}
+      <CoverCardContainer
         ref={cardRef}
         onMouseEnter={() => setCurrentPlaylist(id)}
         onMouseLeave={resetCurrentPlaylist}
       >
         <CoverImage image={image} />
         <CoverDescription title={title} songs={songs} />
-      </Card>
+      </CoverCardContainer>
     </Draggable>
   )
 }

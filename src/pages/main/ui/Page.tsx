@@ -1,7 +1,7 @@
 import Ticker from './Ticker/Ticker'
 import { CoverCard } from 'entities/coverCard'
 import s from './style.module.scss'
-import cardStyles from 'entities/coverCard/ui/CoverCard/styles.module.scss'
+import { CoverCardContainer } from 'entities/coverCard/ui/CoverCard/styles/CoverCard.styles.ts'
 import { styled } from 'styled-components'
 import { BOUNDING_NODE_ID } from 'entities/coverCard/ui/CoverCard/CoverCard.tsx'
 import { usePlaylistsStore } from 'pages/main/model/playlistsSlice.ts'
@@ -45,7 +45,7 @@ const CoversContainer = styled.div`
   //this styles prevents other cards from hover while we're dragging something
   //idk why the same thing in not working in css-modules
   &.has-dragging-element {
-    .${cardStyles.cardItem}:not(.react-draggable-dragging) {
+    ${CoverCardContainer}:not(.react-draggable-dragging) {
       pointer-events: none;
     }
   }
