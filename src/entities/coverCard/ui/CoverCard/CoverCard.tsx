@@ -1,37 +1,26 @@
-import { useRef } from 'react'
+import { useRef, FC } from 'react'
 import Draggable from 'react-draggable'
-import { styled } from 'styled-components'
 
-import s from './styles.module.scss'
+import { CoverCardContainer } from './styles/CoverCard.styles.ts'
 
+import { IPlaylist } from 'pages/main/model/playlistsSlice.ts'
 import CoverImage from './CoverImage'
 import CoverDescription from './CoverDescription'
 import { getREMValue } from 'shared/utils/getREMValue.ts'
+import { usePlaylistsStore } from 'pages/main/model/playlistsSlice.ts'
 
 export const BOUNDING_NODE_ID = 'cardDragBounding'
 
-const Card = styled.aside`
-  &.react-draggable-dragging {
-    z-index: 90;
+const CoverCard: FC<
+  IPlaylist & { position: { axesX: number; axesY: number } }
+> = ({ title, image, songs, position, id }) => {
+  const {
+    setCurrentPlaylist,
+    resetCurrentPlaylist,
+    blockChangingCurrentPlaylist,
+    allowChangingCurrentPlaylist,
+  } = usePlaylistsStore(state => state)
 
-    .${s.description} {
-      transform: translateX(0);
-    }
-  }
-`
-
-const CoverCard = ({
-  title,
-  image,
-  songs,
-  position,
-}: {
-  title: string
-  image: string
-  songs: string[]
-  index: number
-  position: { axesX: number; axesY: number }
-}) => {
   const cardRef = useRef<HTMLDivElement>(null)
   const parentRef = useRef<HTMLElement | null>(null)
   const remValue = getREMValue()
@@ -42,10 +31,7 @@ const CoverCard = ({
     }
 
     parentRef.current!.classList.add('has-dragging-element')
-  }
-
-  const onDragStop = () => {
-    parentRef.current!.classList.remove('has-dragging-element')
+    blockChangingCurrentPlaylist()
   }
 
   return (
@@ -53,16 +39,23 @@ const CoverCard = ({
       nodeRef={cardRef}
       bounds={`#${BOUNDING_NODE_ID}`}
       onStart={onDragStart}
-      onStop={onDragStop}
+      onStop={() => {
+        parentRef.current!.classList.remove('has-dragging-element')
+        allowChangingCurrentPlaylist()
+      }}
       defaultPosition={{
         x: remValue * position.axesX,
         y: remValue * position.axesY,
       }}
     >
-      <Card className={s.cardItem} ref={cardRef}>
+      <CoverCardContainer
+        ref={cardRef}
+        onMouseEnter={() => setCurrentPlaylist(id)}
+        onMouseLeave={resetCurrentPlaylist}
+      >
         <CoverImage image={image} />
         <CoverDescription title={title} songs={songs} />
-      </Card>
+      </CoverCardContainer>
     </Draggable>
   )
 }
