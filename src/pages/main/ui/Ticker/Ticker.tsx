@@ -25,23 +25,17 @@ const Ticker = () => {
       <div className={s.container}>
         {currentPlaylistSongs ? (
           <>
-            {new Array(3)
-              .fill(null)
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              .map(_ => (
-                <TickerText>
-                  {currentPlaylistSongs.map(song => song + ' ')}
-                </TickerText>
-              ))}
+            {new Array(3).fill(null).map((_, index) => (
+              <TickerText key={index}>
+                {currentPlaylistSongs.map(song => song + ' ')}
+              </TickerText>
+            ))}
           </>
         ) : (
           <>
-            {new Array(3)
-              .fill(null)
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              .map(_ => (
-                <TickerText>{tickerText}</TickerText>
-              ))}
+            {new Array(3).fill(null).map((_, index) => (
+              <TickerText key={index}>{tickerText}</TickerText>
+            ))}
           </>
         )}
         {}

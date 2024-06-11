@@ -44,16 +44,14 @@ const CoverCard: FC<
     parentRef.current!.classList.add('has-dragging-element')
   }
 
-  const onDragStop = () => {
-    parentRef.current!.classList.remove('has-dragging-element')
-  }
-
   return (
     <Draggable
       nodeRef={cardRef}
       bounds={`#${BOUNDING_NODE_ID}`}
       onStart={onDragStart}
-      onStop={onDragStop}
+      onStop={() => {
+        parentRef.current!.classList.remove('has-dragging-element')
+      }}
       defaultPosition={{
         x: remValue * position.axesX,
         y: remValue * position.axesY,
