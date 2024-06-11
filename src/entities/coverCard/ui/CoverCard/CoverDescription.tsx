@@ -1,4 +1,4 @@
-import s from './styles.module.scss'
+import { CoverCardDescription } from './styles/CoverCard.styles.ts'
 
 const CoverDescription = ({
   title,
@@ -8,14 +8,14 @@ const CoverDescription = ({
   songs: string[]
 }) => {
   return (
-    <aside className={s.description}>
+    <CoverCardDescription>
       <h2>{title}</h2>
       <ol>
         {songs.map((song, index) => (
           <li key={index}>{song}</li>
         ))}
       </ol>
-    </aside>
+    </CoverCardDescription>
   )
 }
 

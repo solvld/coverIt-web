@@ -1,10 +1,10 @@
-import s from './styles.module.scss'
+import { CoverCardImage } from './styles/CoverCard.styles.ts'
 
 const CoverImage = ({ image }: { image: string }) => {
   return (
-    <figure className={s.image}>
+    <CoverCardImage>
       <img src={image} alt="" />
-    </figure>
+    </CoverCardImage>
   )
 }
 
