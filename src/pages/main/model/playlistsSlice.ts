@@ -9,8 +9,12 @@ import img15 from 'shared/assets/images/image15.png?url'
 import img16 from 'shared/assets/images/image16.png?url'
 import img17 from 'shared/assets/images/image17.png?url'
 
+const PLAYLISTS_ID = [2, 3, 4, 10, 5, 6, 7, 8, 9] as const
+
+export type PlaylistIDType = (typeof PLAYLISTS_ID)[number]
+
 export interface IPlaylist {
-  id: number
+  id: PlaylistIDType
   title: string
   image: string
   songs: string[]

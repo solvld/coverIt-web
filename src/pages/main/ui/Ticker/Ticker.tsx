@@ -17,7 +17,7 @@ const Ticker = () => {
   )
 
   const currentPlaylistSongs = currentPlaylistID
-    ? playlists.get(currentPlaylistID)?.songs
+    ? playlists.get(currentPlaylistID)!.songs
     : null
 
   return (
