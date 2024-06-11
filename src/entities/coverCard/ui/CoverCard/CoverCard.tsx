@@ -1,33 +1,62 @@
-import s from './styles.module.scss'
+import { useRef, FC } from 'react'
+import Draggable from 'react-draggable'
+
+import { CoverCardContainer } from './styles/CoverCard.styles.ts'
+
+import { IPlaylist } from 'pages/main/model/playlistsSlice.ts'
 import CoverImage from './CoverImage'
 import CoverDescription from './CoverDescription'
-import styled from 'styled-components'
+import { getREMValue } from 'shared/utils/getREMValue.ts'
+import { usePlaylistsStore } from 'pages/main/model/playlistsSlice.ts'
 
-const Card = styled.article<{ $position: { axesX: number; axesY: number } }>`
-  transform: ${props =>
-    `translate(${props.$position.axesX}rem, ${props.$position.axesY}rem)`};
-  @media (max-width: 1376px) {
-    transform: translate(0, 0);
+export const BOUNDING_NODE_ID = 'cardDragBounding'
+
+const CoverCard: FC<
+  IPlaylist & { position: { axesX: number; axesY: number } }
+> = ({ title, image, songs, position, id }) => {
+  const {
+    setCurrentPlaylist,
+    resetCurrentPlaylist,
+    blockChangingCurrentPlaylist,
+    allowChangingCurrentPlaylist,
+  } = usePlaylistsStore(state => state)
+
+  const cardRef = useRef<HTMLDivElement>(null)
+  const parentRef = useRef<HTMLElement | null>(null)
+  const remValue = getREMValue()
+
+  const onDragStart = () => {
+    if (!parentRef.current) {
+      parentRef.current = cardRef.current!.parentElement
+    }
+
+    parentRef.current!.classList.add('has-dragging-element')
+    blockChangingCurrentPlaylist()
   }
-`
 
-const CoverCard = ({
-  title,
-  image,
-  songs,
-  position,
-}: {
-  title: string
-  image: string
-  songs: string[]
-  index: number
-  position: { axesX: number; axesY: number }
-}) => {
   return (
-    <Card $position={position} className={s.cardItem}>
-      <CoverImage image={image} />
-      <CoverDescription title={title} songs={songs} />
-    </Card>
+    <Draggable
+      nodeRef={cardRef}
+      bounds={`#${BOUNDING_NODE_ID}`}
+      onStart={onDragStart}
+      onStop={() => {
+        parentRef.current!.classList.remove('has-dragging-element')
+        allowChangingCurrentPlaylist()
+      }}
+      defaultPosition={{
+        x: remValue * position.axesX,
+        y: remValue * position.axesY,
+      }}
+    >
+      <CoverCardContainer
+        ref={cardRef}
+        onMouseEnter={() => setCurrentPlaylist(id)}
+        onMouseLeave={resetCurrentPlaylist}
+      >
+        <CoverImage image={image} />
+        <CoverDescription title={title} songs={songs} />
+      </CoverCardContainer>
+    </Draggable>
   )
 }
 
