@@ -87,24 +87,21 @@ const Page = () => {
   return (
     <PageContainer>
       <CoversContainer id={BOUNDING_NODE_ID}>
-        {Array.from(playlists.values()).map(
-          ({ id, title, songs, image }, index) => {
-            const { axesX, axesY, top, right, bottom, left, width } =
-              CARDS_LAYOUTS[index]
+        {Array.from(playlists.values()).map(({ id, title, image }, index) => {
+          const { axesX, axesY, top, right, bottom, left, width } =
+            CARDS_LAYOUTS[index]
 
-            return (
-              <CoverCard
-                key={id}
-                title={title}
-                songs={songs}
-                image={image}
-                id={id}
-                position={{ axesX, axesY, top, right, bottom, left }}
-                width={width}
-              />
-            )
-          },
-        )}
+          return (
+            <CoverCard
+              key={id}
+              title={title}
+              image={image}
+              id={id}
+              position={{ axesX, axesY, top, right, bottom, left }}
+              width={width}
+            />
+          )
+        })}
       </CoversContainer>
       <Ticker />
     </PageContainer>

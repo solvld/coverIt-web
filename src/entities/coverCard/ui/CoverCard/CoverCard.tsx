@@ -22,12 +22,18 @@ export interface ICardPosition {
   right: CoverCardPositionType
 }
 
-const CoverCard: FC<
-  IPlaylist & {
-    width: number
-    position: ICardPosition
-  }
-> = ({ title, image, id, position, width }) => {
+type CoverCardProps = Omit<IPlaylist, 'songs'> & {
+  width: number
+  position: ICardPosition
+}
+
+const CoverCard: FC<CoverCardProps> = ({
+  title,
+  image,
+  id,
+  position,
+  width,
+}) => {
   const {
     setCurrentPlaylist,
     resetCurrentPlaylist,
