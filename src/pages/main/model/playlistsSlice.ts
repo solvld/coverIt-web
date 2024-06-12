@@ -1,13 +1,13 @@
 import { create } from 'zustand'
 
-import img10 from 'shared/assets/images/image10.png?url'
-import img11 from 'shared/assets/images/image11.png?url'
-import img12 from 'shared/assets/images/image12.png?url'
-import img13 from 'shared/assets/images/image13.png?url'
-import img14 from 'shared/assets/images/image14.png?url'
-import img15 from 'shared/assets/images/image15.png?url'
-import img16 from 'shared/assets/images/image16.png?url'
-import img17 from 'shared/assets/images/image17.png?url'
+import khaborovskCrabCover from 'shared/assets/images/main-page-covers/khabarovsk-crab.webp?url'
+import volgaSad2Cover from 'shared/assets/images/main-page-covers/volga-sad-2.avif?url'
+import sochiCityCover from 'shared/assets/images/main-page-covers/sochi-city.avif?url'
+import sochiCity2Cover from 'shared/assets/images/main-page-covers/sochi-city-2.avif?url'
+import kubanRainCover from 'shared/assets/images/main-page-covers/kuban-rain.avif?url'
+import volgaSadCover from 'shared/assets/images/main-page-covers/volga-sad.avif?url'
+import khaborovskCrab2Cover from 'shared/assets/images/main-page-covers/khaborovsk-crab-2.png?url'
+import kubanRain2Cover from 'shared/assets/images/main-page-covers/kuban-rain-2.avif?url'
 
 const PLAYLISTS_ID = [2, 3, 4, 10, 5, 6, 7, 8, 9] as const
 
@@ -34,56 +34,11 @@ interface PlaylistsState {
 
 const PLAYLISTS: PlaylistsMap = new Map([
   [
-    2,
+    5,
     {
-      id: 2,
-      title: 'Sochi City',
-      image: img12,
-      songs: [
-        'Sochi - Mzymta River',
-        'Irkutsk - Angara River',
-        'Novosibirsk - Ob River',
-        'Yakutsk - Lena River',
-        'Vladivostok - Golden Horn Bay',
-      ],
-    },
-  ],
-  [
-    3,
-    {
-      id: 3,
-      title: 'Khabarovsk Crab',
-      image: img10,
-      songs: [
-        'Khabarovsk - Amur River',
-        'Rostov-on-Don - Don River',
-        'Kaliningrad - Pregolya River',
-        'Tver - Volga River',
-        'Yaroslavl - Volga River',
-        'Tyumen - Tura River',
-      ],
-    },
-  ],
-  [
-    4,
-    {
-      id: 4,
-      title: 'Kuban Rain',
-      image: img14,
-      songs: [
-        'Arkhangelsk - Northern Dvina River',
-        'Pskov - Velikaya River',
-        'Voronezh - Voronezh River',
-        'Krasnodar - Kuban River',
-      ],
-    },
-  ],
-  [
-    10,
-    {
-      id: 10,
+      id: 5,
       title: 'Volga Sad',
-      image: img15,
+      image: volgaSad2Cover,
       songs: [
         'Volga - Oka River',
         'Moscow - Volga River',
@@ -99,11 +54,56 @@ const PLAYLISTS: PlaylistsMap = new Map([
     },
   ],
   [
-    5,
+    2,
     {
-      id: 5,
+      id: 2,
+      title: 'Sochi City',
+      image: sochiCityCover,
+      songs: [
+        'Sochi - Mzymta River',
+        'Irkutsk - Angara River',
+        'Novosibirsk - Ob River',
+        'Yakutsk - Lena River',
+        'Vladivostok - Golden Horn Bay',
+      ],
+    },
+  ],
+  [
+    4,
+    {
+      id: 4,
+      title: 'Kuban Rain',
+      image: kubanRainCover,
+      songs: [
+        'Arkhangelsk - Northern Dvina River',
+        'Pskov - Velikaya River',
+        'Voronezh - Voronezh River',
+        'Krasnodar - Kuban River',
+      ],
+    },
+  ],
+  [
+    3,
+    {
+      id: 3,
+      title: 'Khabarovsk Crab',
+      image: khaborovskCrabCover,
+      songs: [
+        'Khabarovsk - Amur River',
+        'Rostov-on-Don - Don River',
+        'Kaliningrad - Pregolya River',
+        'Tver - Volga River',
+        'Yaroslavl - Volga River',
+        'Tyumen - Tura River',
+      ],
+    },
+  ],
+  [
+    10,
+    {
+      id: 10,
       title: 'Volga Sad',
-      image: img11,
+      image: volgaSadCover,
       songs: [
         'Volga - Oka River',
         'Moscow - Volga River',
@@ -123,7 +123,7 @@ const PLAYLISTS: PlaylistsMap = new Map([
     {
       id: 6,
       title: 'Sochi City',
-      image: img13,
+      image: sochiCity2Cover,
       songs: [
         'Sochi - Mzymta River',
         'Irkutsk - Angara River',
@@ -138,7 +138,7 @@ const PLAYLISTS: PlaylistsMap = new Map([
     {
       id: 7,
       title: 'Khabarovsk Crab',
-      image: img16,
+      image: khaborovskCrab2Cover,
       songs: [
         'Khabarovsk - Amur River',
         'Rostov-on-Don - Don River',
@@ -154,7 +154,7 @@ const PLAYLISTS: PlaylistsMap = new Map([
     {
       id: 8,
       title: 'Kuban Rain',
-      image: img17,
+      image: kubanRain2Cover,
       songs: [
         'Arkhangelsk - Northern Dvina River',
         'Pskov - Velikaya River',

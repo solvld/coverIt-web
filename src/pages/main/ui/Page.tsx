@@ -1,45 +1,83 @@
 import Ticker from './Ticker/Ticker'
 import { CoverCard } from 'entities/coverCard'
-import {
-  PageContainer,
-  DragBounding,
-  CoversContainer,
-} from 'pages/main/ui/Page.styles.ts'
+import { PageContainer, CoversContainer } from 'pages/main/ui/Page.styles.ts'
 import { BOUNDING_NODE_ID } from 'entities/coverCard/ui/CoverCard/CoverCard.tsx'
 import { usePlaylistsStore } from 'pages/main/model/playlistsSlice.ts'
 
-const CARDS_POSITIONS: Array<{ axesX: number; axesY: number }> = [
+import { ICardPosition } from 'entities/coverCard/ui/CoverCard/CoverCard.tsx'
+
+const CARDS_LAYOUTS: Array<ICardPosition & { width: number }> = [
   {
-    axesX: -2.25,
+    axesX: 0,
+    axesY: -7.7,
+    width: 15,
+    top: 'unset',
+    right: 'unset',
+    bottom: 0,
+    left: 0,
+  },
+  {
+    axesX: 11.6,
+    axesY: 1.5,
+    width: 21.5,
+    top: 0,
+    right: 'unset',
+    bottom: 'unset',
+    left: 0,
+  },
+  {
+    axesX: -7.7,
     axesY: 0,
+    width: 22,
+    top: 0,
+    right: 0,
+    bottom: 'unset',
+    left: 'unset',
   },
   {
-    axesX: 2,
-    axesY: -2,
+    axesX: -19.3,
+    axesY: -4.5,
+    width: 25,
+    top: 'unset',
+    right: 0,
+    bottom: 0,
+    left: 'unset',
   },
   {
-    axesX: 5,
+    axesX: 0,
+    axesY: -8.5,
+    width: 12.5,
+    top: 'unset',
+    right: 0,
+    bottom: 0,
+    left: 'unset',
+  },
+  {
+    axesX: 31.2,
+    axesY: 6,
+    width: 13.2,
+    top: 0,
+    right: 'unset',
+    bottom: 'unset',
+    left: 0,
+  },
+  {
+    axesX: 24.2,
+    axesY: -3.6,
+    width: 7,
+    top: 'unset',
+    right: 'unset',
+    bottom: 0,
+    left: 0,
+  },
+  {
+    axesX: -24.3,
     axesY: 0,
-  },
-  {
-    axesX: 5,
-    axesY: 8,
-  },
-  {
-    axesX: -4,
-    axesY: 0,
-  },
-  {
-    axesX: -7,
-    axesY: -8,
-  },
-  {
-    axesX: -6,
-    axesY: -5,
-  },
-  {
-    axesX: -9,
-    axesY: 0,
+    width: 17.3,
+    top: 'unset',
+    right: 0,
+    bottom: 0,
+    left: 'unset',
   },
 ]
 
@@ -48,20 +86,22 @@ const Page = () => {
 
   return (
     <PageContainer>
-      <DragBounding id={BOUNDING_NODE_ID} />
-      <CoversContainer>
-        {Array.from(playlists.values()).map(
-          ({ id, title, songs, image }, index) => (
+      <CoversContainer id={BOUNDING_NODE_ID}>
+        {Array.from(playlists.values()).map(({ id, title, image }, index) => {
+          const { axesX, axesY, top, right, bottom, left, width } =
+            CARDS_LAYOUTS[index]
+
+          return (
             <CoverCard
               key={id}
               title={title}
-              songs={songs}
               image={image}
               id={id}
-              position={CARDS_POSITIONS[index]}
+              position={{ axesX, axesY, top, right, bottom, left }}
+              width={width}
             />
-          ),
-        )}
+          )
+        })}
       </CoversContainer>
       <Ticker />
     </PageContainer>
