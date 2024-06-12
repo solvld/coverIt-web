@@ -1,19 +1,39 @@
 import { useRef, FC } from 'react'
 import Draggable from 'react-draggable'
 
-import { CoverCardContainer } from './styles/CoverCard.styles.ts'
+import {
+  CoverCardContainer,
+  CoverCardImage,
+  CoverCardPositionType,
+} from './styles/CoverCard.styles.ts'
 
 import { IPlaylist } from 'pages/main/model/playlistsSlice.ts'
-import CoverImage from './CoverImage'
-import CoverDescription from './CoverDescription'
 import { getREMValue } from 'shared/utils/getREMValue.ts'
 import { usePlaylistsStore } from 'pages/main/model/playlistsSlice.ts'
 
 export const BOUNDING_NODE_ID = 'cardDragBounding'
 
-const CoverCard: FC<
-  IPlaylist & { position: { axesX: number; axesY: number } }
-> = ({ title, image, songs, position, id }) => {
+export interface ICardPosition {
+  axesX: number
+  axesY: number
+  top: CoverCardPositionType
+  bottom: CoverCardPositionType
+  left: CoverCardPositionType
+  right: CoverCardPositionType
+}
+
+type CoverCardProps = Omit<IPlaylist, 'songs'> & {
+  width: number
+  position: ICardPosition
+}
+
+const CoverCard: FC<CoverCardProps> = ({
+  title,
+  image,
+  id,
+  position,
+  width,
+}) => {
   const {
     setCurrentPlaylist,
     resetCurrentPlaylist,
@@ -52,9 +72,15 @@ const CoverCard: FC<
         ref={cardRef}
         onMouseEnter={() => setCurrentPlaylist(id)}
         onMouseLeave={resetCurrentPlaylist}
+        $width={width}
+        $top={position.top}
+        $bottom={position.bottom}
+        $left={position.left}
+        $right={position.right}
       >
-        <CoverImage image={image} />
-        <CoverDescription title={title} songs={songs} />
+        <CoverCardImage>
+          <img src={image} alt={`${title} playlist cover`} />
+        </CoverCardImage>
       </CoverCardContainer>
     </Draggable>
   )
