@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components'
 
+export const REACT_DRAGGABLE_ACTIVE_CLASS = 'react-draggable-dragging'
 export type CoverCardPositionType = string | number
 
 export const CoverCardContainer = styled.aside<{
@@ -17,16 +18,13 @@ export const CoverCardContainer = styled.aside<{
     bottom: ${$bottom};
     display: flex;
     z-index: 1;
-    transition:
-      transform 0.15s ease-out,
-      box-shadow 0.2s ease;
+    transition: transform 0.15s ease-out;
     width: ${$width}rem;
     height: max-content;
 
     &:hover,
     &.react-draggable-dragging {
       z-index: 20;
-      box-shadow: 0 2px 4px #0000005a;
     }
 
     ::-webkit-scrollbar {

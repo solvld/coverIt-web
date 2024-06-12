@@ -6,7 +6,7 @@ import sochiCityCover from 'shared/assets/images/main-page-covers/sochi-city.avi
 import sochiCity2Cover from 'shared/assets/images/main-page-covers/sochi-city-2.avif?url'
 import kubanRainCover from 'shared/assets/images/main-page-covers/kuban-rain.avif?url'
 import volgaSadCover from 'shared/assets/images/main-page-covers/volga-sad.avif?url'
-import khaborovskCrab2Cover from 'shared/assets/images/main-page-covers/khabarovsk-crab-2.avif?url'
+import khaborovskCrab2Cover from 'shared/assets/images/main-page-covers/khaborovsk-crab-2.png?url'
 import kubanRain2Cover from 'shared/assets/images/main-page-covers/kuban-rain-2.avif?url'
 
 const PLAYLISTS_ID = [2, 3, 4, 10, 5, 6, 7, 8, 9] as const
