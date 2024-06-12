@@ -17,11 +17,8 @@ export const CoversContainer = styled.div`
   position: relative;
   width: 100%;
   padding: 0 1.875rem;
-  height: 54rem;
+  height: 41rem;
   margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
 }
 
   //this styles prevents other cards from hover while we're dragging something
@@ -31,14 +28,14 @@ export const CoversContainer = styled.div`
     }
   }
 
-  @media (max-width: 1376px) {
-    padding: 2rem 0;
-    margin-top: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 1rem;
-    min-height: 32rem;
-    height: 100%;
-  }
+  //@media (max-width: 1376px) {
+  //  padding: 2rem 0;
+  //  margin-top: 0;
+  //  display: flex;
+  //  flex-wrap: wrap;
+  //  justify-content: space-around;
+  //  gap: 1rem;
+  //  min-height: 32rem;
+  //  height: 100%;
+  //}
 `

@@ -1,108 +1,62 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const REACT_DRAGGABLE_ACTIVE_CLASS = 'react-draggable-dragging'
+export type CoverCardPositionType = string | number
 
-export const CoverCardDescription = styled.aside`
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  left: 0;
-  width: 17rem;
-  height: 17rem;
-  background: #ffffffd7;
-  transition:
-    box-shadow 0.9s linear,
-    transform 0.9s ease-in-out;
-  transition-delay: 0s;
-  cursor: default;
-  box-shadow: 0 0 0 #0000000b;
+export const CoverCardContainer = styled.aside<{
+  $width: number
+  $top: CoverCardPositionType
+  $bottom: CoverCardPositionType
+  $left: CoverCardPositionType
+  $right: CoverCardPositionType
+}>(
+  ({ $width = 10, $top, $bottom, $left, $right }) => css`
+    position: absolute;
+    top: ${$top};
+    left: ${$left};
+    right: ${$right};
+    bottom: ${$bottom};
+    display: flex;
+    z-index: 1;
+    transition:
+      transform 0.15s ease-out,
+      box-shadow 0.2s ease;
+    width: ${$width}rem;
+    height: max-content;
 
-  padding: 0 1rem;
-  border-radius: 0 1rem 1rem 0;
-
-  h2 {
-    text-align: center;
-    padding: 0.5rem;
-  }
-
-  ol {
-    overflow-y: scroll;
-    list-style-position: inside;
-    height: 12.5rem;
-  }
-`
-
-export const CoverCardContainer = styled.aside`
-  position: relative;
-  z-index: 1;
-  transition:
-    transform 0.15s ease-out,
-    box-shadow 0.2s ease;
-  width: 17rem;
-
-  &:hover,
-  &.react-draggable-dragging {
-    z-index: 20;
-    box-shadow: 0 2px 4px #0000005a;
-  }
-
-  &:hover ${CoverCardDescription} {
-    transform: translateX(17rem);
-    box-shadow: 0 2px 4px #0000002e;
-  }
-
-  &.react-draggable-dragging ${CoverCardDescription} {
-    transform: translateX(0);
-  }
-
-  &:nth-of-type(4n) {
-    ${CoverCardDescription} {
-      border-radius: 1rem 0 0 1rem;
-    }
-
-    &:hover ${CoverCardDescription} {
-      transform: translateX(-17rem);
-    }
-  }
-
-  ::-webkit-scrollbar {
-    width: 3px;
-    overflow-x: hidden;
-  }
-
-  ::-webkit-scrollbar-track {
-    border-radius: 2px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: #00acb5a5;
-    border-radius: 4px;
-  }
-
-  @media (max-width: 1204px) {
     &:hover,
-    &:nth-of-type(4n):hover,
     &.react-draggable-dragging {
-      ${CoverCardDescription} {
-        transform: translateX(0px);
-        z-index: 20;
-        border-radius: 0 0 0 0;
-      }
+      z-index: 20;
+      box-shadow: 0 2px 4px #0000005a;
     }
-  }
-`
+
+    ::-webkit-scrollbar {
+      width: 3px;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar-track {
+      border-radius: 2px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #00acb5a5;
+      border-radius: 4px;
+    }
+  `,
+)
 
 export const CoverCardImage = styled.figure`
+  display: flex;
   position: relative;
   z-index: 1;
-  height: 17rem;
-  width: 17rem;
+  width: 100%;
   overflow: hidden;
   cursor: grab;
 
   img {
-    height: 17rem;
-    width: 17rem;
+    max-width: 100%;
+    object-fit: contain;
     pointer-events: none;
   }
 `

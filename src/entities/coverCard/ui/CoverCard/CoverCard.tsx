@@ -1,19 +1,33 @@
 import { useRef, FC } from 'react'
 import Draggable from 'react-draggable'
 
-import { CoverCardContainer } from './styles/CoverCard.styles.ts'
+import {
+  CoverCardContainer,
+  CoverCardImage,
+  CoverCardPositionType,
+} from './styles/CoverCard.styles.ts'
 
 import { IPlaylist } from 'pages/main/model/playlistsSlice.ts'
-import CoverImage from './CoverImage'
-import CoverDescription from './CoverDescription'
-// import { getREMValue } from 'shared/utils/getREMValue.ts'
+import { getREMValue } from 'shared/utils/getREMValue.ts'
 import { usePlaylistsStore } from 'pages/main/model/playlistsSlice.ts'
 
 export const BOUNDING_NODE_ID = 'cardDragBounding'
 
+export interface ICardPosition {
+  axesX: number
+  axesY: number
+  top: CoverCardPositionType
+  bottom: CoverCardPositionType
+  left: CoverCardPositionType
+  right: CoverCardPositionType
+}
+
 const CoverCard: FC<
-  IPlaylist & { position: { axesX: number; axesY: number } }
-> = ({ title, image, songs, id }) => {
+  IPlaylist & {
+    width: number
+    position: ICardPosition
+  }
+> = ({ title, image, id, position, width }) => {
   const {
     setCurrentPlaylist,
     resetCurrentPlaylist,
@@ -23,7 +37,7 @@ const CoverCard: FC<
 
   const cardRef = useRef<HTMLDivElement>(null)
   const parentRef = useRef<HTMLElement | null>(null)
-  // const remValue = getREMValue()
+  const remValue = getREMValue()
 
   const onDragStart = () => {
     if (!parentRef.current) {
@@ -43,18 +57,24 @@ const CoverCard: FC<
         parentRef.current!.classList.remove('has-dragging-element')
         allowChangingCurrentPlaylist()
       }}
-      // defaultPosition={{
-      //   x: remValue * position.axesX,
-      //   y: remValue * position.axesY,
-      // }}
+      defaultPosition={{
+        x: remValue * position.axesX,
+        y: remValue * position.axesY,
+      }}
     >
       <CoverCardContainer
         ref={cardRef}
         onMouseEnter={() => setCurrentPlaylist(id)}
         onMouseLeave={resetCurrentPlaylist}
+        $width={width}
+        $top={position.top}
+        $bottom={position.bottom}
+        $left={position.left}
+        $right={position.right}
       >
-        <CoverImage image={image} />
-        <CoverDescription title={title} songs={songs} />
+        <CoverCardImage>
+          <img src={image} alt={`${title} playlist cover`} />
+        </CoverCardImage>
       </CoverCardContainer>
     </Draggable>
   )
