@@ -1,11 +1,6 @@
 name: Lint
 
-on:
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - ready_for_review
+on: [push]
 
 jobs:
   build:
