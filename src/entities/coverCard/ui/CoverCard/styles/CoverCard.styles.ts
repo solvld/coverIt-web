@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components'
 
-export const REACT_DRAGGABLE_ACTIVE_CLASS = 'react-draggable-dragging'
 export type CoverCardPositionType = string | number
 
 export const CoverCardContainer = styled.aside<{
