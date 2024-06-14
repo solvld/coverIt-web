@@ -24,6 +24,7 @@ export const GeneratedCard = ({
   isPending = false,
 }: PlaylistCardProps) => {
   const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
+  const [isSaved, setIsSaved] = useState<boolean>(response.isSaved)
   const handleRegenerate = () => {
     if (setPopupActive) {
       setPopupActive(true)
@@ -57,13 +58,14 @@ export const GeneratedCard = ({
             <Regenerate
               onClick={handleRegenerate}
               isRotate={isPending}
-              disabled={response.isSaved}
+              disabled={isSaved}
             />
             <SaveCover
               type="playlist"
               playlistId={response.id}
               coverId={coverImages[currentCoverIndex]?.id}
-              isSaved={response.isSaved}
+              isSaved={isSaved}
+              setIsSaved={setIsSaved}
             />
           </div>
 
