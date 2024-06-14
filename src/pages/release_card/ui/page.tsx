@@ -10,6 +10,7 @@ import { useRegenerateTrack } from 'features/generate/track/api/generateQuery'
 
 function Page() {
   const [coverImages, setCoverImages] = useState<TrackCover[]>([])
+  const [lastIndex, setLastIndex] = useState(0)
   const { id } = useParams()
   const releaseId = Number(id)
 
@@ -33,6 +34,7 @@ function Page() {
     }
     if (isRegenerateSuccess) {
       setCoverImages(regeneratedCovers.covers)
+      setLastIndex(regeneratedCovers.covers.length - 1)
     }
   }, [isSuccess, releaseResponse, isRegenerateSuccess, regeneratedCovers])
 
@@ -45,6 +47,7 @@ function Page() {
           releaseResponse={releaseResponse}
           regenerateCover={regenerateRelease}
           isRegeneratePending={regeneratePending}
+          lastIndex={lastIndex}
         />
       )}
       {isPending && <DotsLoader />}

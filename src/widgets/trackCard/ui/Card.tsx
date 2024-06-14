@@ -86,6 +86,7 @@ interface TractCardProps {
     releaseId: number
   }): void
   isRegeneratePending: boolean
+  lastIndex: number
 }
 const Card = ({
   covers,
@@ -93,6 +94,7 @@ const Card = ({
   releaseResponse,
   regenerateCover,
   isRegeneratePending,
+  lastIndex,
 }: TractCardProps) => {
   const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
   const isSaved = covers.some(obj => obj.isSaved === true)
@@ -124,7 +126,11 @@ const Card = ({
             gap: '31px',
           }}
         >
-          <ImageSlider setCurrentCover={setCurrentCoverIndex} covers={covers} />
+          <ImageSlider
+            setCurrentCover={setCurrentCoverIndex}
+            covers={covers}
+            index={lastIndex}
+          />
           <div>
             <CardTitle>{releaseResponse.title}</CardTitle>
             <Description>

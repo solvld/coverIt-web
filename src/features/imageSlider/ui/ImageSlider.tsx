@@ -5,6 +5,7 @@ import styled from 'styled-components'
 interface ImageSliderProps extends HTMLAttributes<HTMLElement> {
   covers: Covers
   setCurrentCover?(index: number): void
+  index: number
 }
 
 const RightButton = styled.button`
@@ -59,8 +60,8 @@ const Slide = styled.img`
   border-radius: 0.5rem;
 `
 
-const ImageSlider = ({ covers, setCurrentCover }: ImageSliderProps) => {
-  const [currentIndex, setCurrentIndex] = useState(0)
+const ImageSlider = ({ covers, setCurrentCover, index }: ImageSliderProps) => {
+  const [currentIndex, setCurrentIndex] = useState(index)
   const [isButtonHide, setIsButtonHide] = useState(true)
 
   useEffect(() => {
@@ -68,6 +69,10 @@ const ImageSlider = ({ covers, setCurrentCover }: ImageSliderProps) => {
       setIsButtonHide(false)
     }
   }, [covers])
+
+  useEffect(() => {
+    setCurrentIndex(index)
+  }, [index])
 
   const goToPrevious = () => {
     const isFirstSlide = currentIndex === 0

@@ -15,6 +15,7 @@ interface PlaylistCardProps {
   coverImages: PlaylistCover[]
   setPopupActive?(state: boolean): void
   isPending?: boolean
+  lastIndex: number
 }
 
 export const GeneratedCard = ({
@@ -22,8 +23,9 @@ export const GeneratedCard = ({
   coverImages,
   setPopupActive,
   isPending = false,
+  lastIndex,
 }: PlaylistCardProps) => {
-  const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
+  const [currentCoverIndex, setCurrentCoverIndex] = useState(lastIndex)
   const [isSaved, setIsSaved] = useState<boolean>(response.isSaved)
   const handleRegenerate = () => {
     if (setPopupActive) {
@@ -38,6 +40,7 @@ export const GeneratedCard = ({
           <ImageSlider
             setCurrentCover={setCurrentCoverIndex}
             covers={coverImages}
+            index={lastIndex}
           />
           <div>
             <CardTitle>{response?.title}</CardTitle>

@@ -14,6 +14,7 @@ import { PopUp } from 'widgets/popup'
 function Page() {
   const [isPopUpActive, setIsPopupActive] = useState(false)
   const [coverImages, setCoverImages] = useState<PlaylistCover[]>([])
+  const [lastIndex, setLastIndex] = useState(0)
 
   const { id } = useParams()
 
@@ -38,6 +39,7 @@ function Page() {
     }
     if (isSuccess) {
       setCoverImages(regeneratedCovers.covers)
+      setLastIndex(regeneratedCovers.covers.length - 1)
     }
   }, [isSuccess, regeneratedCovers, isSuccessPlaylist, playlistResponse])
 
@@ -49,6 +51,7 @@ function Page() {
           coverImages={coverImages}
           setPopupActive={setIsPopupActive}
           isPending={regeneratePending}
+          lastIndex={lastIndex}
         />
       )}
       {isPending && <DotsLoader />}
