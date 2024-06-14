@@ -3,26 +3,31 @@ import { Link } from 'react-router-dom'
 import Letter from 'shared/assets/images/letter.svg?react'
 import Decline from 'shared/assets/images/check-cross.svg?react'
 import Done from 'shared/assets/images/check-square.svg?react'
-import { LinkButton } from 'shared/ui/LinkButton'
+import { Button } from 'shared/ui/Button'
 
 const SNotification = styled.div`
   background: var(--background-color);
   box-shadow: var(--shadow);
-  padding: 2rem;
-  border-radius: 1rem;
+  padding: 1.64rem;
+  border-radius: 0.75rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.75rem;
   font-weight: 600;
-  font-size: 1.5rem;
-  line-height: 2rem;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+
+  svg {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
 `
 const FlexRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.125rem;
 `
 const Notification = ({ status }: { status: string }) => {
   if (status === 'fail') {
@@ -46,9 +51,9 @@ const Notification = ({ status }: { status: string }) => {
           <Done />
           <span>You have signed up successfully.</span>
         </FlexRow>
-        <LinkButton>
+        <Button>
           <Link to={'/sign-in'}>Login</Link>
-        </LinkButton>
+        </Button>
       </SNotification>
     )
   }
