@@ -2,8 +2,7 @@ import styled from 'styled-components'
 import Download from 'shared/assets/images/download.svg?react'
 import Edit from 'shared/assets/images/edit-image.svg?react'
 import { useTrackForm } from 'features/generate/track/model/formCollectDataSlice'
-import { useEffect, useState } from 'react'
-import { useRegenerateTrack } from 'features/generate/track/api/generateQuery'
+import { useState } from 'react'
 import { Regenerate } from 'features/regenerate'
 import { ImageSlider } from 'features/imageSlider'
 import { GenerateReleaseResponse, TrackCover } from 'shared/types/generate'
@@ -77,37 +76,41 @@ interface TractCardProps {
   covers: TrackCover[]
   releaseId: number
   releaseResponse: GenerateReleaseResponse
+  regenerateCover(data: {
+    title: string
+    mood: string[]
+    object: string
+    surrounding: string
+    coverDescription: string[]
+    isLoFi: boolean
+    releaseId: number
+  }): void
+  isRegeneratePending: boolean
 }
-const Card = ({ covers, releaseId, releaseResponse }: TractCardProps) => {
-  const [coverImages, setCoverImages] = useState(covers)
+const Card = ({
+  covers,
+  releaseId,
+  releaseResponse,
+  regenerateCover,
+  isRegeneratePending,
+}: TractCardProps) => {
   const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
 
   const { title, mood, object, surrounding, coverDescription, isLoFi } =
     useTrackForm(state => state.formState)
 
-  const {
-    mutate: regenerateTrack,
-    isPending,
-    isSuccess,
-    data: newTrackImage,
-  } = useRegenerateTrack()
-
-  useEffect(() => {
-    if (isSuccess) {
-      setCoverImages(newTrackImage?.covers)
-    }
-  }, [isSuccess, newTrackImage])
+  const releaseData = {
+    title: title,
+    mood: mood.split(','),
+    object: object,
+    surrounding: surrounding,
+    coverDescription: coverDescription.split(','),
+    isLoFi: isLoFi === 'true',
+    releaseId: releaseId,
+  }
 
   const handleRegenerate = () => {
-    regenerateTrack({
-      title: title,
-      mood: mood.split(','),
-      object: object,
-      surrounding: surrounding,
-      coverDescription: coverDescription.split(','),
-      isLoFi: isLoFi === 'true',
-      releaseId: releaseId,
-    })
+    regenerateCover(releaseData)
   }
 
   return (
@@ -162,7 +165,10 @@ const Card = ({ covers, releaseId, releaseResponse }: TractCardProps) => {
               coverId={releaseResponse.covers[currentCoverIndex]?.id}
             />
 
-            <Regenerate onClick={handleRegenerate} isRotate={isPending} />
+            <Regenerate
+              onClick={handleRegenerate}
+              isRotate={isRegeneratePending}
+            />
 
             <Button>
               <Link to={'/generate/release'}>
@@ -175,7 +181,7 @@ const Card = ({ covers, releaseId, releaseResponse }: TractCardProps) => {
           <Button
             onClick={() =>
               saveFile(
-                coverImages[currentCoverIndex]?.link,
+                covers[currentCoverIndex]?.link,
                 title.trimEnd().replace(' ', '_'),
               )
             }

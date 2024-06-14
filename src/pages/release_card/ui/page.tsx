@@ -6,6 +6,7 @@ import { TrackCover } from 'shared/types/generate'
 import { useEffect, useState } from 'react'
 import { useGetRelease } from 'shared/services/releaseQuery'
 import { DotsLoader } from 'shared/ui/DotsLoader'
+import { useRegenerateTrack } from 'features/generate/track/api/generateQuery'
 
 function Page() {
   const [coverImages, setCoverImages] = useState<TrackCover[]>([])
@@ -19,11 +20,21 @@ function Page() {
     isLoadingError,
   } = useGetRelease(releaseId)
 
+  const {
+    mutate: regenerateRelease,
+    isPending: regeneratePending,
+    isSuccess: isRegenerateSuccess,
+    data: regeneratedCovers,
+  } = useRegenerateTrack()
+
   useEffect(() => {
     if (isSuccess) {
       setCoverImages(releaseResponse.covers)
     }
-  }, [isSuccess, releaseResponse])
+    if (isRegenerateSuccess) {
+      setCoverImages(regeneratedCovers.covers)
+    }
+  }, [isSuccess, releaseResponse, isRegenerateSuccess, regeneratedCovers])
 
   return (
     <StyledPage>
@@ -32,6 +43,8 @@ function Page() {
           releaseId={releaseId}
           covers={coverImages}
           releaseResponse={releaseResponse}
+          regenerateCover={regenerateRelease}
+          isRegeneratePending={regeneratePending}
         />
       )}
       {isPending && <DotsLoader />}
