@@ -95,6 +95,7 @@ const Card = ({
   isRegeneratePending,
 }: TractCardProps) => {
   const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
+  const isSaved = covers.some(obj => obj.isSaved === true)
 
   const { title, mood, object, surrounding, coverDescription, isLoFi } =
     useTrackForm(state => state.formState)
@@ -163,14 +164,18 @@ const Card = ({
               type="release"
               releaseId={releaseResponse.id}
               coverId={releaseResponse.covers[currentCoverIndex]?.id}
+              isSaved={isSaved}
             />
 
             <Regenerate
               onClick={handleRegenerate}
               isRotate={isRegeneratePending}
+              disabled={isSaved}
             />
 
-            <Button>
+            <Button
+              style={isSaved ? { opacity: 0.5, pointerEvents: 'none' } : {}}
+            >
               <Link to={'/generate/release'}>
                 <Edit />
                 Edit
