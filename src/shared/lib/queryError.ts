@@ -13,3 +13,16 @@ export const queryError = (error: Error) => {
     console.log(error.message)
   }
 }
+
+export const playlistErrorHandle = (error: Error) => {
+  if (axios.isAxiosError(error)) {
+    console.log(error.response?.data.message)
+    if (error.response) {
+      return error.response?.data.message
+    } else {
+      return 'Playlist not found...'
+    }
+  } else if (error instanceof Error) {
+    return error.message
+  }
+}

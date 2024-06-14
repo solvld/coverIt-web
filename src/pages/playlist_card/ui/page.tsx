@@ -3,6 +3,7 @@ import { RegeneratePlaylistForm } from 'features/generate/playlist'
 import { useRegeneratePlaylist } from 'features/generate/playlist/api/generateQuery'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { playlistErrorHandle } from 'shared/lib/queryError'
 import { useGetPlaylist } from 'shared/services/playlistQuery'
 import { PlaylistCover } from 'shared/types/generate'
 import { DotsLoader } from 'shared/ui/DotsLoader'
@@ -21,6 +22,7 @@ function Page() {
     isPending,
     isSuccess: isSuccessPlaylist,
     isLoadingError,
+    error,
   } = useGetPlaylist(Number(id))
 
   const {
@@ -56,7 +58,7 @@ function Page() {
           regenerateCover={regeneratePlaylist}
         />
       </PopUp>
-      {isLoadingError && <h4>Cover not found...</h4>}
+      {isLoadingError && <h4>{`${playlistErrorHandle(error)}...`}</h4>}
       <ToasterOnError />
     </StyledPage>
   )
