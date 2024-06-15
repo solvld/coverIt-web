@@ -7,7 +7,7 @@ import {
 //import elements
 import Root from 'app/layouts/appRoot'
 import MainPage from 'pages/main'
-import Archive from 'pages/archive'
+//import Archive from 'pages/archive'
 import Generate from 'pages/generate'
 import Profile from 'pages/profile'
 import LogIn from 'pages/logIn'
@@ -17,12 +17,16 @@ import GeneratePlaylist from 'pages/generate-playlist'
 import GenerateTrack from 'pages/generate-track'
 import { PlaylistCard } from 'pages/playlist_card'
 import { ReleaseCard } from 'pages/release_card'
+import { WipPage } from 'pages/workInProgress'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
       <Route index element={<MainPage />} />
-      <Route path="archive" element={<Archive />} />
+      <Route path="archive" element={<WipPage />} />
+      <Route path="liked" element={<WipPage />} />
+      <Route path="my-playlist" element={<WipPage />} />
+      <Route path="find-user" element={<WipPage />} />
       <Route path="generate">
         <Route index element={<Generate />} />
         <Route path="playlist" element={<GeneratePlaylist />} />
