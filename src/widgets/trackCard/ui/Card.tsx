@@ -97,7 +97,9 @@ const Card = ({
   lastIndex,
 }: TractCardProps) => {
   const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
-  const isSaved = covers.some(obj => obj.isSaved === true)
+  const [isSaved, setIsSaved] = useState<boolean>(
+    covers.some(obj => obj.isSaved === true),
+  )
 
   const { title, mood, object, surrounding, coverDescription, isLoFi } =
     useTrackForm(state => state.formState)
@@ -171,6 +173,7 @@ const Card = ({
               releaseId={releaseResponse.id}
               coverId={releaseResponse.covers[currentCoverIndex]?.id}
               isSaved={isSaved}
+              setIsSaved={setIsSaved}
             />
 
             <Regenerate
