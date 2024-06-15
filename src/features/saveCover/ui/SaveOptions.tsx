@@ -28,10 +28,21 @@ export const SaveRadio = styled.input.attrs({ type: 'radio' })`
 
 export const SaveOptions = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  height: 2.715rem;
+  height: 2.6rem;
   padding: 0 1.125rem;
   border-radius: 9999px;
   border: solid 1px;
+  gap: 2rem;
+`
+export const SaveLabel = styled.label`
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 108%;
+  color: var(--black);
+
+  /* height: 1.4rem; */
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 `

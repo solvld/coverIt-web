@@ -1,11 +1,11 @@
 import { Button } from 'shared/ui/Button'
 import AddCircle from 'shared/assets/images/add-circle.svg?react'
 import Done from 'shared/assets/images/check-square.svg?react'
-import { RadioLabel, VerticalBar } from 'shared/ui/form'
+import { VerticalBar } from 'shared/ui/form'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSavePlaylist, useSaveRelease } from './api/saveCoverQuery'
-import { SaveOptions, SaveRadio } from './SaveOptions'
+import { SaveLabel, SaveOptions, SaveRadio } from './SaveOptions'
 
 interface SaveCoverProps {
   coverId: number
@@ -56,29 +56,30 @@ export default function SaveCover({
       </Button>
       {type === 'playlist' ? (
         <SaveOptions>
-          <RadioLabel>
+          <SaveLabel>
             <SaveRadio
               onChange={() => setIsPrivate(false)}
               name="check"
               value={(!isPrivate).toString()}
             />
             Public
-          </RadioLabel>
+          </SaveLabel>
           <VerticalBar
             style={{
               background: 'var(--black)',
-              minWidth: 1,
+              width: 1,
               height: '1.5rem',
+              margin: '0 0.4rem',
             }}
           />
-          <RadioLabel>
+          <SaveLabel>
             <SaveRadio
               onChange={() => setIsPrivate(true)}
               name="check"
               value={isPrivate.toString()}
             />
             Private
-          </RadioLabel>
+          </SaveLabel>
         </SaveOptions>
       ) : null}
     </div>
