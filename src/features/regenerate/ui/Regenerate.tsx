@@ -25,11 +25,19 @@ interface RegenerateProps
     HTMLButtonElement
   > {
   isRotate: boolean
+  disabled?: boolean
 }
 
-export default function Regenerate({ isRotate, ...props }: RegenerateProps) {
+export default function Regenerate({
+  isRotate,
+  disabled = false,
+  ...props
+}: RegenerateProps) {
   return (
-    <SButton {...props}>
+    <SButton
+      style={disabled ? { opacity: 0.5, pointerEvents: 'none' } : {}}
+      {...props}
+    >
       <RegenerateButton $isActive={isRotate}>
         <Reload />
       </RegenerateButton>

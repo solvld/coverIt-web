@@ -1,8 +1,10 @@
 import { ToasterOnError } from 'entities/ToastOnError'
 import { RegeneratePlaylistForm } from 'features/generate/playlist'
 import { useRegeneratePlaylist } from 'features/generate/playlist/api/generateQuery'
+import { RemainingGenerates } from 'features/remainingGenerates'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { playlistErrorHandle } from 'shared/lib/queryError'
 import { useGetPlaylist } from 'shared/services/playlistQuery'
 import { PlaylistCover } from 'shared/types/generate'
 import { DotsLoader } from 'shared/ui/DotsLoader'
@@ -12,7 +14,9 @@ import { PopUp } from 'widgets/popup'
 
 function Page() {
   const [isPopUpActive, setIsPopupActive] = useState(false)
+  const [isNotification, setIsNotification] = useState(false)
   const [coverImages, setCoverImages] = useState<PlaylistCover[]>([])
+  const [lastIndex, setLastIndex] = useState(0)
 
   const { id } = useParams()
 
@@ -21,6 +25,7 @@ function Page() {
     isPending,
     isSuccess: isSuccessPlaylist,
     isLoadingError,
+    error,
   } = useGetPlaylist(Number(id))
 
   const {
@@ -28,7 +33,15 @@ function Page() {
     isPending: regeneratePending,
     isSuccess,
     data: regeneratedCovers,
+    isError: isRegenerateError,
+    error: regenerateError,
   } = useRegeneratePlaylist()
+
+  useEffect(() => {
+    if (isRegenerateError) {
+      setIsNotification(true)
+    }
+  }, [isRegenerateError])
 
   useEffect(() => {
     if (isSuccessPlaylist) {
@@ -36,6 +49,7 @@ function Page() {
     }
     if (isSuccess) {
       setCoverImages(regeneratedCovers.covers)
+      setLastIndex(regeneratedCovers.covers.length - 1)
     }
   }, [isSuccess, regeneratedCovers, isSuccessPlaylist, playlistResponse])
 
@@ -47,6 +61,7 @@ function Page() {
           coverImages={coverImages}
           setPopupActive={setIsPopupActive}
           isPending={regeneratePending}
+          lastIndex={lastIndex}
         />
       )}
       {isPending && <DotsLoader />}
@@ -56,8 +71,13 @@ function Page() {
           regenerateCover={regeneratePlaylist}
         />
       </PopUp>
-      {isLoadingError && <h4>Cover not found...</h4>}
+      {isLoadingError && <h4>{`${playlistErrorHandle(error)}...`}</h4>}
       <ToasterOnError />
+      {isRegenerateError && (
+        <PopUp isActive={isNotification} setIsActive={setIsNotification}>
+          <RemainingGenerates error={regenerateError} />
+        </PopUp>
+      )}
     </StyledPage>
   )
 }

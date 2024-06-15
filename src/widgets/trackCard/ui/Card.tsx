@@ -1,16 +1,16 @@
 import styled from 'styled-components'
 import Download from 'shared/assets/images/download.svg?react'
 import Edit from 'shared/assets/images/edit-image.svg?react'
-import AddCircle from 'shared/assets/images/add-circle.svg?react'
 import { useTrackForm } from 'features/generate/track/model/formCollectDataSlice'
-import { useEffect, useState } from 'react'
-import { useRegenerateTrack } from 'features/generate/track/api/generateQuery'
+import { useState } from 'react'
 import { Regenerate } from 'features/regenerate'
 import { ImageSlider } from 'features/imageSlider'
-import { TrackCover } from 'shared/types/generate'
+import { GenerateReleaseResponse, TrackCover } from 'shared/types/generate'
 import { Button } from 'shared/ui/Button'
-import { Title } from 'shared/ui/form'
 import { Link } from 'react-router-dom'
+import { saveFile } from 'shared/lib/safeFile'
+import { CardTitle } from 'shared/ui/card/cardTitle'
+import { SaveCover } from 'features/saveCover'
 
 const SCard = styled.div`
   display: flex;
@@ -22,6 +22,14 @@ const SCard = styled.div`
   padding: 1.65rem;
   border-radius: 0.75rem;
   box-shadow: var(--shadow);
+  img {
+    width: 26.5rem;
+    height: 26.5rem;
+  }
+  .slider {
+    width: 26.5rem;
+    height: 26.5rem;
+  }
 `
 const Description = styled.div`
   margin-top: 1.5rem;
@@ -30,6 +38,8 @@ const Description = styled.div`
   flex-direction: column;
   justify-content: space-between;
   cursor: default;
+  min-width: 25rem;
+  width: 100%;
 
   h4 {
     font-size: 1.5rem;
@@ -41,9 +51,9 @@ const Description = styled.div`
   }
 `
 const Tag = styled.span`
-  padding: 4px 10px;
-  color: #fff;
-  border-radius: 9px;
+  padding: 0.3rem 1.2rem;
+  color: var(--gray0);
+  border-radius: 1.3rem;
   background-color: var(--primary-color);
 `
 const TagWrapper = styled.div`
@@ -56,42 +66,56 @@ const Actions = styled.div`
   align-items: center;
   gap: 0.5rem;
 `
+const Bottom = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
 
 interface TractCardProps {
   covers: TrackCover[]
   releaseId: number
-  setIsCardActive?: (arg: boolean) => void
+  releaseResponse: GenerateReleaseResponse
+  regenerateCover(data: {
+    title: string
+    mood: string[]
+    object: string
+    surrounding: string
+    coverDescription: string[]
+    isLoFi: boolean
+    releaseId: number
+  }): void
+  isRegeneratePending: boolean
+  lastIndex: number
 }
-const Card = ({ covers, releaseId }: TractCardProps) => {
-  const [coverImages, setCoverImages] = useState(covers)
+const Card = ({
+  covers,
+  releaseId,
+  releaseResponse,
+  regenerateCover,
+  isRegeneratePending,
+  lastIndex,
+}: TractCardProps) => {
   const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
+  const [isSaved, setIsSaved] = useState<boolean>(
+    covers.some(obj => obj.isSaved === true),
+  )
 
   const { title, mood, object, surrounding, coverDescription, isLoFi } =
     useTrackForm(state => state.formState)
 
-  const {
-    mutate: regenerateTrack,
-    isPending,
-    isSuccess,
-    data: newTrackImage,
-  } = useRegenerateTrack()
-
-  useEffect(() => {
-    if (isSuccess) {
-      setCoverImages(newTrackImage?.covers)
-    }
-  }, [isSuccess, newTrackImage])
+  const releaseData = {
+    title: title,
+    mood: mood.split(','),
+    object: object,
+    surrounding: surrounding,
+    coverDescription: coverDescription.split(','),
+    isLoFi: isLoFi === 'true',
+    releaseId: releaseId,
+  }
 
   const handleRegenerate = () => {
-    regenerateTrack({
-      title: title,
-      mood: mood.split(','),
-      object: object,
-      surrounding: surrounding,
-      coverDescription: coverDescription.split(','),
-      isLoFi: isLoFi === 'true',
-      releaseId: releaseId,
-    })
+    regenerateCover(releaseData)
   }
 
   return (
@@ -105,16 +129,17 @@ const Card = ({ covers, releaseId }: TractCardProps) => {
           }}
         >
           <ImageSlider
-            covers={coverImages}
             setCurrentCover={setCurrentCoverIndex}
+            covers={covers}
+            index={lastIndex}
           />
           <div>
-            <Title>{title}</Title>
+            <CardTitle>{releaseResponse.title}</CardTitle>
             <Description>
               <div>
                 <h4>Mood</h4>
                 <TagWrapper>
-                  {mood.split(',').map((e, index) => (
+                  {releaseResponse.mood.map((e, index) => (
                     <Tag key={index}>{e}</Tag>
                   ))}
                 </TagWrapper>
@@ -122,18 +147,18 @@ const Card = ({ covers, releaseId }: TractCardProps) => {
 
               <div>
                 <h4>Object / action</h4>
-                <p>{object}</p>
+                <p>{releaseResponse.object}</p>
               </div>
 
               <div>
                 <h4>Surrounding</h4>
-                <p>{surrounding}</p>
+                <p>{releaseResponse.surrounding}</p>
               </div>
 
               <div>
                 <h4>Style</h4>
                 <TagWrapper>
-                  {coverDescription.split(',').map((e, index) => (
+                  {releaseResponse.coverDescription.map((e, index) => (
                     <Tag key={index}>{e}</Tag>
                   ))}
                 </TagWrapper>
@@ -141,32 +166,44 @@ const Card = ({ covers, releaseId }: TractCardProps) => {
             </Description>
           </div>
         </div>
-        <Actions>
-          <Button>
-            <AddCircle />
-            Save
-          </Button>
+        <Bottom>
+          <Actions>
+            <SaveCover
+              type="release"
+              releaseId={releaseResponse.id}
+              coverId={releaseResponse.covers[currentCoverIndex]?.id}
+              isSaved={isSaved}
+              setIsSaved={setIsSaved}
+            />
 
-          <Regenerate onClick={handleRegenerate} isRotate={isPending} />
+            <Regenerate
+              onClick={handleRegenerate}
+              isRotate={isRegeneratePending}
+              disabled={isSaved}
+            />
 
-          <Button>
-            <Link to={'/generate/track'}>
-              <Edit />
-              Edit
-            </Link>
-          </Button>
-
-          <Button>
-            <a
-              href={coverImages[currentCoverIndex].link}
-              download={`${title}_${currentCoverIndex}.jpeg`}
-              target="_balnk"
+            <Button
+              style={isSaved ? { opacity: 0.5, pointerEvents: 'none' } : {}}
             >
-              <Download />
-              Download
-            </a>
+              <Link to={'/generate/release'}>
+                <Edit />
+                Edit
+              </Link>
+            </Button>
+          </Actions>
+
+          <Button
+            onClick={() =>
+              saveFile(
+                covers[currentCoverIndex]?.link,
+                title.trimEnd().replace(' ', '_'),
+              )
+            }
+          >
+            <Download />
+            Download
           </Button>
-        </Actions>
+        </Bottom>
       </SCard>
     </section>
   )

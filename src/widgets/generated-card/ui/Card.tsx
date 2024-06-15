@@ -4,17 +4,18 @@ import Play from 'shared/assets/images/play.svg?react'
 import { Button } from 'shared/ui/Button'
 import { ImageSlider } from 'features/imageSlider'
 import { GeneratePlaylistResponse, PlaylistCover } from 'shared/types/generate'
-import { Title } from 'shared/ui/form'
 import { useState } from 'react'
 import { Regenerate } from 'features/regenerate'
 import { saveFile } from 'shared/lib/safeFile'
 import { SaveCover } from 'features/saveCover'
+import { CardTitle } from 'shared/ui/card/cardTitle'
 
 interface PlaylistCardProps {
   response: GeneratePlaylistResponse
   coverImages: PlaylistCover[]
   setPopupActive?(state: boolean): void
   isPending?: boolean
+  lastIndex: number
 }
 
 export const GeneratedCard = ({
@@ -22,8 +23,10 @@ export const GeneratedCard = ({
   coverImages,
   setPopupActive,
   isPending = false,
+  lastIndex,
 }: PlaylistCardProps) => {
-  const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
+  const [currentCoverIndex, setCurrentCoverIndex] = useState(lastIndex)
+  const [isSaved, setIsSaved] = useState<boolean>(response.isSaved)
   const handleRegenerate = () => {
     if (setPopupActive) {
       setPopupActive(true)
@@ -37,9 +40,10 @@ export const GeneratedCard = ({
           <ImageSlider
             setCurrentCover={setCurrentCoverIndex}
             covers={coverImages}
+            index={lastIndex}
           />
           <div>
-            <Title>{response?.title}</Title>
+            <CardTitle>{response?.title}</CardTitle>
             <div className={s.actions}>
               <ol className={s.playlist}>
                 {response?.tracks.map((song, index) => (
@@ -54,11 +58,17 @@ export const GeneratedCard = ({
         </div>
         <div className={s.bottom}>
           <div>
-            <Regenerate onClick={handleRegenerate} isRotate={isPending} />
+            <Regenerate
+              onClick={handleRegenerate}
+              isRotate={isPending}
+              disabled={isSaved}
+            />
             <SaveCover
+              type="playlist"
               playlistId={response.id}
               coverId={coverImages[currentCoverIndex]?.id}
-              isSaved={response.isSaved}
+              isSaved={isSaved}
+              setIsSaved={setIsSaved}
             />
           </div>
 
