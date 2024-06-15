@@ -4,51 +4,32 @@ import { GenerateTrackForm } from 'features/generate'
 import { useGenerateTrack } from 'features/generate/track/api/generateQuery'
 import { useEffect, useState } from 'react'
 import { StyledPage } from 'shared/ui/StyledPage'
-import { TrackCard } from 'widgets/trackCard'
 
 const Page = () => {
-  const [isCardActive, setIsCardActive] = useState(false)
-  const {
-    mutate,
-    isPending,
-    isSuccess,
-    data: trackCoverData,
-  } = useGenerateTrack()
+  const [isFormActive, setIsFormActive] = useState(true)
+  const { mutate, isPending, isSuccess, isError } = useGenerateTrack()
 
   useEffect(() => {
-    if (isSuccess) {
-      setIsCardActive(true)
+    if (isPending) {
+      setIsFormActive(false)
     }
-  }, [isSuccess])
+    if (isError) {
+      setIsFormActive(true)
+    }
+  }, [isPending, isError])
 
-  if (!isCardActive) {
-    return (
-      <StyledPage>
-        {isPending ? (
-          <LinearLoading>We are cooking your cover...</LinearLoading>
-        ) : (
-          <GenerateTrackForm generateTrack={mutate} />
-        )}
-        <ToasterOnError />
-      </StyledPage>
-    )
-  }
-
-  if (isCardActive) {
-    return (
-      <StyledPage>
-        {isSuccess && (
-          <TrackCard
-            covers={trackCoverData?.covers}
-            setIsCardActive={setIsCardActive}
-            releaseId={trackCoverData?.id}
-          />
-        )}
-        <ToasterOnError />
-      </StyledPage>
-    )
-  }
-  console.log(isCardActive)
+  return (
+    <StyledPage>
+      {isFormActive ? (
+        <GenerateTrackForm generateTrack={mutate} />
+      ) : (
+        <LinearLoading isDone={isSuccess}>
+          We are cooking your cover...
+        </LinearLoading>
+      )}
+      <ToasterOnError />
+    </StyledPage>
+  )
 }
 
 export default Page

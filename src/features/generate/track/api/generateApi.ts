@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { TrackBody } from 'shared/types/generate'
+import { GenerateReleaseResponse, TrackBody } from 'shared/types/generate'
 
 const URL = import.meta.env.VITE_API_URL
 const token = localStorage.getItem('token')
@@ -8,30 +8,9 @@ const generateInstance = axios.create({
   baseURL: `${URL}/cover/release`,
 })
 
-interface GenerateTrackResponse {
-  id: number
-  title: string
-  author: {
-    id: number
-    username: string
-    email: string
-    hiFiReleaseGenerations: number
-    loFiReleaseGenerations: number
-  }
-  covers: {
-    id: number
-    created: string
-    link: string
-    isLoFi: true
-    prompt: string
-    isSaved: boolean
-  }[]
-  createdAt: string
-}
-
 export const generateTrackQuery = async (inputs: TrackBody) => {
   return (
-    await generateInstance.post<GenerateTrackResponse>('/generate', inputs, {
+    await generateInstance.post<GenerateReleaseResponse>('/generate', inputs, {
       headers: { Authorization: `Bearer ${token}` },
     })
   ).data
@@ -51,7 +30,7 @@ export const regenerateTrackQuery = async (inputs: RegenerateTrackBody) => {
     coverDescription: inputs.coverDescription,
   }
   return (
-    await generateInstance.patch<GenerateTrackResponse>('/regenerate', body, {
+    await generateInstance.patch<GenerateReleaseResponse>('/regenerate', body, {
       params: { release_id: inputs.releaseId },
       headers: { Authorization: `Bearer ${token}` },
     })

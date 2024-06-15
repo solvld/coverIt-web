@@ -104,3 +104,50 @@ export type SavePlaylistCoverResponse = Omit<
   GeneratePlaylistResponse,
   'isSaved'
 >
+
+export interface GenerateReleaseResponse {
+  id: number
+  title: string
+  author: {
+    id: number
+    username: string
+    email: string
+    hiFiReleaseGenerations: number
+    loFiReleaseGenerations: number
+  }
+  covers: TrackCover[]
+  createdAt: string
+  mood: string[]
+  object: string
+  surrounding: string
+  coverDescription: string[]
+}
+
+export interface ReleaseSaveResponse {
+  id: number
+  title: string
+  author: {
+    id: number
+    username: string
+    email: string
+    hiFiReleaseGenerations: number
+    loFiReleaseGenerations: number
+  }
+  covers: [
+    {
+      id: number
+      created: string
+      link: string
+      isLoFi: true
+      prompt: string
+      isSaved: true
+    },
+  ]
+  saved: true
+  savedAt: string
+}
+export interface SaveReleaseCoverParamsQuery {
+  releaseId: number
+  coverId: number
+  token: string
+}
