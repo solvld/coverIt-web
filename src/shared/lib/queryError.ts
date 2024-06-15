@@ -26,3 +26,18 @@ export const playlistErrorHandle = (error: Error) => {
     return error.message
   }
 }
+
+export const regenerateError = (error: Error) => {
+  if (axios.isAxiosError(error)) {
+    if (error.response) {
+      if (error.response.status === 402) {
+        return error.response?.data.message
+      }
+      toastOnError(error.response?.data.message)
+    } else {
+      toastOnError('Something went wrong....')
+    }
+  } else if (error instanceof Error) {
+    console.log(error.message)
+  }
+}

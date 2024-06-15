@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { generatePlaylistQuery, regeneratePlaylistQuery } from './generateApi'
-import { queryError } from 'shared/lib/queryError'
+import { queryError, regenerateError } from 'shared/lib/queryError'
 import { useNavigate } from 'react-router-dom'
 
 export const useGeneratePlaylist = () => {
@@ -25,7 +25,7 @@ export const useRegeneratePlaylist = () => {
     mutationFn: regeneratePlaylistQuery,
 
     onError(error) {
-      queryError(error)
+      regenerateError(error)
     },
   })
 }
