@@ -14,6 +14,10 @@ export interface TrackBody {
   surrounding: string
   coverDescription: string[]
   isLoFi: boolean
+  token: string | null
+}
+export interface RegenerateTrackBody extends TrackBody {
+  releaseId: number
 }
 
 export type Vibe =

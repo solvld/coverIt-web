@@ -7,7 +7,7 @@ import { Regenerate } from 'features/regenerate'
 import { ImageSlider } from 'features/imageSlider'
 import { GenerateReleaseResponse, TrackCover } from 'shared/types/generate'
 import { Button } from 'shared/ui/Button'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { saveFile } from 'shared/lib/safeFile'
 import { CardTitle } from 'shared/ui/card/cardTitle'
 import { SaveCover } from 'features/saveCover'
@@ -103,6 +103,7 @@ const Card = ({
 
   const { title, mood, object, surrounding, coverDescription, isLoFi } =
     useTrackForm(state => state.formState)
+  const navigate = useNavigate()
 
   const releaseData = {
     title: title,
@@ -184,11 +185,10 @@ const Card = ({
 
             <Button
               style={isSaved ? { opacity: 0.5, pointerEvents: 'none' } : {}}
+              onClick={() => navigate(`/generate/release/edit?id=${releaseId}`)}
             >
-              <Link to={'/generate/release'}>
-                <Edit />
-                Edit
-              </Link>
+              <Edit />
+              Edit
             </Button>
           </Actions>
 
