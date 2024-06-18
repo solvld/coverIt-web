@@ -2,7 +2,6 @@ import axios from 'axios'
 import { GenerateReleaseResponse, TrackBody } from 'shared/types/generate'
 
 const URL = import.meta.env.VITE_API_URL
-const token = localStorage.getItem('token')
 
 const generateInstance = axios.create({
   baseURL: `${URL}/cover/release`,
@@ -11,7 +10,7 @@ const generateInstance = axios.create({
 export const generateTrackQuery = async (inputs: TrackBody) => {
   return (
     await generateInstance.post<GenerateReleaseResponse>('/generate', inputs, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${inputs.token}` },
     })
   ).data
 }
@@ -32,7 +31,7 @@ export const regenerateTrackQuery = async (inputs: RegenerateTrackBody) => {
   return (
     await generateInstance.patch<GenerateReleaseResponse>('/regenerate', body, {
       params: { release_id: inputs.releaseId },
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${inputs.token}` },
     })
   ).data
 }

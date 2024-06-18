@@ -1,21 +1,20 @@
 import axios from 'axios'
-import { GenerateReleaseResponse } from 'shared/types/generate'
+import { GenerateReleaseResponse, GetReleaseData } from 'shared/types/generate'
 
 const URL = import.meta.env.VITE_API_URL
-const token = localStorage.getItem('token')
 
 const playlistInstance = axios.create({
   baseURL: `${URL}/release`,
 })
 
-export const getGeneratedReleaseQuery = async (releaseId: number) => {
+export const getGeneratedReleaseQuery = async (inputs: GetReleaseData) => {
   return (
     await playlistInstance.get<GenerateReleaseResponse>('/get', {
       params: {
-        id: releaseId,
+        id: inputs.releaseId,
       },
       headers: {
-        Authorization: token ? `Bearer ${token}` : null,
+        Authorization: inputs.token ? `Bearer ${inputs.token}` : null,
         'Content-Type': 'application/json',
       },
     })

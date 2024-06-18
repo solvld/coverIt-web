@@ -1,7 +1,7 @@
 import { LinearLoading } from 'entities/LinearLoading'
 import { ToasterOnError } from 'entities/ToastOnError'
 import { GenerateTrackForm } from 'features/generate'
-import { useGenerateTrack } from 'features/generate/track/api/generateQuery'
+import { useEditRelease } from 'features/generate/track/api/generateQuery'
 import { RemainingGenerates } from 'features/remainingGenerates'
 import { useEffect, useState } from 'react'
 import { errorStatusCheck } from 'shared/lib/queryError'
@@ -9,9 +9,9 @@ import { StyledPage } from 'shared/ui/StyledPage'
 import { PopUp } from 'widgets/popup'
 
 const Page = () => {
-  const [isFormActive, setIsFormActive] = useState(true)
-  const { mutate, isPending, isSuccess, isError, error } = useGenerateTrack()
   const [isNotification, setIsNotification] = useState(false)
+  const [isFormActive, setIsFormActive] = useState(true)
+  const { mutate, isPending, isSuccess, isError, error } = useEditRelease()
 
   useEffect(() => {
     if (isPending) {
@@ -28,7 +28,7 @@ const Page = () => {
   return (
     <StyledPage>
       {isFormActive ? (
-        <GenerateTrackForm generateTrack={mutate} />
+        <GenerateTrackForm regenerateTrack={mutate} type="edit" />
       ) : (
         <LinearLoading isDone={isSuccess}>
           We are cooking your cover...

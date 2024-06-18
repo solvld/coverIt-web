@@ -14,6 +14,10 @@ export interface TrackBody {
   surrounding: string
   coverDescription: string[]
   isLoFi: boolean
+  token: string | null
+}
+export interface RegenerateTrackBody extends TrackBody {
+  releaseId: number
 }
 
 export type Vibe =
@@ -157,4 +161,11 @@ export interface RemainingGeneratesData {
   hoursLeft: number | null
   loFiLeft: number | null
   minutesLeft: number | null
+}
+
+export type ErrorStatus = '400' | '402' | '403'
+
+export interface GetReleaseData {
+  token: string | null
+  releaseId: number
 }

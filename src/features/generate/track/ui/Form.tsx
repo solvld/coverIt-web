@@ -9,7 +9,11 @@ import {
 import { useTrackForm } from '../model/formCollectDataSlice'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { generateTrackSchema } from '../lib/validation'
-import { TrackBody, TrackInputs } from 'shared/types/generate'
+import {
+  RegenerateTrackBody,
+  TrackBody,
+  TrackInputs,
+} from 'shared/types/generate'
 import {
   ArrowButton,
   RadioButtonsWrappers,
@@ -21,17 +25,24 @@ import {
   Label,
   StyledInput,
 } from 'shared/ui/form'
+import { useSearchParams } from 'react-router-dom'
 
 interface GenerateTrackFormProps {
-  generateTrack: (data: TrackBody) => void
+  generateTrack?: (data: TrackBody) => void
+  regenerateTrack?: (data: RegenerateTrackBody) => void
+  type?: 'edit' | 'generate'
 }
-const Form = ({ generateTrack }: GenerateTrackFormProps) => {
+const Form = ({
+  generateTrack,
+  regenerateTrack,
+  type = 'generate',
+}: GenerateTrackFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
     setValue,
-    // reset,
+    reset,
   } = useForm<TrackInputs>({
     mode: 'onTouched',
     resolver: zodResolver(generateTrackSchema),
@@ -45,6 +56,8 @@ const Form = ({ generateTrack }: GenerateTrackFormProps) => {
   const resetCurrentTags = useTrackForm(state => state.resetCurrentTags)
 
   const token = localStorage.getItem('token')
+  const [searchParams] = useSearchParams('')
+  const releaseId = searchParams.get('id') || ''
 
   const {
     data: moodsData,
@@ -59,16 +72,31 @@ const Form = ({ generateTrack }: GenerateTrackFormProps) => {
 
   const onSubmit = (data: TrackInputs) => {
     setState(data)
-    // reset()
     resetCurrentTags()
-    generateTrack({
-      title: data.title,
-      mood: data.mood.split(','),
-      object: data.object,
-      surrounding: data.surrounding,
-      coverDescription: data.coverDescription.split(','),
-      isLoFi: data.isLoFi === 'true',
-    })
+    if (generateTrack) {
+      generateTrack({
+        title: data.title,
+        mood: data.mood.split(','),
+        object: data.object,
+        surrounding: data.surrounding,
+        coverDescription: data.coverDescription.split(','),
+        isLoFi: data.isLoFi === 'true',
+        token: token,
+      })
+      reset()
+    }
+    if (regenerateTrack && releaseId) {
+      regenerateTrack({
+        title: data.title,
+        mood: data.mood.split(','),
+        object: data.object,
+        surrounding: data.surrounding,
+        coverDescription: data.coverDescription.split(','),
+        isLoFi: data.isLoFi === 'true',
+        releaseId: Number(releaseId),
+        token: token,
+      })
+    }
   }
 
   useEffect(() => {
@@ -77,13 +105,14 @@ const Form = ({ generateTrack }: GenerateTrackFormProps) => {
   }, [currentTags, setValue])
 
   useEffect(() => {
-    setValue('title', formState.title)
-    setValue('mood', formState.mood)
-    setValue('object', formState.object)
-    setValue('surrounding', formState.surrounding)
-    setValue('coverDescription', formState.coverDescription)
-    setValue('isLoFi', formState.isLoFi)
-  }, [formState, setValue])
+    if (type === 'edit') {
+      setValue('title', formState.title)
+      setValue('mood', formState.mood)
+      setValue('object', formState.object)
+      setValue('surrounding', formState.surrounding)
+      setValue('coverDescription', formState.coverDescription)
+    }
+  }, [formState, setValue, type])
 
   return (
     <StyledCard>
