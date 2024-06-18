@@ -57,41 +57,37 @@ export const GeneratedCard = ({
           </div>
         </div>
         <div className={s.bottom}>
-          <div>
-            <Regenerate
-              onClick={handleRegenerate}
-              isRotate={isPending}
-              disabled={isSaved}
-            />
-            <SaveCover
-              type="playlist"
-              playlistId={response.id}
-              coverId={coverImages[currentCoverIndex]?.id}
-              isSaved={isSaved}
-              setIsSaved={setIsSaved}
-            />
-          </div>
+          <SaveCover
+            type="playlist"
+            playlistId={response.id}
+            coverId={coverImages[currentCoverIndex]?.id}
+            isSaved={isSaved}
+            setIsSaved={setIsSaved}
+          />
+          <Regenerate
+            onClick={handleRegenerate}
+            isRotate={isPending}
+            disabled={isSaved}
+          />
 
-          <div>
-            <Button
-              onClick={() =>
-                saveFile(
-                  coverImages[currentCoverIndex]?.link,
-                  response.title.trimEnd().replace(' ', '_'),
-                )
-              }
-            >
-              <Download />
-              Download
-            </Button>
+          <Button
+            onClick={() =>
+              saveFile(
+                coverImages[currentCoverIndex]?.link,
+                response.title.trimEnd().replace(' ', '_'),
+              )
+            }
+          >
+            <Download />
+            Download
+          </Button>
 
-            <Button>
-              <a href={response.url} target="_blank">
-                <Play />
-                Play
-              </a>
-            </Button>
-          </div>
+          <Button>
+            <a href={response.url} target="_blank">
+              <Play />
+              Play
+            </a>
+          </Button>
         </div>
       </div>
     </section>

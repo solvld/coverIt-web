@@ -3,8 +3,8 @@ import styled from 'styled-components'
 export const SaveRadio = styled.input.attrs({ type: 'radio' })`
   -webkit-appearance: none;
   appearance: none;
-  width: 0.9rem;
-  height: 0.9rem;
+  width: 1rem;
+  height: 1rem;
   margin-right: 0.375rem;
   border: 1.5px solid var(--black);
   border-radius: 50%;
@@ -13,8 +13,8 @@ export const SaveRadio = styled.input.attrs({ type: 'radio' })`
 
   &::before {
     content: '';
-    width: 0.9rem;
-    height: 0.9rem;
+    width: 1rem;
+    height: 1rem;
     border-radius: 50%;
     opacity: 0;
     transition: opacity 120ms ease-in-out;
@@ -44,5 +44,5 @@ export const SaveLabel = styled.label`
   /* height: 1.4rem; */
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.75rem;
 `

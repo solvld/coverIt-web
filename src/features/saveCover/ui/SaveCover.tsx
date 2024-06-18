@@ -69,7 +69,7 @@ export default function SaveCover({
               background: 'var(--black)',
               width: 1,
               height: '1.5rem',
-              margin: '0 0.4rem',
+              margin: '0 0.4rem 0 0.75rem',
             }}
           />
           <SaveLabel>
