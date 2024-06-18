@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { toastOnError } from 'entities/ToastOnError'
+import { RemainingGeneratesData } from 'shared/types/generate'
 
 export const queryError = (error: Error) => {
   if (axios.isAxiosError(error)) {
@@ -31,7 +32,13 @@ export const regenerateError = (error: Error) => {
   if (axios.isAxiosError(error)) {
     if (error.response) {
       if (error.response.status === 402) {
-        return error.response?.data.message
+        const leftData: RemainingGeneratesData = {
+          hiFiLeft: error.response?.data.hiFiLeft,
+          hoursLeft: error.response?.data.hoursLeft,
+          loFiLeft: error.response?.data.loFiLeft,
+          minutesLeft: error.response?.data.minutesLeft,
+        }
+        return leftData
       }
       toastOnError(error.response?.data.message)
     } else {

@@ -151,3 +151,10 @@ export interface SaveReleaseCoverParamsQuery {
   coverId: number
   token: string
 }
+
+export interface RemainingGeneratesData {
+  hiFiLeft: number | null
+  hoursLeft: number | null
+  loFiLeft: number | null
+  minutesLeft: number | null
+}
