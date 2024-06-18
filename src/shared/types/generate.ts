@@ -156,6 +156,13 @@ export interface SaveReleaseCoverParamsQuery {
   token: string
 }
 
+export interface RemainingGeneratesData {
+  hiFiLeft: number | null
+  hoursLeft: number | null
+  loFiLeft: number | null
+  minutesLeft: number | null
+}
+
 export interface GetReleaseData {
   token: string | null
   releaseId: number

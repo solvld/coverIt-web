@@ -75,7 +75,7 @@ function Page() {
       <ToasterOnError />
       {isRegenerateError && (
         <PopUp isActive={isNotification} setIsActive={setIsNotification}>
-          <RemainingGenerates error={regenerateError} />
+          <RemainingGenerates type="playlist" error={regenerateError} />
         </PopUp>
       )}
     </StyledPage>
