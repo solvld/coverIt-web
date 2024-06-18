@@ -8,13 +8,16 @@ import { useEffect } from 'react'
 import { GenerateOptions } from 'entities/GenerateOptions'
 import { useState } from 'react'
 import { useRef } from 'react'
+import { UserOptions } from 'features/userOptionsMenu'
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isGenerateMenuOpen, setIsGenerateMenuOpen] = useState(false)
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const isLoggedIn = useLogin(state => state.isLoggedIn)
-  const logOut = useLogin(state => state.logOut)
+
   const checkToken = useLogin(state => state.checkToken)
   const token = localStorage.getItem('token') || ''
-  const menuRef = useRef<HTMLDivElement>(null)
+  const generateRef = useRef<HTMLDivElement>(null)
+  const userRef = useRef<HTMLDivElement>(null)
   const location = useLocation()
 
   useEffect(() => {
@@ -25,14 +28,20 @@ const Header = () => {
   useEffect(() => {
     const currentUrl = location.pathname
     if (currentUrl.includes('/generate')) {
-      setIsMenuOpen(false)
+      setIsGenerateMenuOpen(false)
     }
   }, [location])
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setIsMenuOpen(false)
+      if (
+        generateRef.current &&
+        !generateRef.current.contains(e.target as Node)
+      ) {
+        setIsGenerateMenuOpen(false)
+      }
+      if (userRef.current && !userRef.current.contains(e.target as Node)) {
+        setIsUserMenuOpen(false)
       }
     }
     document.addEventListener('mousedown', handler)
@@ -47,9 +56,9 @@ const Header = () => {
         <NavLink to={'/'}>
           <Logo className={s.logo} />
         </NavLink>
-        <div className={s.generate} ref={menuRef}>
+        <div className={s.generate} ref={generateRef}>
           <span
-            onClick={() => setIsMenuOpen(prev => !prev)}
+            onClick={() => setIsGenerateMenuOpen(prev => !prev)}
             style={
               location.pathname.includes('/generate')
                 ? { fontWeight: '700' }
@@ -59,8 +68,8 @@ const Header = () => {
             generate
           </span>
           <GenerateOptions
-            isMenuOpen={isMenuOpen}
-            setIsMenuOpen={setIsMenuOpen}
+            isMenuOpen={isGenerateMenuOpen}
+            setIsMenuOpen={setIsGenerateMenuOpen}
           />
         </div>
         <NavLink to={'/archive'} className={linkStyle}>
@@ -86,10 +95,15 @@ const Header = () => {
           <>
             <Link to={'/'}>subscribe</Link>
             {isSuccess && (
-              <span
-                className={s.username}
-                onClick={logOut}
-              >{`@${data.data.username}`}</span>
+              <div className={s.username} ref={userRef}>
+                <span
+                  onClick={() => setIsUserMenuOpen(prev => !prev)}
+                >{`@${data.data.username}`}</span>
+                <UserOptions
+                  isMenuOpen={isUserMenuOpen}
+                  setIsMenuOpen={setIsUserMenuOpen}
+                />
+              </div>
             )}
           </>
         ) : (
