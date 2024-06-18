@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 import { getGeneratedReleaseQuery } from './releaseApi'
+import { GetReleaseData } from 'shared/types/generate'
 
-export const useGetRelease = (releaseId: number) => {
+export const useGetRelease = (inputs: GetReleaseData) => {
   return useQuery({
-    queryKey: ['release', releaseId],
-    queryFn: () => getGeneratedReleaseQuery(releaseId),
+    queryKey: ['release', inputs],
+    queryFn: () => getGeneratedReleaseQuery(inputs),
   })
 }

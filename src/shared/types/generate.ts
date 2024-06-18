@@ -155,3 +155,8 @@ export interface SaveReleaseCoverParamsQuery {
   coverId: number
   token: string
 }
+
+export interface GetReleaseData {
+  token: string | null
+  releaseId: number
+}

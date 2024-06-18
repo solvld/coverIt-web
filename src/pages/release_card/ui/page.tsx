@@ -13,13 +13,15 @@ function Page() {
   const [lastIndex, setLastIndex] = useState(0)
   const { id } = useParams()
   const releaseId = Number(id)
+  const token = localStorage.getItem('token')
+  const getReleaseData = { token: token, releaseId: releaseId }
 
   const {
     data: releaseResponse,
     isPending,
     isSuccess,
     isLoadingError,
-  } = useGetRelease(releaseId)
+  } = useGetRelease(getReleaseData)
 
   const {
     mutate: regenerateRelease,
