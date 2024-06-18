@@ -163,6 +163,8 @@ export interface RemainingGeneratesData {
   minutesLeft: number | null
 }
 
+export type ErrorStatus = '400' | '402' | '403'
+
 export interface GetReleaseData {
   token: string | null
   releaseId: number

@@ -1,11 +1,14 @@
 import axios from 'axios'
 import { toastOnError } from 'entities/ToastOnError'
-import { RemainingGeneratesData } from 'shared/types/generate'
+import { ErrorStatus, RemainingGeneratesData } from 'shared/types/generate'
 
 export const queryError = (error: Error) => {
   if (axios.isAxiosError(error)) {
     console.log(error.response?.data.message)
     if (error.response) {
+      if (error.response.status === 402) {
+        return
+      }
       toastOnError(error.response?.data.message)
     } else {
       toastOnError('Something went wrong....')
@@ -43,6 +46,16 @@ export const regenerateError = (error: Error) => {
       toastOnError(error.response?.data.message)
     } else {
       toastOnError('Something went wrong....')
+    }
+  } else if (error instanceof Error) {
+    console.log(error.message)
+  }
+}
+
+export const errorStatusCheck = (error: Error, status: ErrorStatus) => {
+  if (axios.isAxiosError(error)) {
+    if (error.response) {
+      return error.response.status === Number(status)
     }
   } else if (error instanceof Error) {
     console.log(error.message)
