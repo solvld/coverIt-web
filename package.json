@@ -30,7 +30,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "@tanstack/eslint-plugin-query": "^5.28.11",
+    "@tanstack/eslint-plugin-query": "^5.43.1",
     "@types/lodash": "^4.17.5",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
