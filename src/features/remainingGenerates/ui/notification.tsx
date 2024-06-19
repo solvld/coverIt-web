@@ -20,21 +20,24 @@ const SNotification = styled.div`
 `
 interface NotificationProps {
   error: Error
+  type: 'playlist' | 'release'
 }
 
-export default function Notification({ error }: NotificationProps) {
+export default function Notification({ error, type }: NotificationProps) {
   return (
     <SNotification>
-      {/* <Title>For this playlist you have:</Title>
+      <Title>{`For this ${type} you have:`}</Title>
       <div>
         <p>
-          Hi-Fi left: <span>0</span>
+          Hi-Fi left: <span>{regenerateError(error)?.hiFiLeft}</span>
         </p>
         <p>
-          Lo-Fi left: <span>0</span>
+          Lo-Fi left: <span>{regenerateError(error)?.loFiLeft}</span>
         </p>
-      </div> */}
-      <Title>{regenerateError(error)}</Title>
+      </div>
+      {type === 'release' && (
+        <p>{`Limits will renew in ${regenerateError(error)?.hoursLeft} hours ${regenerateError(error)?.minutesLeft} minutes`}</p>
+      )}
     </SNotification>
   )
 }

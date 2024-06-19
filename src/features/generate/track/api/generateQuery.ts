@@ -29,3 +29,19 @@ export const useRegenerateTrack = () => {
     },
   })
 }
+export const useEditRelease = () => {
+  const navigate = useNavigate()
+  return useMutation({
+    mutationFn: regenerateTrackQuery,
+
+    onError(error) {
+      queryError(error)
+    },
+    onSuccess(data) {
+      const playlistId = data.id
+      setTimeout(() => {
+        navigate(`/generate/release/cover/${playlistId}`)
+      }, 300)
+    },
+  })
+}

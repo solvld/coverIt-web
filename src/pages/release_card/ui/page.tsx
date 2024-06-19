@@ -7,26 +7,40 @@ import { useEffect, useState } from 'react'
 import { useGetRelease } from 'shared/services/releaseQuery'
 import { DotsLoader } from 'shared/ui/DotsLoader'
 import { useRegenerateTrack } from 'features/generate/track/api/generateQuery'
+import { PopUp } from 'widgets/popup'
+import { RemainingGenerates } from 'features/remainingGenerates'
+import { errorStatusCheck } from 'shared/lib/queryError'
 
 function Page() {
+  const [isNotification, setIsNotification] = useState(false)
   const [coverImages, setCoverImages] = useState<TrackCover[]>([])
   const [lastIndex, setLastIndex] = useState(0)
   const { id } = useParams()
   const releaseId = Number(id)
+  const token = localStorage.getItem('token')
+  const getReleaseData = { token: token, releaseId: releaseId }
 
   const {
     data: releaseResponse,
     isPending,
     isSuccess,
     isLoadingError,
-  } = useGetRelease(releaseId)
+  } = useGetRelease(getReleaseData)
 
   const {
     mutate: regenerateRelease,
     isPending: regeneratePending,
     isSuccess: isRegenerateSuccess,
     data: regeneratedCovers,
+    isError: isRegenerateError,
+    error: regenerateError,
   } = useRegenerateTrack()
+
+  useEffect(() => {
+    if (isRegenerateError && errorStatusCheck(regenerateError, '402')) {
+      setIsNotification(true)
+    }
+  }, [isRegenerateError, regenerateError])
 
   useEffect(() => {
     if (isSuccess) {
@@ -53,6 +67,11 @@ function Page() {
       {isPending && <DotsLoader />}
       {isLoadingError && <h4>Cover not found...</h4>}
       <ToasterOnError />
+      {isRegenerateError && (
+        <PopUp isActive={isNotification} setIsActive={setIsNotification}>
+          <RemainingGenerates type="release" error={regenerateError} />
+        </PopUp>
+      )}
     </StyledPage>
   )
 }
