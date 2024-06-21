@@ -108,17 +108,16 @@ const Card = ({
     covers.some(obj => obj.isSaved === true),
   )
 
-  const { title, mood, object, surrounding, coverDescription, isLoFi } =
-    useTrackForm(state => state.formState)
+  const { isLoFi } = useTrackForm(state => state.formState)
   const navigate = useNavigate()
   const token = localStorage.getItem('token')
 
   const releaseData = {
-    title: title,
-    mood: mood.split(',').slice(0, 5),
-    object: object,
-    surrounding: surrounding,
-    coverDescription: coverDescription.split(',').slice(0, 5),
+    title: releaseResponse.title,
+    mood: releaseResponse.mood,
+    object: releaseResponse.object,
+    surrounding: releaseResponse.surrounding,
+    coverDescription: releaseResponse.coverDescription,
     isLoFi: isLoFi === 'true',
     releaseId: releaseId,
     token: token,
@@ -205,7 +204,7 @@ const Card = ({
             onClick={() =>
               saveFile(
                 covers[currentCoverIndex]?.link,
-                title.trimEnd().replace(' ', '_'),
+                releaseResponse.title.trimEnd().replace(' ', '_'),
               )
             }
           >

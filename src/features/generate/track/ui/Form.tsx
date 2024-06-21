@@ -10,6 +10,7 @@ import { useTrackForm } from '../model/formCollectDataSlice'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { generateTrackSchema } from '../lib/validation'
 import {
+  GenerateReleaseResponse,
   RegenerateTrackBody,
   TrackBody,
   TrackInputs,
@@ -32,12 +33,14 @@ interface GenerateTrackFormProps {
   regenerateTrack?: (data: RegenerateTrackBody) => void
   type?: 'edit' | 'generate'
   isGenerateError?: boolean
+  data?: GenerateReleaseResponse | null
 }
 const Form = ({
   generateTrack,
   regenerateTrack,
   type = 'generate',
   isGenerateError = false,
+  data,
 }: GenerateTrackFormProps) => {
   const {
     register,
@@ -111,18 +114,22 @@ const Form = ({
   }, [currentTags, setValue])
 
   useEffect(() => {
-    if (type === 'edit') {
-      setValue('title', formState.title)
+    if (type === 'edit' && data) {
+      setValue('title', data.title)
       setValue('mood', formState.mood)
-      setValue('object', formState.object)
-      setValue('surrounding', formState.surrounding)
+      setValue('object', data.object)
+      setValue('surrounding', data.surrounding)
       setValue('coverDescription', formState.coverDescription)
     }
-  }, [formState, setValue, type])
+  }, [data, setValue, type, formState])
 
   return (
     <StyledCard>
-      <Title>Generate cover for track or album</Title>
+      <Title>
+        {type === 'generate'
+          ? 'Generate cover for release or album'
+          : 'Edit cover for release or album'}
+      </Title>
       <STrackForm onSubmit={handleSubmit(onSubmit)}>
         <Label>
           Title
