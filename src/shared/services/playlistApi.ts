@@ -1,21 +1,23 @@
 import axios from 'axios'
-import { GeneratePlaylistResponse } from 'shared/types/generate'
+import {
+  GeneratePlaylistResponse,
+  GetPlaylistData,
+} from 'shared/types/generate'
 
 const URL = import.meta.env.VITE_API_URL
-const token = localStorage.getItem('token')
 
 const playlistInstance = axios.create({
   baseURL: `${URL}/playlist`,
 })
 
-export const getGeneratedPlaylistQuery = async (playlistId: number) => {
+export const getGeneratedPlaylistQuery = async (data: GetPlaylistData) => {
   return (
     await playlistInstance.get<GeneratePlaylistResponse>('/get', {
       params: {
-        id: playlistId,
+        id: data.playlistId,
       },
       headers: {
-        Authorization: token ? `Bearer ${token}` : null,
+        Authorization: data.token ? `Bearer ${data.token}` : null,
         'Content-Type': 'application/json',
       },
     })

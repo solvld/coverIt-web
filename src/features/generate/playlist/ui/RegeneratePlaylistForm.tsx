@@ -35,11 +35,13 @@ export const RegeneratePlaylistForm = ({
   })
 
   const { id } = useParams()
+  const token = localStorage.getItem('token')
 
   const onSubmit = (data: RegeneratePlaylistInputs) => {
     const formatData = {
       ...data,
       playlistId: Number(id),
+      token: token,
     }
     if (setPopupActive && regenerateCover) {
       // alert(JSON.stringify(formatData))

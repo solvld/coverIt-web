@@ -31,12 +31,14 @@ const GeneratePlaylistForm = ({ generateCover }: PlaylistForm) => {
     mode: 'onTouched',
   })
 
+  const token = localStorage.getItem('token')
+
   const onSubmit = (data: PlaylistInputs) => {
-    console.log({ ...data, vibe: data.vibe.value })
     const formatData = {
       ...data,
       isLoFi: data.isLoFi === 'true',
       isAbstract: data.isAbstract === 'true',
+      token: token,
     }
     generateCover(formatData)
   }

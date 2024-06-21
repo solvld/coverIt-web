@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { playlistErrorHandle } from 'shared/lib/queryError'
 import { useGetPlaylist } from 'shared/services/playlistQuery'
-import { PlaylistCover } from 'shared/types/generate'
+import { GetPlaylistData, PlaylistCover } from 'shared/types/generate'
 import { DotsLoader } from 'shared/ui/DotsLoader'
 import { StyledPage } from 'shared/ui/StyledPage'
 import { GeneratedCard } from 'widgets/generated-card/ui/Card'
@@ -19,6 +19,12 @@ function Page() {
   const [lastIndex, setLastIndex] = useState(0)
 
   const { id } = useParams()
+  const playlistId = Number(id)
+  const token = localStorage.getItem('token')
+  const getPlaylistData: GetPlaylistData = {
+    token,
+    playlistId,
+  }
 
   const {
     data: playlistResponse,
@@ -26,7 +32,7 @@ function Page() {
     isSuccess: isSuccessPlaylist,
     isLoadingError,
     error,
-  } = useGetPlaylist(Number(id))
+  } = useGetPlaylist(getPlaylistData)
 
   const {
     mutate: regeneratePlaylist,
