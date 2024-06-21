@@ -42,7 +42,7 @@ export const GeneratedCard = ({
             covers={coverImages}
             index={lastIndex}
           />
-          <div>
+          <div className={s.description}>
             <CardTitle>{response?.title}</CardTitle>
             <div className={s.actions}>
               <ol className={s.playlist}>
