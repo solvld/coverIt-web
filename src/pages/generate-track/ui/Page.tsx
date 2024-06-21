@@ -28,7 +28,7 @@ const Page = () => {
   return (
     <StyledPage>
       {isFormActive ? (
-        <GenerateTrackForm generateTrack={mutate} />
+        <GenerateTrackForm generateTrack={mutate} isGenerateError={isError} />
       ) : (
         <LinearLoading isDone={isSuccess}>
           We are cooking your cover...

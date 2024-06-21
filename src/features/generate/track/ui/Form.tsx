@@ -31,11 +31,13 @@ interface GenerateTrackFormProps {
   generateTrack?: (data: TrackBody) => void
   regenerateTrack?: (data: RegenerateTrackBody) => void
   type?: 'edit' | 'generate'
+  isGenerateError?: boolean
 }
 const Form = ({
   generateTrack,
   regenerateTrack,
   type = 'generate',
+  isGenerateError = false,
 }: GenerateTrackFormProps) => {
   const {
     register,
@@ -83,7 +85,6 @@ const Form = ({
         isLoFi: data.isLoFi === 'true',
         token: token,
       })
-      reset()
     }
     if (regenerateTrack && releaseId) {
       regenerateTrack({
@@ -97,6 +98,10 @@ const Form = ({
         token: token,
       })
     }
+  }
+
+  if (!isGenerateError) {
+    reset()
   }
 
   useEffect(() => {
