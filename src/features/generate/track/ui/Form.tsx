@@ -78,10 +78,10 @@ const Form = ({
     if (generateTrack) {
       generateTrack({
         title: data.title,
-        mood: data.mood.split(','),
+        mood: data.mood.split(',').slice(0, 5),
         object: data.object,
         surrounding: data.surrounding,
-        coverDescription: data.coverDescription.split(','),
+        coverDescription: data.coverDescription.split(',').slice(0, 5),
         isLoFi: data.isLoFi === 'true',
         token: token,
       })
@@ -89,20 +89,21 @@ const Form = ({
     if (regenerateTrack && releaseId) {
       regenerateTrack({
         title: data.title,
-        mood: data.mood.split(','),
+        mood: data.mood.split(',').slice(0, 5),
         object: data.object,
         surrounding: data.surrounding,
-        coverDescription: data.coverDescription.split(','),
+        coverDescription: data.coverDescription.split(',').slice(0, 5),
         isLoFi: data.isLoFi === 'true',
         releaseId: Number(releaseId),
         token: token,
       })
     }
   }
-
-  if (!isGenerateError) {
-    reset()
-  }
+  useEffect(() => {
+    if (!isGenerateError) {
+      reset()
+    }
+  }, [isGenerateError, reset])
 
   useEffect(() => {
     setValue('mood', currentTags.moodTags)
@@ -128,6 +129,7 @@ const Form = ({
           <StyledInput
             {...register('title', {
               required: true,
+              disabled: type === 'edit',
             })}
             type="text"
             placeholder="Enter title of your track or album..."
@@ -245,12 +247,6 @@ const Form = ({
 
         <ArrowButton isDisabled={isValid} />
       </STrackForm>
-
-      {/* <ul>
-        {Object.keys(formState).map(row => (
-          <li>{`${row}: ${formState[row]}`}</li>
-        ))}
-      </ul> */}
     </StyledCard>
   )
 }

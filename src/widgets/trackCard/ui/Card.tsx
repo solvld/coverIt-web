@@ -115,10 +115,10 @@ const Card = ({
 
   const releaseData = {
     title: title,
-    mood: mood.split(','),
+    mood: mood.split(',').slice(0, 5),
     object: object,
     surrounding: surrounding,
-    coverDescription: coverDescription.split(','),
+    coverDescription: coverDescription.split(',').slice(0, 5),
     isLoFi: isLoFi === 'true',
     releaseId: releaseId,
     token: token,
