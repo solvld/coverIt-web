@@ -3,6 +3,7 @@
   flex-direction: column;
   background-color: #fff;
   max-width: 80rem;
+  min-width: 56.5rem;
   width: 100%;
   gap: 1.5rem;
   padding: 1.65rem;
@@ -12,8 +13,7 @@
 
 .main {
   display: flex;
-  justify-content: space-between;
-  gap: 31px;
+  gap: 1.75rem;
 }
 
 
@@ -38,13 +38,16 @@
 
 .bottom {
   display: flex;
-  justify-content: space-between;
+  gap: 0.4rem;
 
   div {
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
+}
+.description{
+  width: 100%;
 }
 
 
@@ -57,11 +60,13 @@
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
+   
     width: 1.5px;
     overflow-x: none;
   }
 
   &::-webkit-scrollbar-track {
+    padding: 0 1rem;
     background-color: #b8c0c22a;
     border-radius: 2px;
   }

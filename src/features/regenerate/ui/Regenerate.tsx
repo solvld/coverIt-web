@@ -35,7 +35,9 @@ export default function Regenerate({
 }: RegenerateProps) {
   return (
     <SButton
-      style={disabled ? { opacity: 0.5, pointerEvents: 'none' } : {}}
+      style={
+        disabled || isRotate ? { opacity: 0.5, pointerEvents: 'none' } : {}
+      }
       {...props}
     >
       <RegenerateButton $isActive={isRotate}>

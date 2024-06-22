@@ -60,6 +60,7 @@ export interface PlaylistInputs {
   vibe: { value: string | null; label: string }
   isAbstract: string | boolean
   isLoFi: string | boolean
+  token: string | null
 }
 
 export type PlaylistId = number
@@ -168,4 +169,9 @@ export type ErrorStatus = '400' | '402' | '403'
 export interface GetReleaseData {
   token: string | null
   releaseId: number
+}
+
+export interface GetPlaylistData {
+  token: string | null
+  playlistId: number
 }

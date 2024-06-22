@@ -7,7 +7,6 @@ import {
 } from 'shared/types/generate'
 
 const URL = import.meta.env.VITE_API_URL
-const token = localStorage.getItem('token')
 
 const generateInstance = axios.create({
   baseURL: `${URL}/cover/playlist`,
@@ -27,7 +26,7 @@ export const generatePlaylistQuery = async (inputs: PlaylistInputs) => {
           is_lofi: inputs.isLoFi,
         },
         headers: {
-          Authorization: token ? `Bearer ${token}` : null,
+          Authorization: inputs.token ? `Bearer ${inputs.token}` : null,
           'Content-Type': 'application/json',
         },
       },
@@ -50,7 +49,7 @@ export const regeneratePlaylistQuery = async (
           is_lofi: inputs.isLoFi === 'true',
         },
         headers: {
-          Authorization: token ? `Bearer ${token}` : null,
+          Authorization: inputs.token ? `Bearer ${inputs.token}` : null,
           'Content-Type': 'application/json',
         },
       },
