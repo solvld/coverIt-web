@@ -136,10 +136,10 @@ const Form = ({
           <StyledInput
             {...register('title', {
               required: true,
-              disabled: type === 'edit',
             })}
             type="text"
             placeholder="Enter title of your track or album..."
+            disabled={type === 'edit'}
           />
           <Error>
             {errors?.title && <p>{errors?.title?.message || 'error'}</p>}
