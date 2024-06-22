@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 import { getGeneratedPlaylistQuery } from './playlistApi'
+import { GetPlaylistData } from 'shared/types/generate'
 
-export const useGetPlaylist = (playlistId: number) => {
+export const useGetPlaylist = (data: GetPlaylistData) => {
   return useQuery({
-    queryKey: ['playlist', playlistId],
-    queryFn: () => getGeneratedPlaylistQuery(playlistId),
+    queryKey: ['playlist', data],
+    queryFn: () => getGeneratedPlaylistQuery(data),
   })
 }

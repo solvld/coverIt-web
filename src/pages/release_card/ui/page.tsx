@@ -9,7 +9,7 @@ import { DotsLoader } from 'shared/ui/DotsLoader'
 import { useRegenerateTrack } from 'features/generate/track/api/generateQuery'
 import { PopUp } from 'widgets/popup'
 import { RemainingGenerates } from 'features/remainingGenerates'
-import { errorStatusCheck } from 'shared/lib/queryError'
+import { errorStatusCheck, playlistErrorHandle } from 'shared/lib/queryError'
 
 function Page() {
   const [isNotification, setIsNotification] = useState(false)
@@ -25,6 +25,7 @@ function Page() {
     isPending,
     isSuccess,
     isLoadingError,
+    error,
   } = useGetRelease(getReleaseData)
 
   const {
@@ -65,7 +66,7 @@ function Page() {
         />
       )}
       {isPending && <DotsLoader />}
-      {isLoadingError && <h4>Cover not found...</h4>}
+      {isLoadingError && <h4>{`${playlistErrorHandle(error)}...`}</h4>}
       <ToasterOnError />
       {isRegenerateError && (
         <PopUp isActive={isNotification} setIsActive={setIsNotification}>
