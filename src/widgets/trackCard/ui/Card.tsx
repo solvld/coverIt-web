@@ -16,7 +16,7 @@ const SCard = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #fff;
-  max-width: 56rem;
+  max-width: 56.5rem;
   width: 100%;
   gap: 1.5rem;
   padding: 1.65rem;
@@ -34,20 +34,24 @@ const SCard = styled.div`
 const Description = styled.div`
   margin-top: 1.5rem;
   display: flex;
-  height: 20rem;
+  height: 23.125rem;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   cursor: default;
   min-width: 25rem;
-  width: 100%;
+  gap: 0.95rem;
+  overflow-y: scroll;
 
   h4 {
     font-size: 1.5rem;
     font-weight: 500;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.7rem;
+    letter-spacing: -0.03em;
   }
   p {
-    font-size: 1.25rem;
+    font-size: 0.9rem;
+    max-width: 23.5rem;
+    line-height: 160%;
   }
 `
 const Tag = styled.span`
@@ -55,11 +59,14 @@ const Tag = styled.span`
   color: var(--gray0);
   border-radius: 1.3rem;
   background-color: var(--primary-color);
+  font-size: 0.9rem;
 `
 const TagWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  row-gap: 0.4rem;
+  column-gap: 0.4rem;
+  width: 100%;
 `
 const Actions = styled.div`
   display: flex;
@@ -101,18 +108,19 @@ const Card = ({
     covers.some(obj => obj.isSaved === true),
   )
 
-  const { title, mood, object, surrounding, coverDescription, isLoFi } =
-    useTrackForm(state => state.formState)
+  const { isLoFi } = useTrackForm(state => state.formState)
   const navigate = useNavigate()
+  const token = localStorage.getItem('token')
 
   const releaseData = {
-    title: title,
-    mood: mood.split(','),
-    object: object,
-    surrounding: surrounding,
-    coverDescription: coverDescription.split(','),
+    title: releaseResponse.title,
+    mood: releaseResponse.mood,
+    object: releaseResponse.object,
+    surrounding: releaseResponse.surrounding,
+    coverDescription: releaseResponse.coverDescription,
     isLoFi: isLoFi === 'true',
     releaseId: releaseId,
+    token: token,
   }
 
   const handleRegenerate = () => {
@@ -126,7 +134,7 @@ const Card = ({
           style={{
             display: 'flex',
             justifyContent: 'space-between',
-            gap: '31px',
+            gap: '1.4rem',
           }}
         >
           <ImageSlider
@@ -147,7 +155,7 @@ const Card = ({
               </div>
 
               <div>
-                <h4>Object / action</h4>
+                <h4>Object / Action</h4>
                 <p>{releaseResponse.object}</p>
               </div>
 
@@ -196,7 +204,7 @@ const Card = ({
             onClick={() =>
               saveFile(
                 covers[currentCoverIndex]?.link,
-                title.trimEnd().replace(' ', '_'),
+                releaseResponse.title.trimEnd().replace(' ', '_'),
               )
             }
           >

@@ -10,6 +10,7 @@ import { useTrackForm } from '../model/formCollectDataSlice'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { generateTrackSchema } from '../lib/validation'
 import {
+  GenerateReleaseResponse,
   RegenerateTrackBody,
   TrackBody,
   TrackInputs,
@@ -31,11 +32,15 @@ interface GenerateTrackFormProps {
   generateTrack?: (data: TrackBody) => void
   regenerateTrack?: (data: RegenerateTrackBody) => void
   type?: 'edit' | 'generate'
+  isGenerateError?: boolean
+  data?: GenerateReleaseResponse | null
 }
 const Form = ({
   generateTrack,
   regenerateTrack,
   type = 'generate',
+  isGenerateError = false,
+  data,
 }: GenerateTrackFormProps) => {
   const {
     register,
@@ -76,28 +81,32 @@ const Form = ({
     if (generateTrack) {
       generateTrack({
         title: data.title,
-        mood: data.mood.split(','),
+        mood: data.mood.split(',').slice(0, 5),
         object: data.object,
         surrounding: data.surrounding,
-        coverDescription: data.coverDescription.split(','),
+        coverDescription: data.coverDescription.split(',').slice(0, 5),
         isLoFi: data.isLoFi === 'true',
         token: token,
       })
-      reset()
     }
     if (regenerateTrack && releaseId) {
       regenerateTrack({
         title: data.title,
-        mood: data.mood.split(','),
+        mood: data.mood.split(',').slice(0, 5),
         object: data.object,
         surrounding: data.surrounding,
-        coverDescription: data.coverDescription.split(','),
+        coverDescription: data.coverDescription.split(',').slice(0, 5),
         isLoFi: data.isLoFi === 'true',
         releaseId: Number(releaseId),
         token: token,
       })
     }
   }
+  useEffect(() => {
+    if (!isGenerateError) {
+      reset()
+    }
+  }, [isGenerateError, reset])
 
   useEffect(() => {
     setValue('mood', currentTags.moodTags)
@@ -105,18 +114,22 @@ const Form = ({
   }, [currentTags, setValue])
 
   useEffect(() => {
-    if (type === 'edit') {
-      setValue('title', formState.title)
+    if (type === 'edit' && data) {
+      setValue('title', data.title)
       setValue('mood', formState.mood)
-      setValue('object', formState.object)
-      setValue('surrounding', formState.surrounding)
+      setValue('object', data.object)
+      setValue('surrounding', data.surrounding)
       setValue('coverDescription', formState.coverDescription)
     }
-  }, [formState, setValue, type])
+  }, [data, setValue, type, formState])
 
   return (
     <StyledCard>
-      <Title>Generate cover for track or album</Title>
+      <Title>
+        {type === 'generate'
+          ? 'Generate cover for release or album'
+          : 'Edit cover for release or album'}
+      </Title>
       <STrackForm onSubmit={handleSubmit(onSubmit)}>
         <Label>
           Title
@@ -126,6 +139,7 @@ const Form = ({
             })}
             type="text"
             placeholder="Enter title of your track or album..."
+            disabled={type === 'edit'}
           />
           <Error>
             {errors?.title && <p>{errors?.title?.message || 'error'}</p>}
@@ -240,12 +254,6 @@ const Form = ({
 
         <ArrowButton isDisabled={isValid} />
       </STrackForm>
-
-      {/* <ul>
-        {Object.keys(formState).map(row => (
-          <li>{`${row}: ${formState[row]}`}</li>
-        ))}
-      </ul> */}
     </StyledCard>
   )
 }
