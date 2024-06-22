@@ -93,7 +93,7 @@ const Header = () => {
       <div className={s.profile}>
         {isLoggedIn ? (
           <>
-            <Link to={'/'}>subscribe</Link>
+            <Link to={'/subscribe'}>subscribe</Link>
             {isSuccess && (
               <div className={s.username} ref={userRef}>
                 <span

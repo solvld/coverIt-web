@@ -28,6 +28,7 @@ export const router = createBrowserRouter(
       <Route path="liked" element={<WipPage />} />
       <Route path="my-playlist" element={<WipPage />} />
       <Route path="find-user" element={<WipPage />} />
+      <Route path="subscribe" element={<WipPage />} />
       <Route path="generate">
         {/* <Route index element={<Generate />} /> */}
         <Route path="playlist" element={<GeneratePlaylist />} />
