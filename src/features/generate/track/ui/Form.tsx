@@ -39,7 +39,7 @@ const Form = ({
   generateTrack,
   regenerateTrack,
   type = 'generate',
-  isGenerateError = false,
+  isGenerateError,
   data,
 }: GenerateTrackFormProps) => {
   const {
@@ -47,7 +47,6 @@ const Form = ({
     handleSubmit,
     formState: { errors, isValid },
     setValue,
-    reset,
   } = useForm<TrackInputs>({
     mode: 'onTouched',
     resolver: zodResolver(generateTrackSchema),
@@ -103,10 +102,14 @@ const Form = ({
     }
   }
   useEffect(() => {
-    if (!isGenerateError) {
-      reset()
+    if (isGenerateError) {
+      setValue('title', formState.title)
+      setValue('mood', formState.mood)
+      setValue('object', formState.object)
+      setValue('surrounding', formState.surrounding)
+      setValue('coverDescription', formState.coverDescription)
     }
-  }, [isGenerateError, reset])
+  }, [isGenerateError, formState, setValue])
 
   useEffect(() => {
     setValue('mood', currentTags.moodTags)
