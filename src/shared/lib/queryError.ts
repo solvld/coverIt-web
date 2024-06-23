@@ -6,10 +6,9 @@ export const queryError = (error: Error) => {
   if (axios.isAxiosError(error)) {
     console.log(error.response?.data.message)
     if (error.response) {
-      if (error.response.status === 402) {
-        return
+      if (error.response.status !== 402) {
+        toastOnError(error.response?.data.message)
       }
-      toastOnError(error.response?.data.message)
     } else {
       toastOnError('Something went wrong....')
     }
