@@ -63,12 +63,12 @@ export const useTrackForm = create<FormState>(set => ({
       const newStateTags = (): string => {
         if (tagsArray.length > stateTags.length && diff.length > 0) {
           if (stateTags.length === 0) {
-            return diff.join('')
+            return diff.join(', ')
           }
           return [...stateTags, diff].join(', ')
         }
         if (tagsArray.length < stateTags.length && diff.length > 0) {
-          return _.pullAll(stateTags, diff).join('')
+          return _.pullAll(stateTags, diff).join(', ')
         }
         return value
       }
