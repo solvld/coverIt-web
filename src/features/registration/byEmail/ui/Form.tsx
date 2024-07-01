@@ -12,6 +12,7 @@ import {
   Error,
   StyledInput,
 } from 'shared/ui/form'
+import { toSnakeCase } from '../lib/utils'
 
 const SignUpForm = () => {
   const {
@@ -27,8 +28,9 @@ const SignUpForm = () => {
 
   const onSubmit = (sigUpData: SignUpInputs) => {
     const { username, email, password } = sigUpData
+    const snakeUsername = toSnakeCase(username)
 
-    signUp({ username, email, password })
+    signUp({ username: snakeUsername, email, password })
   }
 
   return (
