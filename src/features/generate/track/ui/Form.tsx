@@ -119,12 +119,12 @@ const Form = ({
   useEffect(() => {
     if (type === 'edit' && data) {
       setValue('title', data.title)
-      setValue('mood', formState.mood)
       setValue('object', data.object)
       setValue('surrounding', data.surrounding)
-      setValue('coverDescription', formState.coverDescription)
+      setString(data.mood.join(','), 'moodTags')
+      setString(data.coverDescription.join(','), 'styleTags')
     }
-  }, [data, setValue, type, formState])
+  }, [data, setValue, type, formState, setString])
 
   return (
     <StyledCard>
