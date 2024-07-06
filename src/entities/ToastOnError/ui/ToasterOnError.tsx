@@ -5,7 +5,7 @@ export const ToasterOnError = () => {
   return (
     <Toaster
       position="bottom-center"
-      visibleToasts={2}
+      visibleToasts={1}
       toastOptions={{
         className: s.toast,
       }}
