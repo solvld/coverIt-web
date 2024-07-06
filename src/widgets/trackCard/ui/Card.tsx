@@ -53,6 +53,21 @@ const Description = styled.div`
     max-width: 23.5rem;
     line-height: 160%;
   }
+  &::-webkit-scrollbar {
+    width: 1.5px;
+    overflow-x: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    padding: 0 1rem;
+    background-color: #b8c0c22a;
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #00acb5a5;
+    border-radius: 4px;
+  }
 `
 const Tag = styled.span`
   padding: 0.3rem 1.2rem;

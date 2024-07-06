@@ -39,7 +39,7 @@ const Form = ({
   generateTrack,
   regenerateTrack,
   type = 'generate',
-  isGenerateError = false,
+  isGenerateError,
   data,
 }: GenerateTrackFormProps) => {
   const {
@@ -47,7 +47,6 @@ const Form = ({
     handleSubmit,
     formState: { errors, isValid },
     setValue,
-    reset,
   } = useForm<TrackInputs>({
     mode: 'onTouched',
     resolver: zodResolver(generateTrackSchema),
@@ -103,10 +102,14 @@ const Form = ({
     }
   }
   useEffect(() => {
-    if (!isGenerateError) {
-      reset()
+    if (isGenerateError) {
+      setValue('title', formState.title)
+      setValue('mood', formState.mood)
+      setValue('object', formState.object)
+      setValue('surrounding', formState.surrounding)
+      setValue('coverDescription', formState.coverDescription)
     }
-  }, [isGenerateError, reset])
+  }, [isGenerateError, formState, setValue])
 
   useEffect(() => {
     setValue('mood', currentTags.moodTags)
@@ -116,12 +119,12 @@ const Form = ({
   useEffect(() => {
     if (type === 'edit' && data) {
       setValue('title', data.title)
-      setValue('mood', formState.mood)
       setValue('object', data.object)
       setValue('surrounding', data.surrounding)
-      setValue('coverDescription', formState.coverDescription)
+      setString(data.mood.join(','), 'moodTags')
+      setString(data.coverDescription.join(','), 'styleTags')
     }
-  }, [data, setValue, type, formState])
+  }, [data, setValue, type, formState, setString])
 
   return (
     <StyledCard>
