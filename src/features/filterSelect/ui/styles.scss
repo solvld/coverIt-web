@@ -1,0 +1,85 @@
+.react-select-container{
+  margin-left: 1.875rem !important;
+}
+.custom-filter-select {
+  
+  &__placeholder{
+    color: var(--black) !important;
+  }
+  &__control {
+    display: inline-flex !important;
+    box-shadow: none !important;
+    // width: 100% !important;
+    border: none !important;
+    border-radius: 0 !important;
+    
+    font-weight: 600 !important;
+    font-size: 1.5rem !important;
+    letter-spacing: -0.03em !important;
+    line-height: 1.875rem !important;
+    color: var(--black) !important;
+
+    &--menu-is-open>.custom-filter-select__indicators {
+      transform: rotate(90deg) !important;
+      opacity: 1 !important;
+    }
+  }
+
+
+  &__value-container {
+    padding: 0 !important;
+    padding-right: 0.5rem !important;
+  }
+
+  &__indicator-separator {
+    display: none !important;
+  }
+
+  &__indicators {
+    cursor: pointer !important;
+    // opacity: 0.4 !important;
+    transition: all 0.3s;
+  }
+
+
+  &__dropdown-indicator {
+    padding: 0 !important;
+
+    &::before {
+      content: url(shared/assets/images/arrowDown.svg) !important;
+    }
+
+    svg {
+      display: none !important;
+    }
+  }
+
+  &__menu {
+    max-width: 12rem !important;
+    width: 100% !important;
+    border-radius: 0 !important;
+    box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.25) !important;
+    margin-top: 0px !important;
+    color: var(--black) !important;
+  }
+
+  &__menu_list {
+    padding: 0 !important;
+  }
+
+  &__option {
+    cursor: pointer !important;
+    font-size: 0.9rem !important;
+    line-height: 1.8rem !important;
+    padding: 0 0.5rem !important;
+
+    &--is-focused {
+      background-color: rgba(150, 150, 150, 0.1) !important;
+    }
+
+    &--is-selected {
+      color: var(--black) !important;
+      background-color: var(--gray0) !important;
+    }
+  }
+}
