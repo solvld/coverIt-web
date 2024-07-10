@@ -1,0 +1,70 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  max-width: 38rem;
+  width: 100%;
+  gap: 1.5rem;
+  padding: 1.65rem;
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow);
+}
+
+.cover{
+  height: 13.8rem;
+  width: 13.8rem;
+  border-radius: 0.7rem;
+}
+
+.playlist {
+  list-style-position: inside;
+  cursor: default;
+
+  li {
+    font-weight: 400;
+
+    font-size: 0.9rem;
+    line-height: 160%;
+    list-style-type: decimal;
+    color: var(--gray1);
+
+    span {
+      color: var(--black);
+    }
+  }
+
+}
+
+.main {
+  display: flex;
+  gap: 1.75rem;
+}
+
+.description{
+  width: 100%;
+}
+.actions {
+  margin-top: 1.5rem;
+  max-width: 17.7rem;
+  max-height: 10.125rem;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+   
+    width: 1.5px;
+    overflow-x: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    padding: 0 1rem;
+    background-color: #b8c0c22a;
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #00acb5a5;
+    border-radius: 4px;
+  }
+}

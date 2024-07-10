@@ -175,3 +175,27 @@ export interface GetPlaylistData {
   token: string | null
   playlistId: number
 }
+
+export interface ArchivePlaylistResponse {
+  id: number
+  title: string
+  url: string
+  vibe: string
+  tracks: [
+    {
+      title: string
+      authors: string
+    },
+  ]
+  cover: {
+    id: 0
+    created: string
+    link: string | null
+    prompt: string
+    isAbstract: boolean
+    isLoFi: boolean
+    isSaved: boolean
+    vibe: string
+  }
+  isLiked: boolean
+}
