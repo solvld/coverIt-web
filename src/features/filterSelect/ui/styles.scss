@@ -18,6 +18,7 @@
     letter-spacing: -0.03em !important;
     line-height: 1.875rem !important;
     color: var(--black) !important;
+    background-color: transparent !important;
 
     &--menu-is-open>.custom-filter-select__indicators {
       transform: rotate(90deg) !important;

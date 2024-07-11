@@ -44,7 +44,7 @@ const ArchivePlaylistCard = ({ data, innerRef }: ArchivePlaylistCardProps) => {
       </div>
       <div className={s.bottom}>
         <div>
-          <h2>@username</h2>
+          <h2 className={s.username}>@username</h2>
         </div>
         <div>
           <ShareButton />

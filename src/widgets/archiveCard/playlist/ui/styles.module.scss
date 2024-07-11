@@ -98,3 +98,13 @@
     transform: translate3d(-100%, 0, 0);
   }
 }
+
+.username{
+  white-space: nowrap;
+  font-weight: 600;
+  font-size: 1.5rem; /* 32px */
+  letter-spacing: -0.03em;
+  line-height: 1.875rem; /* 40px */
+  color: var(--gray1);
+  cursor: default;
+}
