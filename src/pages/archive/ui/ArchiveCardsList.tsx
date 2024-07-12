@@ -12,6 +12,9 @@ export const CardsList = styled.div`
   justify-content: center;
   padding-bottom: 2rem;
   margin-top: 2.8rem;
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(1, 28rem);
+  }
 `
 const LoadingLine = styled.div`
   display: flex;

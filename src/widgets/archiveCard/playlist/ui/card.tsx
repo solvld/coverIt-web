@@ -1,7 +1,6 @@
 import { DetailedHTMLProps, HTMLAttributes, useEffect, useRef } from 'react'
 import s from './styles.module.scss'
 import { ArchivePlaylistResponse } from 'shared/types/generate'
-import { CardTitle } from 'shared/ui/card/cardTitle'
 import cover from 'shared/assets/images/image18.png'
 import { Button } from 'shared/ui/Button'
 import Play from 'shared/assets/images/play.svg?react'
@@ -29,7 +28,7 @@ const ArchivePlaylistCard = ({ data, innerRef }: ArchivePlaylistCardProps) => {
         <img className={s.cover} src={cover} alt="" />
 
         <div className={s.description}>
-          <CardTitle>{data?.title}</CardTitle>
+          <h1 className={s.title}>{data?.title}</h1>
           <div className={s.actions}>
             <ol className={s.playlist}>
               {data?.tracks.map((song, index) => (
