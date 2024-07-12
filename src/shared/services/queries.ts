@@ -57,14 +57,14 @@ export const useCurrentUser = (token: string) => {
   })
 }
 
-export const useArchive = (filter: string| null) => {
+export const useArchive = (filter: string | null) => {
   return useInfiniteQuery({
     queryKey: ['archive', filter],
-    queryFn:({ pageParam }) => getArchivePlaylists({pageParam}, filter),
+    queryFn: ({ pageParam }) => getArchivePlaylists({ pageParam }, filter),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPage) => {
-  
-      const nextPage = lastPage.length !== allPage.length ?  allPage.length : null
+      const nextPage =
+        lastPage.length !== allPage.length ? allPage.length : null
       return nextPage
     },
   })

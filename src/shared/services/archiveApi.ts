@@ -8,11 +8,14 @@ const archiveInstance = axios.create({
 })
 
 const token = localStorage.getItem('token') || ''
-export const getArchivePlaylists = async ({
-  pageParam,
-}: {
-  pageParam: number
-}, filter: string | null): Promise<ArchivePlaylistResponse[]> => {
+export const getArchivePlaylists = async (
+  {
+    pageParam,
+  }: {
+    pageParam: number
+  },
+  filter: string | null,
+): Promise<ArchivePlaylistResponse[]> => {
   return (
     await archiveInstance.get('/archive', {
       headers: {
