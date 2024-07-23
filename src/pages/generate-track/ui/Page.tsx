@@ -1,17 +1,21 @@
 import { LinearLoading } from 'entities/LinearLoading'
 import { ToasterOnError } from 'entities/ToastOnError'
+import { useLogin } from 'features/auth/byEmail'
 import { GenerateTrackForm } from 'features/generate'
 import { useGenerateTrack } from 'features/generate/track/api/generateQuery'
 import { RemainingGenerates } from 'features/remainingGenerates'
 import { useEffect, useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import { errorStatusCheck } from 'shared/lib/queryError'
 import { StyledPage } from 'shared/ui/StyledPage'
 import { PopUp } from 'widgets/popup'
 
 const Page = () => {
   const [isFormActive, setIsFormActive] = useState(true)
-  const { mutate, isPending, isSuccess, isError, error } = useGenerateTrack()
   const [isNotification, setIsNotification] = useState(false)
+
+  const isLoggedIn = useLogin(state => state.isLoggedIn)
+  const { mutate, isPending, isSuccess, isError, error } = useGenerateTrack()
 
   useEffect(() => {
     if (isPending) {
@@ -24,6 +28,10 @@ const Page = () => {
       setIsNotification(true)
     }
   }, [isPending, isError, error])
+
+  if (!isLoggedIn) {
+    return <Navigate to="/sign-in" />
+  }
 
   return (
     <StyledPage>
