@@ -8,7 +8,7 @@ import {
 export const PageContainer = styled.div`
   display: flex;
   height: 100%;
-  min-height: calc(100vh - 110px);
+  min-height: calc(100vh - 5.15rem);
   flex-direction: column;
   justify-content: space-between;
 `
@@ -17,9 +17,8 @@ export const CoversContainer = styled.div`
   position: relative;
   width: 100%;
   padding: 0 1.875rem;
-  height: 41rem;
+  height: 39rem;
   margin: 0 auto;
-}
 
   //this styles prevents other cards from hover while we're dragging something
   &.has-dragging-element {
