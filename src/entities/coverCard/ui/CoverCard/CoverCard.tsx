@@ -1,26 +1,18 @@
 import { useRef, FC, MutableRefObject, useState } from 'react'
-//import Draggable from 'react-draggable'
-
 import {
   CoverCardContainer,
   CoverCardImage,
-  CoverCardPositionType,
 } from './styles/CoverCard.styles.ts'
-
 import { IPlaylist } from 'pages/main/model/playlistsSlice.ts'
-// import { getREMValue } from 'shared/utils/getREMValue.ts'
 import { usePlaylistsStore } from 'pages/main/model/playlistsSlice.ts'
 import { motion } from 'framer-motion'
+import { getREMValue } from 'shared/utils/getREMValue.ts'
 
 export const BOUNDING_NODE_ID = 'cardDragBounding'
 
 export interface ICardPosition {
   axesX: number
   axesY: number
-  top: CoverCardPositionType
-  bottom: CoverCardPositionType
-  left: CoverCardPositionType
-  right: CoverCardPositionType
 }
 
 type CoverCardProps = Omit<IPlaylist, 'songs'> & {
@@ -47,7 +39,7 @@ const CoverCard: FC<CoverCardProps> = ({
 
   const cardRef = useRef<HTMLDivElement>(null)
   const parentRef = useRef<HTMLElement | null>(null)
-  // const remValue = getREMValue()
+  const remValue = getREMValue()
 
   const onDragStart = () => {
     if (!parentRef.current) {
@@ -75,48 +67,36 @@ const CoverCard: FC<CoverCardProps> = ({
   }
 
   return (
-    // <Draggable
-    //   nodeRef={cardRef}
-    //   bounds={`#${BOUNDING_NODE_ID}`}
-    //   onStart={onDragStart}
-    //   onStop={() => {
-    //     parentRef.current!.classList.remove('has-dragging-element')
-    //     allowChangingCurrentPlaylist()
-    //   }}
-    //   defaultPosition={{
-    //     x: remValue * position.axesX,
-    //     y: remValue * position.axesY,
-    //   }}
-    // >
     <motion.div
       drag
       dragConstraints={containerRef}
       dragElastic={0.95}
       onDragStart={onDragStart}
+      animate={{ x: remValue * position.axesX, y: remValue * position.axesY }}
       onDragEnd={() => {
         parentRef.current!.classList.remove('has-dragging-element')
         allowChangingCurrentPlaylist()
       }}
-      style={{ width: 'fit-content', height: 'fit-content', zIndex }}
+      style={{
+        width: 'fit-content',
+        height: 'fit-content',
+        zIndex,
+        transform: `translate(${position.axesX}rem, ${position.axesY}rem)`,
+      }}
       className="drag-element"
       onMouseDown={updateZIndex}
     >
       <CoverCardContainer
         ref={cardRef}
-        onMouseEnter={() => setCurrentPlaylist(id)}
+        onMouseDown={() => setCurrentPlaylist(id)}
         onMouseLeave={resetCurrentPlaylist}
         $width={width}
-        $top={position.top}
-        $bottom={position.bottom}
-        $left={position.left}
-        $right={position.right}
       >
         <CoverCardImage>
           <img src={image} alt={`${title} playlist cover`} />
         </CoverCardImage>
       </CoverCardContainer>
     </motion.div>
-    // </Draggable>
   )
 }
 
