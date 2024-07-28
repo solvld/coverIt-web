@@ -11,16 +11,20 @@ export const CoverCardContainer = styled.aside<{
   $right: CoverCardPositionType
 }>(
   ({ $width = 10, $top, $bottom, $left, $right }) => css`
-    position: absolute;
-    top: ${$top};
+    /* position: absolute; */
+    /* top: ${$top};
     left: ${$left};
     right: ${$right};
-    bottom: ${$bottom};
+    bottom: ${$bottom}; */
     display: flex;
     z-index: 1;
     transition: transform 0.15s ease-out;
     width: ${$width}rem;
     height: max-content;
+
+    @media (max-width: 750px) {
+      width: ${$width * 0.75}rem;
+    }
 
     &:hover,
     &.react-draggable-dragging {

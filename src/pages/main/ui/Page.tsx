@@ -1,10 +1,10 @@
 import Ticker from './Ticker/Ticker'
 import { CoverCard } from 'entities/coverCard'
 import { PageContainer, CoversContainer } from 'pages/main/ui/Page.styles.ts'
-import { BOUNDING_NODE_ID } from 'entities/coverCard/ui/CoverCard/CoverCard.tsx'
 import { usePlaylistsStore } from 'pages/main/model/playlistsSlice.ts'
 
 import { ICardPosition } from 'entities/coverCard/ui/CoverCard/CoverCard.tsx'
+import { useRef } from 'react'
 
 const CARDS_LAYOUTS: Array<ICardPosition & { width: number }> = [
   {
@@ -83,10 +83,11 @@ const CARDS_LAYOUTS: Array<ICardPosition & { width: number }> = [
 
 const Page = () => {
   const playlists = usePlaylistsStore(({ playlists }) => playlists)
+  const containerRef = useRef<HTMLDivElement | null>(null)
 
   return (
     <PageContainer>
-      <CoversContainer id={BOUNDING_NODE_ID}>
+      <CoversContainer ref={containerRef}>
         {Array.from(playlists.values()).map(({ id, title, image }, index) => {
           const { axesX, axesY, top, right, bottom, left, width } =
             CARDS_LAYOUTS[index]
@@ -99,6 +100,7 @@ const Page = () => {
               id={id}
               position={{ axesX, axesY, top, right, bottom, left }}
               width={width}
+              containerRef={containerRef}
             />
           )
         })}
