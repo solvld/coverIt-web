@@ -1,13 +1,13 @@
 import { create } from 'zustand'
 
-import khaborovskCrabCover from 'shared/assets/images/main-page-covers/khabarovsk-crab.webp?url'
-import volgaSad2Cover from 'shared/assets/images/main-page-covers/volga-sad-2.avif?url'
-import sochiCityCover from 'shared/assets/images/main-page-covers/sochi-city.avif?url'
-import sochiCity2Cover from 'shared/assets/images/main-page-covers/sochi-city-2.avif?url'
-import kubanRainCover from 'shared/assets/images/main-page-covers/kuban-rain.avif?url'
-import volgaSadCover from 'shared/assets/images/main-page-covers/volga-sad.avif?url'
-import khaborovskCrab2Cover from 'shared/assets/images/main-page-covers/khaborovsk-crab-2.png?url'
-import kubanRain2Cover from 'shared/assets/images/main-page-covers/kuban-rain-2.avif?url'
+import khaborovskCrabCover from 'shared/assets/images/image10.png?url'
+import volgaSad2Cover from 'shared/assets/images/image11.png?url'
+import sochiCityCover from 'shared/assets/images/image12.png?url'
+import sochiCity2Cover from 'shared/assets/images/image13.png?url'
+import kubanRainCover from 'shared/assets/images/image14.png?url'
+import volgaSadCover from 'shared/assets/images/image15.png?url'
+import khaborovskCrab2Cover from 'shared/assets/images/image16.png?url'
+import kubanRain2Cover from 'shared/assets/images/image17.png?url'
 
 const PLAYLISTS_ID = [2, 3, 4, 10, 5, 6, 7, 8, 9] as const
 
