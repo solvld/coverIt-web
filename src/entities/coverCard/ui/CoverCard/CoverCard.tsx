@@ -19,6 +19,7 @@ type CoverCardProps = Omit<IPlaylist, 'songs'> & {
   width: number
   position: ICardPosition
   containerRef: MutableRefObject<HTMLDivElement | null>
+  cardRef: React.RefObject<HTMLDivElement>
 }
 
 const CoverCard: FC<CoverCardProps> = ({
@@ -28,16 +29,15 @@ const CoverCard: FC<CoverCardProps> = ({
   position,
   width,
   containerRef,
+  cardRef,
 }) => {
   const [zIndex, setZIndex] = useState(0)
   const {
     setCurrentPlaylist,
-    resetCurrentPlaylist,
     blockChangingCurrentPlaylist,
     allowChangingCurrentPlaylist,
   } = usePlaylistsStore(state => state)
 
-  const cardRef = useRef<HTMLDivElement>(null)
   const parentRef = useRef<HTMLElement | null>(null)
   const remValue = getREMValue()
 
@@ -88,8 +88,7 @@ const CoverCard: FC<CoverCardProps> = ({
     >
       <CoverCardContainer
         ref={cardRef}
-        onMouseDown={() => setCurrentPlaylist(id)}
-        onMouseLeave={resetCurrentPlaylist}
+        onClick={() => setCurrentPlaylist(id)}
         $width={width}
       >
         <CoverCardImage>
