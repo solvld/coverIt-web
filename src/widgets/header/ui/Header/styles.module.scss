@@ -1,5 +1,4 @@
 .header {
-  // max-width: 1920px;
   width: 100vw;
   display: flex;
   justify-content: space-between;
@@ -9,6 +8,7 @@
   font-size: 0.75rem; 
   text-transform: uppercase;
   line-height: 1.4rem;
+  background: #FFFF;
 
   nav {
     display: flex;
