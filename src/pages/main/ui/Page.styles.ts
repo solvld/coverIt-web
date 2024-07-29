@@ -15,7 +15,7 @@ export const PageContainer = styled.div`
 
 export const CoversContainer = styled.div`
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   padding: 0 1.875rem;
   height: calc(100vh - 10.15rem);

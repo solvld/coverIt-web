@@ -25,6 +25,10 @@ const Page = () => {
     ? playlists.get(currentPlaylistID)!.songs
     : null
 
+  const currentPlaylistTitle = currentPlaylistID
+    ? playlists.get(currentPlaylistID)!.title
+    : null
+
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (coverRef.current && !coverRef.current.contains(e.target as Node)) {
@@ -57,7 +61,10 @@ const Page = () => {
       </CoversContainer>
       {currentPlaylistSongs ? (
         <>
-          <Description songs={currentPlaylistSongs} />
+          <Description
+            songs={currentPlaylistSongs}
+            title={currentPlaylistTitle}
+          />
         </>
       ) : (
         <>
