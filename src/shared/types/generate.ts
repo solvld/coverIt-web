@@ -181,21 +181,22 @@ export interface ArchivePlaylistResponse {
   title: string
   url: string
   vibe: string
+  author: string
   tracks: [
     {
       title: string
       authors: string
     },
   ]
-  cover: {
+  covers: {
     id: 0
     created: string
-    link: string | null
+    link: string | undefined
     prompt: string
     isAbstract: boolean
     isLoFi: boolean
     isSaved: boolean
     vibe: string
-  }
+  }[]
   isLiked: boolean
 }

@@ -25,7 +25,11 @@ const ArchivePlaylistCard = ({ data, innerRef }: ArchivePlaylistCardProps) => {
   return (
     <div ref={innerRef} className={s.card}>
       <div className={s.main}>
-        <img className={s.cover} src={cover} alt="" />
+        <img
+          className={s.cover}
+          src={data.covers[0].link || cover}
+          alt={`${data.title} cover`}
+        />
 
         <div className={s.description}>
           <h1 className={s.title}>{data?.title}</h1>
@@ -43,7 +47,7 @@ const ArchivePlaylistCard = ({ data, innerRef }: ArchivePlaylistCardProps) => {
       </div>
       <div className={s.bottom}>
         <div>
-          <h2 className={s.username}>@username</h2>
+          <h2 className={s.username}>{`@${data.author}`}</h2>
         </div>
         <div>
           <ShareButton />

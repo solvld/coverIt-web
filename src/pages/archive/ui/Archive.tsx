@@ -7,7 +7,9 @@ const Archive = () => {
   const [filter, setFilter] = useState<string | null>(null)
   return (
     <>
-      <FilterSelect setFilter={setFilter} />
+      <div style={{ marginLeft: '1.875rem' }}>
+        <FilterSelect setFilter={setFilter} />
+      </div>
       <ArchiveCardsList filter={filter} />
       <ToasterOnError />
     </>
