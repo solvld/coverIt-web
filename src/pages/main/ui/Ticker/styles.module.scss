@@ -1,6 +1,6 @@
 .ticker {
   overflow: hidden;
-  padding: 2.5rem 0;
+  padding: 1.875rem 0;
   .container {
     display: flex;
     align-items: center;
@@ -9,10 +9,12 @@
       white-space: nowrap;
       flex-shrink: 0;
       font-weight: 500;
-      font-size: 1.5rem;
+      font-size: 1rem;
       color: var(--additional-text-color);
-      padding: 0 0.5rem;
+      line-height: 1.25rem;
       animation: ticker 40s linear infinite;
+      margin: 0 1rem;
+      animation-delay: 0.7s;
     }
   }
 }

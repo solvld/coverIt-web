@@ -8,18 +8,27 @@ import {
 export const PageContainer = styled.div`
   display: flex;
   height: 100%;
-  min-height: calc(100vh - 110px);
+  min-height: calc(100vh - 5.15rem);
   flex-direction: column;
   justify-content: space-between;
 `
 
 export const CoversContainer = styled.div`
   position: relative;
+  z-index: 2;
   width: 100%;
   padding: 0 1.875rem;
-  height: 41rem;
+  height: calc(100vh - 10.15rem);
   margin: 0 auto;
-}
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  grid-template-rows: 1fr 1fr;
+
+  @media (max-width: 750px) {
+    grid-template-columns: 10rem 10rem;
+    grid-template-rows: min-content;
+    height: 100%;
+  }
 
   //this styles prevents other cards from hover while we're dragging something
   &.has-dragging-element {
