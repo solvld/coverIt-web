@@ -14,7 +14,7 @@ import LogIn from 'pages/logIn'
 import SignUp from 'pages/signUp'
 import Verify from 'pages/verify'
 import GeneratePlaylist from 'pages/generate-playlist'
-//import GenerateTrack from 'pages/generate-track'
+import GenerateTrack from 'pages/generate-track'
 import { PlaylistCard } from 'pages/playlist_card'
 import { ReleaseCard } from 'pages/release_card'
 import { WipPage } from 'pages/workInProgress'
@@ -33,7 +33,7 @@ export const router = createBrowserRouter(
         <Route path="playlist" element={<GeneratePlaylist />} />
         <Route path="playlist/cover/:id" element={<PlaylistCard />} />
 
-        <Route path="release" element={<WipPage />} />
+        <Route path="release" element={<GenerateTrack />} />
         <Route path="release/edit" element={<EditRelease />} />
         <Route path="release/cover/:id" element={<ReleaseCard />} />
       </Route>
