@@ -43,8 +43,6 @@ const Page = () => {
     }
   }, [isPending, isError, error])
 
-  console.log(id + 'ididi')
-
   return (
     <StyledPage>
       {isFormActive ? (

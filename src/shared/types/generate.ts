@@ -87,6 +87,11 @@ export interface TrackCover {
   isLoFi: boolean
   prompt: string
   isSaved: boolean
+
+  mood: string[]
+  object: string
+  surrounding: string
+  coverDescription: string[]
 }
 export interface PlaylistCover {
   id: number
@@ -122,10 +127,6 @@ export interface GenerateReleaseResponse {
   }
   covers: TrackCover[]
   createdAt: string
-  mood: string[]
-  object: string
-  surrounding: string
-  coverDescription: string[]
 }
 
 export interface ReleaseSaveResponse {
@@ -138,16 +139,7 @@ export interface ReleaseSaveResponse {
     hiFiReleaseGenerations: number
     loFiReleaseGenerations: number
   }
-  covers: [
-    {
-      id: number
-      created: string
-      link: string
-      isLoFi: true
-      prompt: string
-      isSaved: true
-    },
-  ]
+  covers: TrackCover[]
   saved: true
   savedAt: string
 }
