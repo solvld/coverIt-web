@@ -27,6 +27,7 @@ import {
   StyledInput,
 } from 'shared/ui/form'
 import { useSearchParams } from 'react-router-dom'
+import { useCurrentCover } from 'widgets/trackCard/model/currentCoverSlice'
 
 interface GenerateTrackFormProps {
   generateTrack?: (data: TrackBody) => void
@@ -58,6 +59,7 @@ const Form = ({
   const formState = useTrackForm(state => state.formState)
   const currentTags = useTrackForm(state => state.currentTags)
   const resetCurrentTags = useTrackForm(state => state.resetCurrentTags)
+  const currentCoverId = useCurrentCover(state => state.currentCoverId)
 
   const token = localStorage.getItem('token')
   const [searchParams] = useSearchParams('')
@@ -119,12 +121,15 @@ const Form = ({
   useEffect(() => {
     if (type === 'edit' && data) {
       setValue('title', data.title)
-      setValue('object', data.object)
-      setValue('surrounding', data.surrounding)
-      setString(data.mood.join(','), 'moodTags')
-      setString(data.coverDescription.join(','), 'styleTags')
+      setValue('object', data.covers[currentCoverId].object)
+      setValue('surrounding', data.covers[currentCoverId].surrounding)
+      setString(data.covers[currentCoverId].mood.join(','), 'moodTags')
+      setString(
+        data.covers[currentCoverId].coverDescription.join(','),
+        'styleTags',
+      )
     }
-  }, [data, setValue, type, formState, setString])
+  }, [data, setValue, type, formState, setString, currentCoverId])
 
   return (
     <StyledCard>
