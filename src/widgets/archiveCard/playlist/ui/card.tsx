@@ -1,10 +1,9 @@
 import { DetailedHTMLProps, HTMLAttributes, useEffect, useRef } from 'react'
 import s from './styles.module.scss'
 import { ArchivePlaylistResponse } from 'shared/types/generate'
-import cover from 'shared/assets/images/image18.png'
 import { Button } from 'shared/ui/Button'
 import Play from 'shared/assets/images/play.svg?react'
-import Like from 'shared/assets/images/likeIcon.svg?react'
+// import Like from 'shared/assets/images/likeIcon.svg?react'
 import { ShareButton } from 'features/shareButton'
 
 interface ArchivePlaylistCardProps
@@ -27,12 +26,12 @@ const ArchivePlaylistCard = ({ data, innerRef }: ArchivePlaylistCardProps) => {
       <div className={s.main}>
         <img
           className={s.cover}
-          src={data.covers[0].link || cover}
+          src={data.covers[data.covers.findIndex(cover => cover.isSaved)].link}
           alt={`${data.title} cover`}
         />
 
         <div className={s.description}>
-          <h1 className={s.title}>{data?.title}</h1>
+          <h2 className={s.title}>{data?.title}</h2>
           <div className={s.actions}>
             <ol className={s.playlist}>
               {data?.tracks.map((song, index) => (
@@ -50,11 +49,11 @@ const ArchivePlaylistCard = ({ data, innerRef }: ArchivePlaylistCardProps) => {
           <h2 className={s.username}>{`@${data.author}`}</h2>
         </div>
         <div>
-          <ShareButton />
-          <Button>
+          <ShareButton link={`/playlist/${data.id}`} />
+          {/* <Button>
             <Like />
             Like
-          </Button>
+          </Button> */}
           <Button>
             <a href={data.url} target="_blank">
               <Play />

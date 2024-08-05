@@ -68,7 +68,7 @@
 .bottom {
   display: flex;
   justify-content: space-between;
-
+  width: 34.7;
   div {
     display: flex;
     align-items: center;
@@ -127,7 +127,7 @@
   }
 }
 
-.username{
+.username {
   white-space: nowrap;
   font-weight: 600;
   font-size: 1.5rem; /* 32px */
@@ -135,4 +135,8 @@
   line-height: 1.875rem; /* 40px */
   color: var(--gray1);
   cursor: default;
+  
+  // max-width: 12rem;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }

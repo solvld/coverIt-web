@@ -7,7 +7,7 @@ import { ArchivePlaylistCard } from 'widgets/archiveCard/playlist'
 
 export const CardsList = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 38rem);
+  grid-template-columns: repeat(auto-fit, 38rem);
   gap: 2.35rem;
   justify-content: center;
   padding-bottom: 2rem;

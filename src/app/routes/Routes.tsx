@@ -32,7 +32,7 @@ export const router = createBrowserRouter(
       <Route path="generate">
         <Route path="playlist" element={<GeneratePlaylist />} />
         <Route path="playlist/cover/:id" element={<PlaylistCard />} />
-       
+
         <Route path="release" element={<WipPage />} />
         <Route path="release/edit" element={<EditRelease />} />
         <Route path="release/cover/:id" element={<ReleaseCard />} />
