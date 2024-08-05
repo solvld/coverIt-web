@@ -10,16 +10,21 @@ import { useRegenerateTrack } from 'features/generate/track/api/generateQuery'
 import { PopUp } from 'widgets/popup'
 import { RemainingGenerates } from 'features/remainingGenerates'
 import { errorStatusCheck, playlistErrorHandle } from 'shared/lib/queryError'
+import { useCurrentCover } from 'widgets/trackCard/model/currentCoverSlice'
 
 function Page() {
   const [isNotification, setIsNotification] = useState(false)
   const [coverImages, setCoverImages] = useState<TrackCover[]>([])
-  const [lastIndex, setLastIndex] = useState(0)
+
+  const lastIndex = useCurrentCover(state => state.currentCoverId)
+  const setLastIndex = useCurrentCover(state => state.setCurrentId)
+  console.log(lastIndex)
+
   const { id } = useParams()
   const releaseId = Number(id)
   const token = localStorage.getItem('token')
-  const getReleaseData = { token: token, releaseId: releaseId }
 
+  const getReleaseData = { token: token, releaseId: releaseId }
   const {
     data: releaseResponse,
     isPending,
@@ -27,7 +32,6 @@ function Page() {
     isLoadingError,
     error,
   } = useGetRelease(getReleaseData)
-
   const {
     mutate: regenerateRelease,
     isPending: regeneratePending,
@@ -46,12 +50,15 @@ function Page() {
   useEffect(() => {
     if (isSuccess) {
       setCoverImages(releaseResponse.covers)
+      setLastIndex(releaseResponse.covers.length - 1)
     }
+  }, [isSuccess, releaseResponse, setLastIndex])
+
+  useEffect(() => {
     if (isRegenerateSuccess) {
       setCoverImages(regeneratedCovers.covers)
-      setLastIndex(regeneratedCovers.covers.length - 1)
     }
-  }, [isSuccess, releaseResponse, isRegenerateSuccess, regeneratedCovers])
+  }, [isRegenerateSuccess, regeneratedCovers])
 
   return (
     <StyledPage>

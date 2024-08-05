@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import Download from 'shared/assets/images/download.svg?react'
 import Edit from 'shared/assets/images/edit-image.svg?react'
-import { useTrackForm } from 'features/generate/track/model/formCollectDataSlice'
-import { useState } from 'react'
+// import { useTrackForm } from 'features/generate/track/model/formCollectDataSlice'
+import { useEffect, useState } from 'react'
 import { Regenerate } from 'features/regenerate'
 import { ImageSlider } from 'features/imageSlider'
 import { GenerateReleaseResponse, TrackCover } from 'shared/types/generate'
@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import { saveFile } from 'shared/lib/safeFile'
 import { CardTitle } from 'shared/ui/card/cardTitle'
 import { SaveCover } from 'features/saveCover'
+import { useCurrentCover } from '../model/currentCoverSlice'
 
 const SCard = styled.div`
   display: flex;
@@ -38,7 +39,7 @@ const Description = styled.div`
   flex-direction: column;
   /* justify-content: space-between; */
   cursor: default;
-  min-width: 25rem;
+  width: 26rem;
   gap: 0.95rem;
   overflow-y: scroll;
 
@@ -116,27 +117,33 @@ const Card = ({
   releaseResponse,
   regenerateCover,
   isRegeneratePending,
-  lastIndex,
 }: TractCardProps) => {
-  const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
-  const [isSaved, setIsSaved] = useState<boolean>(
-    covers.some(obj => obj.isSaved === true),
-  )
+  // const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
+  const [isSaved, setIsSaved] = useState<boolean>(false)
 
-  const { isLoFi } = useTrackForm(state => state.formState)
+  console.log(covers.some(obj => obj.isSaved))
+  const currentCoverIndex = useCurrentCover(state => state.currentCoverId)
+  const setCurrentCoverIndex = useCurrentCover(state => state.setCurrentId)
+
   const navigate = useNavigate()
   const token = localStorage.getItem('token')
 
   const releaseData = {
     title: releaseResponse.title,
-    mood: releaseResponse.mood,
-    object: releaseResponse.object,
-    surrounding: releaseResponse.surrounding,
-    coverDescription: releaseResponse.coverDescription,
-    isLoFi: isLoFi === 'true',
+    mood: covers[currentCoverIndex]?.mood,
+    object: covers[currentCoverIndex]?.object,
+    surrounding: covers[currentCoverIndex]?.surrounding,
+    coverDescription: covers[currentCoverIndex]?.coverDescription,
+    isLoFi: covers[currentCoverIndex]?.isLoFi,
     releaseId: releaseId,
     token: token,
   }
+
+  useEffect(() => {
+    if (!isSaved) {
+      setIsSaved(covers.some(obj => obj.isSaved))
+    }
+  }, [covers, isSaved])
 
   const handleRegenerate = () => {
     regenerateCover(releaseData)
@@ -150,12 +157,13 @@ const Card = ({
             display: 'flex',
             justifyContent: 'space-between',
             gap: '1.4rem',
+            position: 'relative',
           }}
         >
           <ImageSlider
             setCurrentCover={setCurrentCoverIndex}
             covers={covers}
-            index={lastIndex}
+            index={currentCoverIndex}
           />
           <div>
             <CardTitle>{releaseResponse.title}</CardTitle>
@@ -163,7 +171,7 @@ const Card = ({
               <div>
                 <h4>Mood</h4>
                 <TagWrapper>
-                  {releaseResponse.mood.map((e, index) => (
+                  {covers[currentCoverIndex]?.mood.map((e, index) => (
                     <Tag key={index}>{e}</Tag>
                   ))}
                 </TagWrapper>
@@ -171,31 +179,47 @@ const Card = ({
 
               <div>
                 <h4>Object / Action</h4>
-                <p>{releaseResponse.object}</p>
+                <p>{covers[currentCoverIndex]?.object}</p>
               </div>
 
               <div>
                 <h4>Surrounding</h4>
-                <p>{releaseResponse.surrounding}</p>
+                <p>{covers[currentCoverIndex]?.surrounding}</p>
               </div>
 
               <div>
                 <h4>Style</h4>
                 <TagWrapper>
-                  {releaseResponse.coverDescription.map((e, index) => (
-                    <Tag key={index}>{e}</Tag>
-                  ))}
+                  {covers[currentCoverIndex]?.coverDescription.map(
+                    (e, index) => <Tag key={index}>{e}</Tag>,
+                  )}
                 </TagWrapper>
               </div>
             </Description>
           </div>
+          {/* <span
+            style={{
+              position: 'absolute',
+              top: '0.5rem',
+              left: '0.5rem',
+              background: '#ffffff9c',
+              height: '1rem',
+              width: '1rem',
+              borderRadius: '1rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {currentCoverIndex + 1}
+          </span> */}
         </div>
         <Bottom>
           <Actions>
             <SaveCover
               type="release"
               releaseId={releaseResponse.id}
-              coverId={releaseResponse.covers[currentCoverIndex]?.id}
+              coverId={covers[currentCoverIndex]?.id}
               isSaved={isSaved}
               setIsSaved={setIsSaved}
             />
