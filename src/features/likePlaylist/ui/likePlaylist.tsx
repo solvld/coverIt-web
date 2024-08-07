@@ -8,9 +8,10 @@ import { useNavigate } from 'react-router-dom'
 interface LikeButtonProps {
   playlistId: number
   liked: boolean
+  disabled: boolean
 }
 
-export function LikeButton({ liked, playlistId }: LikeButtonProps) {
+export function LikeButton({ liked, playlistId, disabled }: LikeButtonProps) {
   const [isLiked, setIsLiked] = useState<boolean>(liked)
 
   const token = localStorage.getItem('token')
@@ -31,9 +32,20 @@ export function LikeButton({ liked, playlistId }: LikeButtonProps) {
     } else navigate('/sign-in')
   }
   return (
-    <div>
-      <Button disabled={false} onClick={handleClick}>
-        <Like />
+    <div style={disabled ? { opacity: 0.5, pointerEvents: 'none' } : {}}>
+      <Button
+        disabled={disabled}
+        onClick={handleClick}
+        style={
+          isLiked
+            ? {
+                backgroundColor: 'var(--primary-color)',
+                color: 'var(--gray0)',
+              }
+            : {}
+        }
+      >
+        <Like style={isLiked ? { stroke: 'var(--gray0)' } : {}} />
         {isLiked && !isError ? 'Liked' : 'Like'}
       </Button>
     </div>

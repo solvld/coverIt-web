@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { likePlaylistQuery, unlikePlaylistQuery } from './likePlaylistApi'
 import { queryError } from 'shared/lib/queryError'
-import { toast } from 'sonner'
 
 export const useLikePlaylist = () => {
   return useMutation({
@@ -9,9 +8,6 @@ export const useLikePlaylist = () => {
 
     onError(error) {
       queryError(error)
-    },
-    onSuccess() {
-      toast('you liked playlist')
     },
   })
 }
