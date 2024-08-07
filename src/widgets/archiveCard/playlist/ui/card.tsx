@@ -3,8 +3,8 @@ import s from './styles.module.scss'
 import { ArchivePlaylistResponse } from 'shared/types/generate'
 import { Button } from 'shared/ui/Button'
 import Play from 'shared/assets/images/play.svg?react'
-// import Like from 'shared/assets/images/likeIcon.svg?react'
 import { ShareButton } from 'features/shareButton'
+import { LikeButton } from 'features/likePlaylist'
 
 interface ArchivePlaylistCardProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -50,10 +50,7 @@ const ArchivePlaylistCard = ({ data, innerRef }: ArchivePlaylistCardProps) => {
         </div>
         <div>
           <ShareButton link={`/playlist/${data.id}`} />
-          {/* <Button>
-            <Like />
-            Like
-          </Button> */}
+          <LikeButton playlistId={data?.id} liked={data?.isLiked} />
           <Button>
             <a href={data.url} target="_blank">
               <Play />
