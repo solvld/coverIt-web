@@ -7,17 +7,36 @@ const archiveInstance = axios.create({
   baseURL: `${URL}/playlist`,
 })
 
-const token = localStorage.getItem('token') || ''
+interface ArchivePlaylistsInputs {
+  pageParam: number
+  token: string | null
+}
+
 export const getArchivePlaylists = async (
-  {
-    pageParam,
-  }: {
-    pageParam: number
-  },
+  { pageParam, token }: ArchivePlaylistsInputs,
   filter: string | null,
 ): Promise<ArchivePlaylistResponse[]> => {
   return (
     await archiveInstance.get('/archive', {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : null,
+        'Content-Type': 'application/json',
+      },
+      params: {
+        page: pageParam,
+        size: 4,
+        filter: filter,
+      },
+    })
+  ).data
+}
+
+export const getLikedPlaylists = async (
+  { pageParam, token }: ArchivePlaylistsInputs,
+  filter: string | null,
+): Promise<ArchivePlaylistResponse[]> => {
+  return (
+    await archiveInstance.get('/liked', {
       headers: {
         Authorization: token ? `Bearer ${token}` : null,
         'Content-Type': 'application/json',
