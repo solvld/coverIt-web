@@ -53,5 +53,6 @@ export const useCurrentUser = (token: string) => {
   return useQuery({
     queryKey: ['currentUser', token],
     queryFn: () => currentUserQuery(token),
+    retry: false,
   })
 }
