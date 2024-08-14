@@ -47,7 +47,7 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "only-allow": "^1.2.1",
     "typescript": "^5.5.4",
-    "vite": "^5.3.5",
+    "vite": "^5.4.0",
     "vite-plugin-svgr": "^4.2.0"
   }
 }
