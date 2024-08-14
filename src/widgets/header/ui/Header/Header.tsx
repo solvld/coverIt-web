@@ -15,6 +15,7 @@ const Header = () => {
   const isLoggedIn = useLogin(state => state.isLoggedIn)
 
   const checkToken = useLogin(state => state.checkToken)
+  const logOut = useLogin(state => state.logOut)
   const token = localStorage.getItem('token') || ''
   const generateRef = useRef<HTMLDivElement>(null)
   const userRef = useRef<HTMLDivElement>(null)
@@ -23,7 +24,13 @@ const Header = () => {
   useEffect(() => {
     checkToken(token)
   }, [checkToken, token])
-  const { data, isSuccess } = useCurrentUser(token)
+  const { data, isSuccess, isError } = useCurrentUser(token)
+
+  useEffect(() => {
+    if (isError) {
+      logOut()
+    }
+  }, [isError, logOut])
 
   useEffect(() => {
     const currentUrl = location.pathname

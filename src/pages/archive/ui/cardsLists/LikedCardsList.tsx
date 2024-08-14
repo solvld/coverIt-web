@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useArchive } from 'shared/services/queries'
+import { useLiked } from 'pages/archive/api/archiveQuery'
 import { DotsLoader } from 'shared/ui/DotsLoader'
 import styled from 'styled-components'
 import { ArchivePlaylistCard } from 'widgets/archiveCard/playlist'
@@ -24,12 +24,15 @@ const LoadingLine = styled.div`
   padding: 1rem;
   height: 1rem;
 `
-interface ArchiveProps {
+interface ArchiveListProps {
   filter: string | null
 }
-export default function ArchiveCardsList({ filter }: ArchiveProps) {
+export function LikedCardsList({ filter }: ArchiveListProps) {
+  const token = localStorage.getItem('token') || null
+
   const { data, status, fetchNextPage, isFetchingNextPage, hasNextPage } =
-    useArchive(filter)
+    useLiked({ filter, token })
+
   const { ref, inView } = useInView()
 
   useEffect(() => {
