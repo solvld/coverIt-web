@@ -17,6 +17,7 @@ export const useArchive = ({ filter, token }: UseArchiveProps) => {
         lastPage.length !== allPage.length ? allPage.length : null
       return nextPage
     },
+    retry: false,
   })
 }
 
