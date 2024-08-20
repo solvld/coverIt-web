@@ -30,8 +30,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       pnpm:
-        specifier: ^9.7.0
-        version: 9.7.0
+        specifier: ^9.7.1
+        version: 9.7.1
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -1489,8 +1489,8 @@ packages:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
 
-  pnpm@9.7.0:
-    resolution: {integrity: sha512-3AlDAVa0J/Xs/HmIiJnhw50taQ8AS+cOBSMLcssXPZaDlYdUXQlCm1WsPEKcgBtNw8DgAvZTgwpCD6LdTjz5zw==}
+  pnpm@9.7.1:
+    resolution: {integrity: sha512-+vNEry1splxMXIwiJOp3qBpeiFnLxOBrFRHdzi8BUVEkMd0Z5q/zHyxqj18qztm9InPh/tfdTeGGiYQFnSxCRw==}
     engines: {node: '>=18.12'}
     hasBin: true
 
@@ -3205,7 +3205,7 @@ snapshots:
 
   picomatch@2.3.1: {}
 
-  pnpm@9.7.0: {}
+  pnpm@9.7.1: {}
 
   postcss-value-parser@4.2.0: {}
 
