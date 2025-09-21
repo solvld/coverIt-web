@@ -14,7 +14,7 @@
     "@hookform/resolvers": "^3.9.0",
     "@tanstack/react-query": "^5.51.23",
     "@tanstack/react-query-devtools": "^5.29.2",
-    "axios": "^1.6.8",
+    "axios": "^1.7.5",
     "framer-motion": "^11.3.24",
     "immer": "^10.0.4",
     "lodash": "^4.17.21",
